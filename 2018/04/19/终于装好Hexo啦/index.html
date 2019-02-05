@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="大功告成！折腾了一天终于把相册功能加上啦。 待我考上研，一定好好维护这个博客！ 2018年4月19日晚12点 留 建站参考 以下是我在折腾博客的过程中对我有很大帮助的博文链接，在此十分感谢作者们的分享。">
+<meta name="keywords" content="hexo个性化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="终于装好Hexo啦">
+<meta property="og:url" content="http://cooguyan.github.io/2018/04/19/终于装好Hexo啦/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="大功告成！折腾了一天终于把相册功能加上啦。 待我考上研，一定好好维护这个博客！ 2018年4月19日晚12点 留 建站参考 以下是我在折腾博客的过程中对我有很大帮助的博文链接，在此十分感谢作者们的分享。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/终于装好Hexo啦/蓝色1.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/终于装好Hexo啦/黄色1.png">
+<meta property="og:updated_time" content="2018-12-25T15:10:01.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="终于装好Hexo啦">
+<meta name="twitter:description" content="大功告成！折腾了一天终于把相册功能加上啦。 待我考上研，一定好好维护这个博客！ 2018年4月19日晚12点 留 建站参考 以下是我在折腾博客的过程中对我有很大帮助的博文链接，在此十分感谢作者们的分享。">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/终于装好Hexo啦/蓝色1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/04/19/终于装好Hexo啦/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>终于装好Hexo啦 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/04/19/终于装好Hexo啦/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">终于装好Hexo啦
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-19 00:04:46" itemprop="dateCreated datePublished" datetime="2018-04-19T00:04:46+08:00">2018-04-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-25 23:10:01" itemprop="dateModified" datetime="2018-12-25T23:10:01+08:00">2018-12-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/你好，世界/" itemprop="url" rel="index"><span itemprop="name">你好，世界</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h1><p>折腾了一天终于把相册功能加上啦。</p>
+<p>待我考上研，一定好好维护这个博客！</p>
+<p>2018年4月19日晚12点 留</p>
+<h2 id="建站参考"><a href="#建站参考" class="headerlink" title="建站参考"></a>建站参考</h2><p> 以下是我在折腾博客的过程中对我有很大帮助的博文链接，在此十分感谢作者们的分享。<br> <a id="more"></a></p>
+<h3 id="添加文章置顶"><a href="#添加文章置顶" class="headerlink" title="添加文章置顶"></a>添加文章置顶</h3><p>2018年4月29日 完成<br><a href="https://blog.csdn.net/qwerty200696/article/details/79010629" target="_blank" rel="noopener">hexo博客优化之文章置顶+置顶标签</a></p>
+<p>作者: <a href="http://wangwlj.com/" target="_blank" rel="noopener">wangwlj</a></p>
+<h3 id="Hexo高级教程"><a href="#Hexo高级教程" class="headerlink" title="Hexo高级教程"></a>Hexo高级教程</h3><p><a href="http://www.ieclipse.cn/2016/07/14/Web/Hexo-dev-theme/" target="_blank" rel="noopener">Hexo高级教程之主题开发</a><br>作者：<a href="http://www.ieclipse.cn/" target="_blank" rel="noopener">Jamling</a></p>
+<h3 id="Issue功能的使用"><a href="#Issue功能的使用" class="headerlink" title="Issue功能的使用"></a>Issue功能的使用</h3><p><a href="http://xichen.pub/2018/01/31/2018-01-31-github-issue-usage/" target="_blank" rel="noopener">github issue 的用法</a><br>作者：<a href="http://xichen.pub/" target="_blank" rel="noopener">XiChen</a></p>
+<h3 id="增加Gitment评论系统"><a href="#增加Gitment评论系统" class="headerlink" title="增加Gitment评论系统"></a>增加Gitment评论系统</h3><p><a href="http://yuanlairubi.com/2017/10/17/hexo-gitment/" target="_blank" rel="noopener">Hexo-Yilia中添加gitment评论功能</a></p>
+<p>作者：<a href="https://yuanlairubi.com/" target="_blank" rel="noopener">好大一棵树</a></p>
+<h3 id="增加文章访问统计"><a href="#增加文章访问统计" class="headerlink" title="增加文章访问统计"></a>增加文章访问统计</h3><p><a href="http://www.lookk.cn/2017/12/09/hexo-yilia%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1/" target="_blank" rel="noopener">hexo yilia 主题添加文章访问统计 作者 枫之木落</a><br>作者：<a href="http://www.lookk.cn/" target="_blank" rel="noopener">枫之木落</a></p>
+<p><a href="https://www.jianshu.com/p/8a8f880f40c0" target="_blank" rel="noopener">原链接：给Hexo博客添加访问统计</a><br>原作者：<a href="https://www.jianshu.com/u/a55263eb2022" target="_blank" rel="noopener">心彻</a></p>
+<h3 id="增加文章版权声明"><a href="#增加文章版权声明" class="headerlink" title="增加文章版权声明"></a>增加文章版权声明</h3><p> <a href="https://blog.zscself.com/2017/01/25/ee4d9ecb/" target="_blank" rel="noopener">在Hexo中自动为Yilia主题增加版权声明</a></p>
+<p>作者：<a href="https://blog.zscself.com/" target="_blank" rel="noopener">F!redent</a></p>
+<h3 id="增加ins相册模块"><a href="#增加ins相册模块" class="headerlink" title="增加ins相册模块"></a>增加ins相册模块</h3><p><a href="https://www.jianshu.com/p/4583c6908c9f" target="_blank" rel="noopener">Hexo博客创建ins相册模块</a></p>
+<p>作者：<a href="http://luojh.me/" target="_blank" rel="noopener">Luojinghui</a></p>
+<h3 id="增加主题-Yilia"><a href="#增加主题-Yilia" class="headerlink" title="增加主题(Yilia)"></a>增加主题(Yilia)</h3><p><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">一个简洁优雅的hexo主题</a></p>
+<p>作者：<a href="http://litten.me/" target="_blank" rel="noopener">Litten</a></p>
+<h2 id="Bug修复（坑）"><a href="#Bug修复（坑）" class="headerlink" title="Bug修复（坑）"></a>Bug修复（坑）</h2><h3 id="修复重新打包以后子标题不居中问题。"><a href="#修复重新打包以后子标题不居中问题。" class="headerlink" title="修复重新打包以后子标题不居中问题。"></a>修复重新打包以后子标题不居中问题。</h3><p><strong>原因：</strong> CSS中莫名奇妙缺失一个属性 <strong>-webkit-box-orient: vertical;</strong><br><strong>解决办法：</strong> 在生成的CSS文件中找到 相应位置粘上去即可。</p>
+<hr>
+<p><strong>2018年4月29日 22点24分 补充</strong>：<br>CSS文件的位置在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\themes\yilia\source</span><br></pre></td></tr></table></figure></p>
+<p>CSS文件名称每次生成都不一样，一般是 <strong>main.%%%%%%.css</strong>。<br>如果文件夹下有很多main开头的CSS文件，那么可以全删掉重新生成。这样就会只有一个main.css了。 打开之后可能会看到密密麻麻的字符，这因为生成的时候如果是执行的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dist</span><br></pre></td></tr></table></figure>
+<p>那么生成的css文件和js文件全部都是压缩以后的，它们的格式全都没了，所以从头连到尾。这时候你需要用使用文本编辑器的搜索功能，搜索关键字 <strong>header-subtitle</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header-subtitle</span>&#123;</span><br><span class="line">    <span class="attribute">text-align</span>:center;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#999</span>;</span><br><span class="line">    <span class="attribute">font-size</span>:<span class="number">14px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>:<span class="number">25px</span>;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>:ellipsis;</span><br><span class="line">    <span class="attribute">display</span>:-webkit-box;</span><br><span class="line">    <span class="attribute">-webkit-line-clamp</span>:<span class="number">2</span>;<span class="comment">/*在此行后面添加*/</span></span><br><span class="line">    <span class="attribute">-webkit-box-orient</span>: vertical;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">0</span> <span class="number">24px</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>整个CSS文件中有<strong>两处</strong>需要这样改动，因为一处对应的是 桌面端布局生效。另一处则是移动端生效</p>
+<h3 id="修复Gitment初始化Comment失败的问题-2018年4月21日20点23分"><a href="#修复Gitment初始化Comment失败的问题-2018年4月21日20点23分" class="headerlink" title="修复Gitment初始化Comment失败的问题 2018年4月21日20点23分"></a>修复Gitment初始化Comment失败的问题 2018年4月21日20点23分</h3><p><strong>原因：</strong> Comments的lable字数超过最大长度（50个字符）<br><strong>解决办法：</strong> 使用文章创建时间当label就不会超长了<br><a href="http://xichen.pub/2018/01/31/2018-01-31-gitment/" target="_blank" rel="noopener">添加Gitment评论系统踩过的坑</a><br>作者：<a href="http://xichen.pub/" target="_blank" rel="noopener">XiChen</a></p>
+<p>注：在Yilia主题中，是需要进入此路径下进行更改id的：</p>
+<blockquote>
+<p>layout/_partial/post/gitment.ejs</p>
+</blockquote>
+<h2 id="配色方案"><a href="#配色方案" class="headerlink" title="配色方案"></a>配色方案</h2><p><strong>蓝色</strong><br><strong>代码：</strong>#00C3FF （0,195,255）<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/终于装好Hexo啦/蓝色1.png" alt="蓝色"></p>
+<p><strong>黄色</strong><br><strong>代码：</strong>#FFE149（255,225,73）<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/终于装好Hexo啦/黄色1.png" alt="黄色"></p>
+<hr>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/04/19/终于装好Hexo啦/" title="终于装好Hexo啦">http://cooguyan.github.io/2018/04/19/终于装好Hexo啦/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo个性化/" rel="tag"># hexo个性化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/21/VScode+Sphinx+ReadTheDocs从环境搭建到放弃/" rel="next" title="VScode+Sphinx+ReadTheDocs从环境搭建到放弃">
+                <i class="fa fa-chevron-left"></i> VScode+Sphinx+ReadTheDocs从环境搭建到放弃
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/19/2018年任务清单/" rel="prev" title="2018年任务清单">
+                2018年任务清单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#大功告成！"><span class="nav-number">1.</span> <span class="nav-text">大功告成！</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建站参考"><span class="nav-number">1.1.</span> <span class="nav-text">建站参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文章置顶"><span class="nav-number">1.1.1.</span> <span class="nav-text">添加文章置顶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo高级教程"><span class="nav-number">1.1.2.</span> <span class="nav-text">Hexo高级教程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issue功能的使用"><span class="nav-number">1.1.3.</span> <span class="nav-text">Issue功能的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加Gitment评论系统"><span class="nav-number">1.1.4.</span> <span class="nav-text">增加Gitment评论系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加文章访问统计"><span class="nav-number">1.1.5.</span> <span class="nav-text">增加文章访问统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加文章版权声明"><span class="nav-number">1.1.6.</span> <span class="nav-text">增加文章版权声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加ins相册模块"><span class="nav-number">1.1.7.</span> <span class="nav-text">增加ins相册模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加主题-Yilia"><span class="nav-number">1.1.8.</span> <span class="nav-text">增加主题(Yilia)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug修复（坑）"><span class="nav-number">1.2.</span> <span class="nav-text">Bug修复（坑）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修复重新打包以后子标题不居中问题。"><span class="nav-number">1.2.1.</span> <span class="nav-text">修复重新打包以后子标题不居中问题。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修复Gitment初始化Comment失败的问题-2018年4月21日20点23分"><span class="nav-number">1.2.2.</span> <span class="nav-text">修复Gitment初始化Comment失败的问题 2018年4月21日20点23分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配色方案"><span class="nav-number">1.3.</span> <span class="nav-text">配色方案</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="开始腾讯云的对象存储是有免费额度的，而且还不算少 七牛云的免费额度略有不同：写请求数为50万次每月 控制台配置注意有两个关键的配置不能忽略  存储桶（bucket）访问权限  防盗链设置">
+<meta name="keywords" content="原创,教程,图床">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用腾讯云对象存储作为图床">
+<meta property="og:url" content="http://cooguyan.github.io/2018/04/20/使用腾讯云对象存储作为图床/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="开始腾讯云的对象存储是有免费额度的，而且还不算少 七牛云的免费额度略有不同：写请求数为50万次每月 控制台配置注意有两个关键的配置不能忽略  存储桶（bucket）访问权限  防盗链设置">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/mianfeiedugailan.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/quanxian.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/20180420170134.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/fangdaolian.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/20180420165033.jpg">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/qulianjie.jpg">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/2.jpg">
+<meta property="og:updated_time" content="2018-04-21T15:26:03.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用腾讯云对象存储作为图床">
+<meta name="twitter:description" content="开始腾讯云的对象存储是有免费额度的，而且还不算少 七牛云的免费额度略有不同：写请求数为50万次每月 控制台配置注意有两个关键的配置不能忽略  存储桶（bucket）访问权限  防盗链设置">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/mianfeiedugailan.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/04/20/使用腾讯云对象存储作为图床/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用腾讯云对象存储作为图床 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/04/20/使用腾讯云对象存储作为图床/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用腾讯云对象存储作为图床
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-20 09:50:05" itemprop="dateCreated datePublished" datetime="2018-04-20T09:50:05+08:00">2018-04-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-04-21 23:26:03" itemprop="dateModified" datetime="2018-04-21T23:26:03+08:00">2018-04-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Hexo相关/" itemprop="url" rel="index"><span itemprop="name">Hexo相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>腾讯云的对象存储是有<a href="https://cloud.tencent.com/document/product/436/6240" target="_blank" rel="noopener">免费额度</a>的，而且还不算少</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/mianfeiedugailan.png" alt="免费额度概览"><br>七牛云的免费额度略有不同：写请求数为50万次每月</p>
+<h2 id="控制台配置"><a href="#控制台配置" class="headerlink" title="控制台配置"></a>控制台配置</h2><p>注意有两个关键的配置不能忽略</p>
+<ul>
+<li><p>存储桶（bucket）访问权限</p>
+</li>
+<li><p>防盗链设置</p>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="访问权限"><a href="#访问权限" class="headerlink" title="访问权限"></a>访问权限</h3><p>访问权限应设置为<strong>公有读私有写</strong>。很好理解，我们是要用COS来做图床的，必然是需要获取文件的直接链接才行，所以不能在读取图片的时候设置权限。</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/quanxian.png" alt="权限设置"></p>
+<p><a href="https://cloud.tencent.com/document/product/436/13319" target="_blank" rel="noopener">权限设置文档在此</a></p>
+<h3 id="防盗链"><a href="#防盗链" class="headerlink" title="防盗链"></a>防盗链</h3><p>如果被盗链会导致你的免费额度可能会快用尽，因此防盗链也是需要考虑的。<br>下图以我的博客地址为例<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/20180420170134.png" alt="防盗链设置"></p>
+<p>开启之后即使其他人获取到链接也无法访问相应图片<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/fangdaolian.png" alt="防盗链效果"></p>
+<h2 id="上传取链"><a href="#上传取链" class="headerlink" title="上传取链"></a>上传取链</h2><h3 id="上传图片"><a href="#上传图片" class="headerlink" title="上传图片"></a>上传图片</h3><p>官方也有文件管理软件<a href="https://cloud.tencent.com/document/product/436/11366" target="_blank" rel="noopener">COS Browser</a> ，上传下载图片还是挺方便的。</p>
+<p>当然如果觉得这样子还是不够方便的话，可以基于腾讯云API自己开发应用</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/20180420165033.jpg" alt="界面截图"></p>
+<h3 id="获取链接"><a href="#获取链接" class="headerlink" title="获取链接"></a>获取链接</h3><p>要获取图片链接的话右键文件详情即可。将其复制下来即可使用。</p>
+<blockquote>
+<p>注：因为开启了防盗链这设置，因此当你在本地写博客的时候会出现图片无法预览的情况。因为防盗链机制只允许白名单中指定域名或IP访问。<strong>也就是说只能在博客中看</strong></p>
+</blockquote>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/qulianjie.jpg" alt="获取连接"></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>关于图床，国内可以选择的有很多。</p>
+<p>网上有很多使用微信以及微博来充当免费图床的。但是如你所见，微博微信想加一个防盗链来阻止外链访问是<strong>很容易</strong>的，把图放在那上面丝毫没有安全感。  </p>
+<p>因此可以考虑腾讯云或者阿里云的对象存储服务，不过阿里云好像没有免费额度，因此没有选用。</p>
+<p>七牛云与腾讯云类似，都可以使用免费的对象存储服务来充当自己的图床。</p>
+<p>国外的一个知名图床 <a href="https://imgur.com/" target="_blank" rel="noopener">imgur</a> 实在是可惜被墙了,不然用起来还是十分方便的。</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/2.jpg" alt="gakki"></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/04/20/使用腾讯云对象存储作为图床/" title="使用腾讯云对象存储作为图床">http://cooguyan.github.io/2018/04/20/使用腾讯云对象存储作为图床/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/原创/" rel="tag"># 原创</a>
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+            <a href="/tags/图床/" rel="tag"># 图床</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/19/2018年任务清单/" rel="next" title="2018年任务清单">
+                <i class="fa fa-chevron-left"></i> 2018年任务清单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/JWT学习笔记/" rel="prev" title="JWT学习笔记">
+                JWT学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制台配置"><span class="nav-number">1.1.</span> <span class="nav-text">控制台配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问权限"><span class="nav-number">1.1.1.</span> <span class="nav-text">访问权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防盗链"><span class="nav-number">1.1.2.</span> <span class="nav-text">防盗链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传取链"><span class="nav-number">1.2.</span> <span class="nav-text">上传取链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传图片"><span class="nav-number">1.2.1.</span> <span class="nav-text">上传图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取链接"><span class="nav-number">1.2.2.</span> <span class="nav-text">获取链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">1.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

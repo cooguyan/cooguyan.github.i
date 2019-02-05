@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+<meta name="keywords" content="翻译,VSCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Text Buffer Reimplementation">
+<meta property="og:url" content="http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://code.visualstudio.com/assets/blogs/2018/03/23/traditional-piece-table.gif">
+<meta property="og:updated_time" content="2018-05-05T08:53:31.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Text Buffer Reimplementation">
+<meta name="twitter:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+<meta name="twitter:image" content="https://code.visualstudio.com/assets/blogs/2018/03/23/traditional-piece-table.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Text Buffer Reimplementation | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Text Buffer Reimplementation
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-05 16:39:59 / 修改时间：16:53:31" itemprop="dateCreated datePublished" datetime="2018-05-05T16:39:59+08:00">2018-05-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。</p>
+<p>关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但是我们没有看到我们期望的性能增强。在自定义本地表示和V8的字符串之间转换字符串代价很高，在我们的情况下，会降低在C ++中实现文本缓冲操作所带来的性能。我们将在这篇文章结尾详细讨论这一点。</p>
+<p>不是原生的，我们必须找到改进JavaScript / TypeScript代码的方法。像Vyacheslav Egorov这样的激动人心的博客文章展示了将JavaScript引擎推向极限并尽可能多地表现出性能的方法。即使没有低级别的引擎技巧，通过使用更合适的数据结构和更快的算法，仍然可以将速度提高一个或多个数量级。<br><a id="more"></a></p>
+<h2 id="Previous-text-buffer-data-structure"><a href="#Previous-text-buffer-data-structure" class="headerlink" title="Previous text buffer data structure"></a>Previous text buffer data structure</h2><p>编辑的心理模型(mental model)是基于行的。开发人员逐行读写源代码，编译器提供基于行/列的诊断，堆栈跟踪包含行号，标记化引擎逐行运行等。虽然简单，但支持VS代码的文本缓冲区实现并没有太大改变，因为第一天我们开始了摩纳哥项目。我们使用了一系列线条，并且它工作得很好，因为典型的文本文档相对较小。当用户输入时，我们找到要在数组中修改的行并将其替换。插入新行时，我们将新的行对象拼接到行数组中，JavaScript引擎将为我们完成繁重的工作。</p>
+<p>但是，我们不断收到有关打开某些文件会导致VS代码中出现内存不足的报告。例如，一个用户无法打开一个35 MB的文件。根本原因是该文件的行数太多，为1,370万。我们将为每行和每个使用大约40-60个字节的对象创建一个ModelLine对象，因此行数组使用大约600MB内存来存储文档。这大约是最初文件大小的20倍！</p>
+<p>线阵列表示的另一个问题是打开文件的速度。为了构建线条数组，我们必须通过换行符分割内容，以便每行获得一个字符串对象。拆分本身会伤害你在基准测试中会看到的性能。</p>
+<h2 id="Finding-a-new-text-buffer-implementation"><a href="#Finding-a-new-text-buffer-implementation" class="headerlink" title="Finding a new text buffer implementation"></a>Finding a new text buffer implementation</h2><p>旧的线阵列表示可能需要很长时间才能创建并消耗大量内存，但它可以快速查找线路。 在完美的世界中，我们只会存储文件的文本并且不会存储额外的元数据。 因此，我们开始寻找需要较少元数据的数据结构。 在查看了各种数据结构之后，我发现该片断表可能是一个很好的候选者。</p>
+<h3 id="Avoiding-too-much-meta-data-by-using-a-piece-table"><a href="#Avoiding-too-much-meta-data-by-using-a-piece-table" class="headerlink" title="Avoiding too much meta-data by using a piece table"></a>Avoiding too much meta-data by using a piece table</h3><p>Piece table是一种数据结构，用于表示文本文档（TypeScript中的源代码）上的一系列编辑：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> PieceTable &#123;</span><br><span class="line">    original: <span class="built_in">string</span>; <span class="comment">// original contents</span></span><br><span class="line">    added: <span class="built_in">string</span>; <span class="comment">// user added contents</span></span><br><span class="line">    nodes: Node[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Node &#123;</span><br><span class="line">    <span class="keyword">type</span>: NodeType;</span><br><span class="line">    start: <span class="built_in">number</span>;</span><br><span class="line">    length: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> NodeType &#123;</span><br><span class="line">    Original,</span><br><span class="line">    Added</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文件最初加载后，该片段表在原始字段中包含整个文件内容。 添加的字段为空。 有一个NodeType.Original类型的单个节点。 当用户在文件末尾键入内容时，我们将新内容添加到添加的字段中，并且我们将在节点列表的末尾插入一个类型为NodeType.Added的新节点。 同样，当用户在节点中间进行编辑时，我们会根据需要拆分该节点并插入新节点。</p>
+<p>下面的动画展示了如何在一个表格结构中逐行访问文档。 它有两个缓冲区（原始和添加）和三个节点（这是由原始内容中间插入引起的）。<br><img src="https://code.visualstudio.com/assets/blogs/2018/03/23/traditional-piece-table.gif" alt=""></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/" title="Text Buffer Reimplementation">http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+            <a href="/tags/VSCode/" rel="tag"># VSCode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/05/Bing-powered-settings-search-in-VS-Code/" rel="next" title="Bing-powered settings search in VS Code">
+                <i class="fa fa-chevron-left"></i> Bing-powered settings search in VS Code
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/05/VSCode插件入门/" rel="prev" title="VSCode插件开发">
+                VSCode插件开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Previous-text-buffer-data-structure"><span class="nav-number">1.</span> <span class="nav-text">Previous text buffer data structure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finding-a-new-text-buffer-implementation"><span class="nav-number">2.</span> <span class="nav-text">Finding a new text buffer implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Avoiding-too-much-meta-data-by-using-a-piece-table"><span class="nav-number">2.1.</span> <span class="nav-text">Avoiding too much meta-data by using a piece table</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

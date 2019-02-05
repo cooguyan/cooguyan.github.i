@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="机器翻译，未校对 Multithreaded Multiprocessor Architecture 多线程多处理器体系结构To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of mul">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4_Multithreaded_Multiprocessor_Architecture">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="机器翻译，未校对 Multithreaded Multiprocessor Architecture 多线程多处理器体系结构To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of mul">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127104839586.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127095423525.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127102843734.png">
+<meta property="og:updated_time" content="2019-01-30T02:46:42.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4_Multithreaded_Multiprocessor_Architecture">
+<meta name="twitter:description" content="机器翻译，未校对 Multithreaded Multiprocessor Architecture 多线程多处理器体系结构To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of mul">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127104839586.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>4_Multithreaded_Multiprocessor_Architecture | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">4_Multithreaded_Multiprocessor_Architecture
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-27 08:07:34" itemprop="dateCreated datePublished" datetime="2019-01-27T08:07:34+08:00">2019-01-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 10:46:42" itemprop="dateModified" datetime="2019-01-30T10:46:42+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/GPU相关/" itemprop="url" rel="index"><span itemprop="name">GPU相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>机器翻译，未校对</p>
+<h1 id="Multithreaded-Multiprocessor-Architecture-多线程多处理器体系结构"><a href="#Multithreaded-Multiprocessor-Architecture-多线程多处理器体系结构" class="headerlink" title="Multithreaded Multiprocessor Architecture 多线程多处理器体系结构"></a>Multithreaded Multiprocessor Architecture 多线程多处理器体系结构</h1><p>To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is highly multithreaded to execute many fnegrained vertex and pixel shader threads efciently. A quality basic GPU has two to four multiprocessors, while a gaming enthusiast’s GPU or computing platform has dozens of them. This section looks at the architecture of one such multithreaded multiprocessor, a simplifed version of the NVIDIA Tesla streaming multiprocessor (SM) described in Section C.7.<br>为了解决不同的细分市场，GPU实现了可扩展数量的多处理器 - 实际上，GPU是由多处理器组成的多处理器。此外，每个多处理器都是高度多线程的，以便有效地执行许多fnegrained顶点和像素着色器线程。高质量的基本GPU有两到四个多处理器，而游戏爱好者的GPU或计算平台有几十个。本节介绍一个这样的多线程多处理器的体系结构，这是第C.7节中描述的NVIDIA Tesla流多处理器（SM）的简化版本。</p>
+<p>Why use a multiprocessor, rather than several independent processors? The parallelism within each multiprocessor provides localized high performance and supports extensive multithreading for the fine-grained parallel programming models described in Section C.3. Te individual threads of a thread block execute together within a multiprocessor to share data. The multithreaded multiprocessor design we describe here has eight scalar processor cores in a tightly coupled architecture, and executes up to 512 threads (the SM described in Section C.7 executes up to 768 threads). For area and power efciency, the multiprocessor shares large complex units among the eight processor cores, including the instruction cache, the multithreaded instruction unit, and the shared memory RAM.<br>为什么要使用多处理器，而不是几个独立的处理器？每个多处理器内的并行性提供了本地化的高性能，并支持C.3节中描述的细粒度并行编程模型的广泛多线程。线程块的各个线程在多处理器内一起执行以共享数据。我们在这里描述的多线程多处理器设计在紧密耦合的架构中有八个标量处理器内核，并执行多达512个线程（C.7节中描述的SM执行多达768个线程）。对于面积和功率效率，多处理器在八个处理器内核之间共享大型复杂单元，包括指令高速缓存，多线程指令单元和共享内存RAM。</p>
+<h2 id="Massive-Multithreading"><a href="#Massive-Multithreading" class="headerlink" title="Massive Multithreading"></a>Massive Multithreading</h2><p>GPU processors are highly multithreaded to achieve several goals:<br>GPU处理器是高度多线程的，以实现几个目标：</p>
+<ul>
+<li>Cover the latency of memory loads and texture fetches from DRAM 覆盖DRAM中存储器负载和纹理提取的延迟</li>
+<li>Support fine-grained parallel graphics shader programming models 支持细粒度并行图形着色器编程模型</li>
+<li>Support fine-grained parallel computing programming models 支持细粒度并行计算编程模型</li>
+<li>Virtualize the physical processors as threads and thread blocks to provide transparent scalability 将物理处理器虚拟化为线程和线程块，以提供透明的可伸缩性</li>
+<li>Simplify the parallel programming model to writing a serial program for one thread 简化并行编程模型，为一个线程编写串行程序</li>
+</ul>
+<p>Memory and texture fetch latency can require hundreds of processor clocks, because GPUs typically have small streaming caches rather than large working-set caches like CPUs. A fetch request generally requires a full DRAM access latency plus interconnect and buﬀering latency. Multithreading helps cover the latency with useful computing—while one thread is waiting for a load or texture fetch to complete, the processor can execute another thread. The fne-grained parallel programming models provide literally thousands of independent threads that can keep many processors busy despite the long memory latency seen by individual threads.<br>内存和纹理提取延迟可能需要数百个处理器时钟，因为GPU通常具有小型流缓存，而不是像CPU那样的大型工作集缓存。 获取请求通常需要完整的DRAM访问延迟以及互连和缓冲延迟。 多线程有助于通过有用的计算来弥补延迟 - 当一个线程正在等待加载或纹理提取完成时，处理器可以执行另一个线程。 这些细粒度的并行编程模型提供了数千个独立的线程，即使各个线程看到的内存延迟很长，也可以使许多处理器保持忙碌状态。</p>
+<p>A graphics vertex or pixel shader program is a program for a single thread that processes a vertex or a pixel. Similarly, a CUDA program is a C program for a single thread that computes a result. Graphics and computing programs instantiate many parallel threads to render complex images and compute large result arrays. To dynamically balance shifing vertex and pixel shader thread workloads, each multiprocessor concurrently executes multiple different thread programs and different types of shader programs.<br>图形顶点或像素着色器程序是用于处理顶点或像素的单个线程的程序。 类似地，CUDA程序是用于计算结果的单个线程的C程序。 图形和计算程序实例化许多并行线程以渲染复杂图像并计算大型结果数组。 为了动态平衡shifing顶点和像素着色器线程工作负载，每个多处理器同时执行多个不同的线程程序和不同类型的着色器程序。</p>
+<p>To support the independent vertex, primitive, and pixel programming model of graphics shading languages and the single-thread programming model of CUDA C/C++, each GPU thread has its own private registers, private per-thread memory, program counter, and thread execution state, and can execute an independent code path. To efciently execute hundreds of concurrent lightweight threads, the GPU multiprocessor is hardware multithreaded—it manages and executes hundreds of concurrent threads in hardware without scheduling overhead. Concurrent threads within thread blocks can synchronize at a barrier with a single instruction. Lightweight thread creation, zero-overhead thread scheduling, and fast barrier synchronization effciently support very fne-grained parallelism.<br>为了支持图形着色语言的独立顶点，原始和像素编程模型以及CUDA C / C ++的单线程编程模型，每个GPU线程都有自己的私有寄存器，私有每线程内存，程序计数器和线程执行状态，可以执行独立的代码路径。 为了有效地执行数百个并发轻量级线程，GPU多处理器是硬件多线程的 - 它在硬件中管理和执行数百个并发线程，而无需调度开销。 线程块内的并发线程可以使用单个指令在屏障上同步。 轻量级线程创建，零开销线程调度和快速屏障同步有效地支持非常细粒度的并行性。</p>
+<h2 id="Multiprocessor-Architecture-多处理器架构"><a href="#Multiprocessor-Architecture-多处理器架构" class="headerlink" title="Multiprocessor Architecture 多处理器架构"></a>Multiprocessor Architecture 多处理器架构</h2><p>A unifed graphics and computing multiprocessor executes vertex, geometry, and pixel fragment shader programs, and parallel computing programs. As Figure C.4.1 shows, the example multiprocessor consists of eight scalar processor (SP) cores each with a large multithreaded register fle (RF), two special function units (SFUs), a multithreaded instruction unit, an instruction cache, a read-only constant cache,and a shared memory.<br>统一的图形和计算多处理器执行顶点，几何和像素片段着色器程序以及并行计算程序。 如图C.4.1所示，示例多处理器由8个标量处理器（SP）内核组成，每个内核具有一个大型多线程寄存器（RF），两个特殊功能单元（SFU），一个多线程指令单元，一个指令高速缓存，一个读取器。 只有常量缓存和共享内存。</p>
+<p>The 16 KB shared memory holds graphics data buﬀers and shared computing data. CUDA variables declared as __shared__ reside in the shared memory. To map the logical graphics pipeline workload through the multiprocessor multiple times, as shown in Section C.2, vertex, geometry, and pixel threads have independent input and output buffers, and workloads arrive and depart independently of thread execution.<br>16 KB共享内存可存储图形数据缓冲区和共享计算数据。 声明为__shared__ 的CUDA变量驻留在共享内存中。 若要多次映射逻辑图形管道工作负载通过多处理器，如第C.2节所示，顶点，几何和像素线程具有独立的输入和输出缓冲区，并且工作负载独立于线程执行而到达和离开。</p>
+<p>Each SP core contains scalar integer and ﬂoating-point arithmetic units that execute most instructions. The SP is hardware multithreaded, supporting up to 64 threads. Each pipelined SP core executes one scalar instruction per thread per clock, which ranges from 1.2 GHz to 1.6 GHz in diﬀerent GPU products. Each SP core has a large RF of 1024 general-purpose 32-bit registers, partitioned among its assigned threads. Programs declare their register demand, typically 16 to 64 scalar 32-bit registers per thread. The SP can concurrently run many threads that use a few registers or fewer threads that use more registers. The compiler optimizes register allocation to balance the cost of spilling registers versus the cost of fewer threads. Pixel shader programs ofen use 16 or fewer registers, enabling each SP to run up to 64 pixel shader threads to cover long-latency texture fetches. Compiled CUDA programs ofen need 32 registers per thread, limiting each SP to 32 threads, which limits such a kernel program to 256 threads per thread block on this example multiprocessor, rather than its maximum of 512 threads.<br>每个SP内核包含执行大多数指令的标量整数和浮点运算单元。 SP是硬件多线程，最多支持64个线程。每个流水线SP核心每个时钟每个线程执行一个标量指令，在不同的GPU产品中，范围从1.2 GHz到1.6 GHz。每个SP内核都有一个1024个通用32位寄存器的大RF，在其分配的线程之间进行分区。程序声明它们的寄存器需求，通常每个线程有16到64个标量32位寄存器。 SP可以同时运行许多线程，这些线程使用少量寄存器或更少使用更多寄存器的线程。编译器优化寄存器分配以平衡溢出寄存器的成本与更少线程的成本。像素着色器程序使用16个或更少的寄存器，使每个SP能够运行多达64个像素着色器线程，以覆盖长延迟纹理提取。编译的CUDA程序每个线程需要32个寄存器，将每个SP限制为32个线程，这在这个示例多处理器上将每个线程块的内核程序限制为256个线程，而不是最多512个线程。</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127104839586.png" alt=""></p>
+<p>The pipelined SFUs execute thread instructions that compute special functions and interpolate pixel attributes from primitive vertex attributes. These instructions can execute concurrently with instructions on the SPs. The SFU is described later.<br>流水线SFU执行计算特殊函数的线程指令，并从原始顶点属性插入像素属性。 这些指令可以与SP上的指令同时执行。 SFU将在后面描述。</p>
+<p>The multiprocessor executes texture fetch instructions on the texture unit via the texture interface, and uses the memory interface for external memory load, store, and atomic access instructions. These instructions can execute concurrently with instructions on the SPs. Shared memory access uses a low-latency interconnection network between the SP processors and the shared memory banks.<br>多处理器通过纹理接口在纹理单元上执行纹理获取指令，并使用存储器接口进行外部存储器加载，存储和原子访问指令。 这些指令可以与SP上的指令同时执行。 共享内存访问使用SP处理器和共享内存库之间的低延迟互连网络。</p>
+<h2 id="Single-Instruction-Multiple-Thread-SIMT"><a href="#Single-Instruction-Multiple-Thread-SIMT" class="headerlink" title="Single-Instruction Multiple-Thread (SIMT)"></a>Single-Instruction Multiple-Thread (SIMT)</h2><p>To manage and execute hundreds of threads running several different programs effciently, the multiprocessor employs a single-instruction multiple-thread (SIMT) architecture. It creates, manages, schedules, and executes concurrent threads in groups of parallel threads called warps. The term warp originates from weaving, the first parallel thread technology. The photograph in Figure C.4.2 shows a warp of parallel threads emerging from a loom. This example multiprocessor uses a SIMT warp size of 32 threads, executing four threads in each of the eight SP cores over four clocks. The Tesla SM multiprocessor described in Section C.7 also uses a warp size of 32 parallel threads, executing four threads per SP core for effciency on plentiful pixel threads and computing threads. Thread blocks consist of one or more warps.<br>为了有效地管理和执行运行多个不同程序的数百个线程，多处理器采用单指令多线程（SIMT）架构。 它在称为warps的并行线程组中创建，管理，调度和执行并发线程。 术语warp源于编织，这是第一个并行线程技术。 图C.4.2中的照片显示了从织机中出现的平行线的翘曲。 此示例多处理器使用32个线程的SIMT warp大小，在四个时钟内的八个SP内核中的每一个中执行四个线程。 第C.7节中描述的Tesla SM多处理器还使用32个并行线程的warp大小，每个SP核心执行四个线程，以便在丰富的像素线程和计算线程上实现效率。 线程块由一个或多个warp组成。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127095423525.png" alt=""></p>
+<p>This example SIMT multiprocessor manages a pool of 16 warps, a total of 512 threads. Individual parallel threads composing a warp are the same type and start together at the same program address, but are otherwise free to branch and execute independently. At each instruction issue time, the SIMT multithreaded instruction unit selects a warp that is ready to execute its next instruction, and then issues that instruction to the active threads of that warp. A SIMT instruction is broadcast synchronously to the active parallel threads of a warp; individual threads may be inactive due to independent branching or predication. In this multiprocessor, each SP scalar processor core executes an instruction for four individual threads of a warp using four clocks, reﬂecting the 4:1 ratio of warp threads to cores.</p>
+<blockquote>
+<p>single-instruction multiple-thread (SIMT): A processor architecture that applies one instruction to multiple independent threads in parallel. </p>
+</blockquote>
+<blockquote>
+<p>warp: The set of parallel threads that execute the same instruction together in a SIMT architecture.</p>
+</blockquote>
+<p>SIMT processor architecture is akin to single-instruction multiple data (SIMD) design, which applies one instruction to multiple data lanes, but diﬀers in that SIMT applies one instruction to multiple independent threads in parallel, not just to multiple data lanes. An instruction for a SIMD processor controls a vector of<br>multiple data lanes together, whereas an instruction for a SIMT processor controls an individual thread, and the SIMT instruction unit issues an instruction to a warp of independent parallel threads for efciency. Te SIMT processor fnds data-level parallelism among threads at runtime, analogous to the way a superscalar processor finds instruction-level parallelism among instructions at runtime.<br>此示例SIMT多处理器管理一个包含16个warp的池，总共512个线程。 组成warp的各个并行线程是相同的类型，并且在相同的程序地址处一起开始，但是可以独立地分支和执行。 在每个指令发布时，SIMT多线程指令单元选择准备执行其下一条指令的warp，然后将该指令发布到该warp的活动线程。 SIMT指令与warp的活动并行线程同步广播; 由于独立的分支或预测，各个线程可能不活动。 在这个多处理器中，每个SP标量处理器内核使用四个时钟执行一个经线的四个单独线程的指令，将经线的4：1比率反映到内核。</p>
+<p>A SIMT processor realizes full efciency and performance when all threads of a warp take the same execution path. If threads of a warp diverge via a datadependent conditional branch, execution serializes for each branch path taken, and when all paths complete, the threads converge to the same execution path. For equal length paths, a divergent if-else code block is 50% efcient. The multiprocessor uses a branch synchronization stack to manage independent threads that diverge and converge. Diﬀerent warps execute independently at full speed regardless of whether they are executing common or disjoint code paths. As a result, SIMT GPUs are dramatically more efcient and ﬂexible on branching code than earlier GPUs, as their warps are much narrower than the SIMD width of prior GPUs.<br>当warp的所有线程采用相同的执行路径时，SIMT处理器可实现完全的效率和性能。 如果warp的线程通过数据相关的条件分支发散，则执行为所采用的每个分支路径进行序列化，并且当所有路径完成时，线程会聚到相同的执行路径。 对于等长路径，发散的if-else代码块效率为50％。 多处理器使用分支同步堆栈来管理分散和聚合的独立线程。 不同的warp全速独立执行，无论它们是执行公共还是不相交的代码路径。 因此，SIMT GPU在分支代码上比早期GPU更加高效和灵活，因为它们的经线比先前GPU的SIMD宽度窄得多。</p>
+<p>In contrast with SIMD vector architectures, SIMT enables programmers to write thread-level parallel code for individual independent threads, as well as data-parallel code for many coordinated threads. For program correctness, the programmer can essentially ignore the SIMT execution attributes of warps; however, substantial performance improvements can be realized by taking care that the code seldom requires threads in a warp to diverge. In practice, this is analogous to the role of cache lines in traditional codes: cache line size can be safely ignored when designing for correctness but must be considered in the code structure when designing for peak performance.<br>与SIMD向量体系结构相比，SIMT使程序员能够为各个独立线程编写线程级并行代码，并为许多协调线程编写数据并行代码。 对于程序的正确性，程序员基本上可以忽略warp的SIMT执行属性; 然而，通过注意代码很少需要经线中的线程发散，可以实现显着的性能改进。 实际上，这类似于传统代码中缓存行的作用：在设计正确性时可以安全地忽略缓存行大小，但在设计峰值性能时必须在代码结构中考虑。</p>
+<h2 id="SIMT-Warp-Execution-and-Divergence-SIMT-Warp-执行和分歧"><a href="#SIMT-Warp-Execution-and-Divergence-SIMT-Warp-执行和分歧" class="headerlink" title="SIMT Warp Execution and Divergence SIMT Warp 执行和分歧 ??"></a>SIMT Warp Execution and Divergence SIMT Warp 执行和分歧 ??</h2><p>The SIMT approach of scheduling independent warps is more ﬂexible than the scheduling of previous GPU architectures. A warp comprises parallel threads of the same type: vertex, geometry, pixel, or compute. The basic unit of pixel fragment shader processing is the 2-by-2 pixel quad implemented as four pixel shader threads. The multiprocessor controller packs the pixel quads into a warp. It similarly groups vertices and primitives into warps, and packs computing threads into a warp. A thread block comprises one or more warps. The SIMT design shares the instruction fetch and issue unit efciently across parallel threads of a warp, but requires a full warp of active threads to get full performance effciency.<br>调度独立warp的SIMT方法比先前GPU架构的调度更灵活。 扭曲包括相同类型的并行线程：顶点，几何，像素或计算。 像素片段着色器处理的基本单位是实现为四个像素着色器线程的2×2像素四边形。 多处理器控制器将像素四边形打包成扭曲。 它类似地将顶点和基元分组为warp，并将计算线程打包成warp。 线程块包括一个或多个warp。 SIMT设计在warp的并行线程之间有效地共享指令获取和发布单元，但需要完整的活动线程warp才能获得完全的性能效率。</p>
+<p>This unifed multiprocessor schedules and executes multiple warp types concurrently, allowing it to concurrently execute vertex and pixel warps. Its warp scheduler operates at less than the processor clock rate, because there are four thread lanes per processor core. During each scheduling cycle, it selects a warp to execute a SIMT warp instruction, as shown in Figure C.4.2. An issued warp-instruction executes as four sets of eight threads over four processor cycles of throughput. The processor pipeline uses several clocks of latency to complete each instruction. If the number of active warps times the clocks per warp exceeds the pipeline latency, the programmer can ignore the pipeline latency. For this multiprocessor, a round-robin schedule of eight warps has a period of 32 cycles between successive instructions for the same warp. If the program can keep 256 threads active per multiprocessor, instruction latencies up to 32 cycles can be hidden from an individual sequential thread. However, with few active warps, the processor pipeline depth becomes visible and may cause processors to stall.<br>这个统一的多处理器同时调度和执行多个warp类型，允许它同时执行顶点和像素warp。它的warp调度程序以低于处理器时钟速率运行，因为每个处理器内核有四个线程通道。在每个调度周期中，它选择一个warp来执行SIMT warp指令，如图C.4.2所示。发出的warp-instruction在吞吐量的四个处理器周期内作为四组八个线程执行。处理器流水线使用几个延迟时钟来完成每条指令。如果每个warp的时钟的活动warp数乘以管道延迟，则程序员可以忽略管道延迟。对于这种多处理器，八个warp的循环调度在相同warp的连续指令之间具有32个周期的周期。如果程序可以在每个多处理器中保持256个线程处于活动状态，则可以从单个顺序线程中隐藏最多32个周期的指令延迟。但是，由于几乎没有活动warp，处理器管道深度变得可见，并可能导致处理器停止。</p>
+<p>A challenging design problem is implementing zero-overhead warp scheduling for a dynamic mix of diﬀerent warp programs and program types. The instruction scheduler must select a warp every four clocks to issue one instruction per clock per thread, equivalent to an IPC of 1.0 per processor core. Because warps are independent, the only dependences are among sequential instructions from the same warp. The scheduler uses a register dependency scoreboard to qualify warps whose active threads are ready to execute an instruction. It prioritizes all such ready warps and selects the highest priority one for issue. Prioritization must consider warp type, instruction type, and the desire to be fair to all active warps.<br>一个具有挑战性的设计问题是为不同的warp程序和程序类型的动态组合实现零开销warp调度。 指令调度程序必须每四个时钟选择一个warp，每个线程每个时钟发出一条指令，相当于每个处理器内核的IPC为1.0。 由于warp是独立的，唯一的依赖是来自同一warp的顺序指令。 调度程序使用寄存器依赖性记分板来限定其活动线程已准备好执行指令的warp。 它优先考虑所有这些准备好的warp并选择最优先的warp。 优先级必须考虑warp类型，指令类型以及对所有活动warp公平的愿望。</p>
+<h2 id="Managing-Threads-and-Thread-Blocks-管理线程和线程块"><a href="#Managing-Threads-and-Thread-Blocks-管理线程和线程块" class="headerlink" title="Managing Threads and Thread Blocks 管理线程和线程块"></a>Managing Threads and Thread Blocks 管理线程和线程块</h2><p>The multiprocessor controller and instruction unit manage threads and thread blocks. The controller accepts work requests and input data and arbitrates access to shared resources, including the texture unit, memory access path, and I/O paths. For graphics workloads, it creates and manages three types of graphics threads concurrently: vertex, geometry, and pixel. Each of the graphics work types has independent input and output paths. It accumulates and packs each of these input work types into SIMT warps of parallel threads executing the same thread program. It allocates a free warp, allocates registers for the warp threads, and starts warp execution in the multiprocessor. Every program declares its perthread register demand; the controller starts a warp only when it can allocate the requested register count for the warp threads. When all the threads of the warp exit, the controller unpacks the results and frees the warp registers and resources.<br>多处理器控制器和指令单元管理线程和线程块。 控制器接受工作请求和输入数据，并仲裁对共享资源的访问，包括纹理单元，内存访问路径和I / O路径。 对于图形工作负载，它同时创建和管理三种类型的图形线程：顶点，几何和像素。 每个图形工作类型都有独立的输入和输出路径。 它将这些输入工作类型中的每一个累积并打包到执行相同线程程序的并行线程的SIMT warp中。 它分配一个自由warp，为warp线程分配寄存器，并在多处理器中启动warp执行。 每个程序都声明其寄存器需求; 只有当控制器可以为经线分配所请求的寄存器计数时，控制器才会启动warp。 当warp的所有线程退出时，控制器将解压缩结果并释放warp寄存器和资源。</p>
+<p>The controller creates cooperative thread arrays (CTAs) which implement CUDA thread blocks as one or more warps of parallel threads. It creates a CTA when it can create all CTA warps and allocate all CTA resources. In addition to threads and registers, a CTA requires allocating shared memory and barriers. The program declares the required capacities, and the controller waits until it can allocate those amounts before launching the CTA. Then it creates CTA warps at the warp scheduling rate, so that a CTA program starts executing immediately at full multiprocessor performance. The controller monitors when all threads of a CTA have exited, and frees the CTA shared resources and its warp resources.<br>控制器创建协作线程阵列（CTA），其将CUDA线程块实现为一个或多个并行线程的warp。 它可以在创建所有CTA warp并分配所有CTA资源时创建CTA。 除线程和寄存器外，CTA还需要分配共享内存和障碍。 程序声明所需的容量，控制器等待，直到它可以在启动CTA之前分配这些数量。 然后它以warp调度速率创建CTA warp，以便CTA程序在完全多处理器性能时立即开始执行。 Te控制器监视CTA的所有线程何时退出，并释放CTA共享资源及其warp资源。</p>
+<blockquote>
+<p>cooperative thread array (CTA) : A set of concurrent threads that executes the same thread program and may cooperate to compute a result. A GPU CTA implements a CUDA thread block. 一组并发线程，它们执行相同的线程程序并可协作计算结果。 GPU CTA实现了CUDA线程块。</p>
+</blockquote>
+<h2 id="Thread-Instructions-线程指令"><a href="#Thread-Instructions-线程指令" class="headerlink" title="Thread Instructions 线程指令"></a>Thread Instructions 线程指令</h2><p>The SP thread processors execute scalar instructions for individual threads, unlike earlier GPU vector instruction architectures, which executed four-component vector instructions for each vertex or pixel shader program. Vertex programs generally compute (x, y, z, w) position vectors, while pixel shader programs compute (red, green, blue, alpha) color vectors. However, shader programs are becoming longer and more scalar, and it is increasingly difcult to fully occupy even two components of a legacy GPU four-component vector architecture. In effect, the SIMT architecture parallelizes across 32 independent pixel threads, rather than parallelizing the four vector components within a pixel. CUDA C/C++ programs have predominantly scalar code per thread. Previous GPUs employed vector packing (e.g., combining subvectors of work to gain efciency) but that complicated the scheduling hardware as well as the compiler. Scalar instructions are simpler and compiler friendly. Texture instructions remain vector based, taking a source coordinate vector and returning a filtered color vector.<br>SP线程处理器执行各个线程的标量指令，不像早期的GPU矢量指令架构，后者为每个顶点或像素着色器程序执行四分量矢量指令。顶点程序通常计算（x，y，z，w）位置矢量，而像素着色器程序计算（红色，绿色，蓝色，alpha）颜色矢量。然而，着色器程序变得越来越长并且越来越标量化，并且甚至完全占据传统GPU四分量矢量体系结构的两个组件也变得越来越困难。实际上，SIMT架构在32个独立像素线程之间并行化，而不是并行化像素内的四个矢量分量。 CUDA C / C ++程序每个线程主要有标量代码。先前的GPU采用向量打包（例如，组合工作的子向量以获得效率）但是使调度硬件以及编译器复杂化。标量指令更简单，编译友好。纹理指令保持基于矢量，采用源坐标向量并返回滤波后的颜色向量。</p>
+<p>To support multiple GPUs with diﬀerent binary microinstruction formats, highlevel graphics and computing language compilers generate intermediate assemblerlevel instructions (e.g., Direct3D vector instructions or PTX scalar instructions), which are then optimized and translated to binary GPU microinstructions. The NVIDIA PTX (parallel thread execution) instruction set defnition [2007] provides a stable target ISA for compilers, and provides compatibility over several generations of GPUs with evolving binary microinstruction-set architectures. The optimizer readily expands Direct3D vector instructions to multiple scalar binary microinstructions. PTX scalar instructions translate nearly one to one with scalar binary microinstructions, although some PTX instructions expand to multiple binary microinstructions, and multiple PTX instructions may fold into one binary microinstruction. Because the intermediate assembler-level instructions use virtual registers, the optimizer analyzes data dependencies and allocates real registers. The optimizer eliminates dead code, folds instructions together when feasible, and optimizes SIMT branch diverge and converge points.<br>为了支持具有不同二进制微指令格式的多个GPU，高级图形和计算语言编译器生成中间汇编级指令（例如，Direct3D向量指令或PTX标量指令），然后将其优化并转换为二进制GPU微指令。 NVIDIA PTX（并行线程执行）指令集定义[2007]为编译器提供了稳定的目标ISA，并提供了几代GPU与不断发展的二进制微指令集架构的兼容性。优化器很容易将Direct3D向量指令扩展为多个标量二进制微指令。尽管一些PTX指令扩展到多个二进制微指令，但PTX标量指令几乎一对一地转换为标量二进制微指令，并且多个PTX指令可折叠成一个二进制微指令。由于中间汇编程序级指令使用虚拟寄存器，优化程序会分析数据依赖性并分配实际寄存器。优化器消除了死代码，在可行时将指令折叠在一起，并优化SIMT分支发散和收敛点。</p>
+<h2 id="Instruction-Set-Architecture-ISA-指令集架构"><a href="#Instruction-Set-Architecture-ISA-指令集架构" class="headerlink" title="Instruction Set Architecture (ISA) 指令集架构"></a>Instruction Set Architecture (ISA) 指令集架构</h2><p>The thread ISA described here is a simplifed version of the Tesla architecture PTX ISA, a register-based scalar instruction set comprising ﬂoating-point, integer, logical, conversion, special functions, ﬂow control, memory access, and texture operations. Figure C.4.3 lists the basic PTX GPU thread instructions; see the NVIDIA PTX specifcation [2007] for details. The instruction format is:<br>这里描述的线程ISA是特斯拉架构PTX ISA的简化版本，这是一种基于寄存器的标量指令集，包括浮点，整数，逻辑，转换，特殊函数，流控制，存储器访问和纹理操作。 图C.4.3列出了基本的PTX GPU线程指令; 有关详细信息，请参阅NVIDIA PTX规范[2007]。 指令格式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opcode.type d, a, b, c;</span><br></pre></td></tr></table></figure>
+<p>where <em>d</em> is the destination operand, a, b, c are source operands, and .type is one of:<br>其中<em>d</em> 是目标操作数，a，b，c是源操作数，而.type是以下之一：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">.type Specifer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Untyped bits 8, 16, 32, and 64 bits</td>
+<td style="text-align:center">.b8, .b16, .b32, .b64</td>
+</tr>
+<tr>
+<td style="text-align:center">Unsigned integer 8, 16, 32, and 64 bits</td>
+<td style="text-align:center">.u8, .u16, .u32, .u64</td>
+</tr>
+<tr>
+<td style="text-align:center">Signed integer 8, 16, 32, and 64 bits</td>
+<td style="text-align:center">.s8, .s16, .s32, .s64</td>
+</tr>
+<tr>
+<td style="text-align:center">Floating-point 16, 32, and 64 bits</td>
+<td style="text-align:center">.f16, .f32, .f64</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127102843734.png" alt=""></p>
+<p>Source operands are scalar 32-bit or 64-bit values in registers, an immediate value, or a constant; predicate operands are 1-bit Boolean values. Destinations are registers, except for store to memory. Instructions are predicated by prefxing them with @p or @!p, where p is a predicate register. Memory and texture instructions transfer scalars or vectors of two to four components, up to 128 bits in total. PTX instructions specify the behavior of one thread.<br>源操作数是寄存器中的标量32位或64位值，立即值或常量; 谓词操作数是1位布尔值。 目标是寄存器，除了存储到存储器。 通过使用@p或@！p对它们进行预处理来预测指令，其中p是谓词寄存器。 内存和纹理指令传输两到四个组件的标量或向量，总共最多128位。 PTX指令指定一个线程的行为。</p>
+<p>The PTX arithmetic instructions operate on 32-bit and 64-bit ﬂoating-point, signed integer, and unsigned integer types. Recent GPUs support 64-bit double precision ﬂoating-point; see Section C.6. On current GPUs, PTX 64-bit integer and logical instructions are translated to two or more binary microinstructions that perform 32-bit operations. The GPU special function instructions are limited to 32-bit ﬂoating-point. The thread control ﬂow instructions are conditional branch, function call and return, thread exit, and bar.sync (barrier synchronization). The conditional branch instruction @p bra target uses a predicate register p (or !p) previously set by a compare and set predicate setp instruction to determine whether the thread takes the branch or not. Other instructions can also be predicated on a predicate register being true or false.<br>PTX算术指令对32位和64位浮点，有符号整数和无符号整数类型进行操作。 最近的GPU支持64位双精度浮点; 见C.6节。 在当前的GPU上，PTX 64位整数和逻辑指令被转换为两个或更多个执行32位操作的二进制微指令。 GPU特殊功能指令仅限于32位浮点。 线程控制流程指令是条件分支，函数调用和返回，线程退出和bar.sync（屏障同步）。 条件分支指令@p bra target使用先前由compare和set predicate setp指令设置的谓词寄存器p（或！p）来确定线程是否接受分支。 其他指令也可以在谓词寄存器为真或假的情况下进行预测。</p>
+<h2 id="Memory-Access-Instructions-内存访问指令"><a href="#Memory-Access-Instructions-内存访问指令" class="headerlink" title="Memory Access Instructions 内存访问指令"></a>Memory Access Instructions 内存访问指令</h2><p>The <em>tex</em> instruction fetches and filters texture samples from 1D, 2D, and 3D texture arrays in memory via the texture subsystem. Texture fetches generally use interpolated ﬂoating-point coordinates to address a texture. Once a graphics pixel shader thread computes its pixel fragment color, the raster operations processor blends it with the pixel color at its assigned (x, y) pixel position and writes the final color to memory.<br><em>tex</em>指令通过纹理子系统从内存中的1D，2D和3D纹理数组中提取和过滤纹理样本。 纹理提取通常使用插值的浮点坐标来寻址纹理。 一旦图形像素着色器线程计算其像素片段颜色，光栅操作处理器将其与其指定的（x，y）像素位置处的像素颜色混合，并将最终颜色写入存储器。<br>To support computing and C/C++ language needs, the Tesla PTX ISA implements memory load/store instructions. It uses integer byte addressing with register plus oﬀset address arithmetic to facilitate conventional compiler code optimizations. Memory load/store instructions are common in processors, but are a signifcant new capability in the Tesla architecture GPUs, as prior GPUs provided only the texture and pixel accesses required by the graphics APIs.<br>为了支持计算和C / C ++语言需求，Tesla PTX ISA实现了内存加载/存储指令。 它使用整数字节寻址和寄存器加o ff设置地址算法来促进传统的编译器代码优化。 内存加载/存储指令在处理器中很常见，但在Tesla架构GPU中是一项重要的新功能，因为之前的GPU仅提供图形API所需的纹理和像素访问。<br>For computing, the load/store instructions access three read/write memory spaces that implement the corresponding CUDA memory spaces in Section C.3:<br>对于计算，加载/存储指令访问在C.3节中实现相应CUDA存储空间的三个读/写存储空间：</p>
+<ul>
+<li>Local memory for per-thread private addressable temporary data (implemented in external DRAM) 每线程专用可寻址临时数据的本地内存（在外部DRAM中实现）</li>
+<li>Shared memory for low-latency access to data shared by cooperating threads in the same CTA/thread block (implemented in on-chip SRAM) 共享内存，用于对同一CTA /线程块中的协作线程共享的数据进行低延迟访问（在片上SRAM中实现）</li>
+<li>Global memory for large data sets shared by all threads of a computing application (implemented in external DRAM) 计算应用程序的所有线程共享的大型数据集的全局内存（在外部DRAM中实现）</li>
+<li>The memory load/store instructions ld.global, st.global, ld.shared, st.shared, ld.local, and st.local access the global, shared, and local memory spaces. Computing programs use the fast barrier synchronization instruction bar.sync to synchronize threads within a CTA/thread block that communicate with each other via shared and global memory.<br>内存加载/存储指令ld.global，st.global，ld.shared，st.shared，ld.local和st.local访问全局，共享和本地内存空间。 计算程序使用快速屏障同步指令bar.sync来同步CTA /线程块内的线程，这些线程通过共享和全局内存相互通信。</li>
+</ul>
+<p>To improve memory bandwidth and reduce overhead, the local and global load/store instructions coalesce individual parallel thread requests from the same SIMT warp together into a single memory block request when the addresses fall in the same block and meet alignment criteria. Coalescing memory requests provides a signifcant performance boost over separate requests from individual threads. The multiprocessor’s large thread count, together with support for many outstanding load requests, helps cover load-to-use latency for local and global memory implemented in external DRAM.<br>为了改善存储器带宽并减少开销，当地址落在同一块中并满足对齐标准时，本地和全局加载/存储指令将来自相同SIMT warp的各个并行线程请求合并为单个存储器块请求。 合并内存请求相对于来自各个线程的单独请求提供了显着的性能提升。 多处理器的大线程数以及对许多未完成的负载请求的支持有助于覆盖外部DRAM中实现的本地和全局内存的负载使用延迟。</p>
+<p>The latest Tesla architecture GPUs also provide efcient atomic memory operations on memory with the atom.op.u32 instructions, including integer operations add, min, max, and, or, xor, exchange, and cas (compare-and-swap) operations, facilitating parallel reductions and parallel data structure management.<br>最新的Tesla架构GPU还通过atom.op.u32指令在内存上提供有效的原子内存操作，包括整数运算add，min，max和，或者xor，exchange和cas（比较和交换）操作， 促进并行减少和并行数据结构管理。</p>
+<h2 id="Barrier-Synchronization-for-Thread-Communication-线程通信的屏障同步"><a href="#Barrier-Synchronization-for-Thread-Communication-线程通信的屏障同步" class="headerlink" title="Barrier Synchronization for Thread Communication 线程通信的屏障同步"></a>Barrier Synchronization for Thread Communication 线程通信的屏障同步</h2><p>Fast barrier synchronization permits CUDA programs to communicate frequently via shared memory and global memory by simply calling __syncthreads(); as part of each interthread communication step. The synchronization intrinsic function generates a single bar.sync instruction. However, implementing fast barrier synchronization among up to 512 threads per CUDA thread block is a challenge.<br>快速屏障同步允许CUDA程序通过简单地调用__syncthreads（）;来经常通过共享内存和全局内存进行通信。 作为每个线程交流步骤的一部分。 同步内部函数生成单个bar.sync指令。 但是，在每个CUDA线程块中最多512个线程之间实现快速屏障同步是一项挑战。<br>Grouping threads into SIMT warps of 32 threads reduces the synchronization difculty by a factor of 32. Treads wait at a barrier in the SIMT thread scheduler so they do not consume any processor cycles while waiting. When a thread executes a bar.sync instruction, it increments the barrier’s thread arrival counter and the scheduler marks the thread as waiting at the barrier. Once all the CTA threads arrive, the barrier counter matches the expected terminal count, and the scheduler releases all the threads waiting at the barrier and resumes executing threads.<br>将线程分组为32个线程的SIMT warp可将同步困难减少32倍.Tread在SIMT线程调度程序中等待障碍，以便它们在等待时不消耗任何处理器周期。 当一个线程执行bar.sync指令时，它会递增屏障的线程到达计数器，并且调度程序将该线程标记为在屏障处等待。 一旦所有CTA线程到达，屏障计数器匹配预期的终端计数，并且调度程序释放在屏障处等待的所有线程并继续执行线程。</p>
+<h2 id="Streaming-Processor-SP-流处理器（SP）"><a href="#Streaming-Processor-SP-流处理器（SP）" class="headerlink" title="Streaming Processor (SP) 流处理器（SP）"></a>Streaming Processor (SP) 流处理器（SP）</h2><p>The multithreaded streaming processor (SP) core is the primary thread instruction processor in the multiprocessor. Its register fle (RF) provides 1024 scalar 32-bit registers for up to 64 threads. It executes all the fundamental ﬂoating-point operations, including add.f32, mul.f32, mad.f32 (ﬂoating multiply-add), min.f32, max.f32, and setp.f32 (ﬂoating compare and set predicate). Te ﬂoatingpoint add and multiply operations are compatible with the IEEE 754 standard for single precision FP numbers, including not-a-number (NaN) and infnity values. Te SP core also implements all of the 32-bit and 64-bit integer arithmetic, comparison, conversion, and logical PTX instructions shown in Figure C.4.3.<br>多线程流处理器（SP）内核是多处理器中的主要线程指令处理器。 其寄存器文件（RF）提供1024个标量32位寄存器，最多可支持64个线程。 它执行所有基本的浮点运算，包括add.f32，mul.f32，mad.f32（浮动乘法 - 加法），min.f32，max.f32和setp.f32（浮点数比较和设置谓词）。 对于单精度FP编号，包括非数字（NaN）和无穷大值，Te floatingpoint加法和乘法运算与IEEE 754标准兼容。 Te SP内核还实现了图C.4.3中所示的所有32位和64位整数运算，比较，转换和逻辑PTX指令。</p>
+<p>The ﬂoating-point add and mul operations employ IEEE round-to-nearest-even as the default rounding mode. Te mad.f32 ﬂoating-point multiply-add operation performs a multiplication with truncation, followed by an addition with roundto-nearest-even. The SP ﬂushes input denormal operands to sign-preserved-zero. Results that underﬂow the target output exponent range are ﬂushed to signpreserved-zero after rounding.<br>浮点加法和mul运算采用IEEE舍入到最近 - 甚至作为默认舍入模式。 Te mad.f32浮点乘法加法运算执行与截断的乘法运算，然后使用roundto-nearest-even进行加法运算。 SP将输入非正规操作数用于符号保留为零。 在舍入之后，将目标输出指数范围下的结果浮动到符号保留为零</p>
+<h2 id="Special-Function-Unit-SFU-特殊功能单元（SFU）"><a href="#Special-Function-Unit-SFU-特殊功能单元（SFU）" class="headerlink" title="Special Function Unit (SFU) 特殊功能单元（SFU）"></a>Special Function Unit (SFU) 特殊功能单元（SFU）</h2><p>Certain thread instructions can execute on the SFUs, concurrently with other thread instructions executing on the SPs. The SFU implements the special function instructions of Figure C.4.3, which compute 32-bit ﬂoating-point approximations to reciprocal, reciprocal square root, and key transcendental functions. It also implements 32-bit ﬂoating-point planar attribute interpolation for pixel shaders, providing accurate interpolation of attributes such as color, depth, and texture coordinates.<br>某些线程指令可以在SFU上执行，与在SP上执行的其他线程指令同时执行。 SFU实现了图C.4.3中的特殊函数指令，它们计算倒数，倒数平方根和关键超越函数的32位浮点近似。 它还为像素着色器实现了32位浮点平面属性插值，提供了颜色，深度和纹理坐标等属性的精确插值。</p>
+<p>Each pipelined SFU generates one 32-bit ﬂoating-point special function result per cycle; the two SFUs per multiprocessor execute special function instructions at a quarter the simple instruction rate of the eight SPs. The SFUs also execute the mul.f32 multiply instruction concurrently with the eight SPs, increasing the peak<br>computation rate up to 50% for threads with a suitable instruction mixture.<br>每个流水线SFU在每个周期产生一个32位浮点特殊功能结果; 每个多处理器的两个SFU以八个SP的简单指令速率的四分之一执行特殊功能指令。 SFU还与8个SP同时执行mul.f32乘法指令，对于具有合适指令混合的线程，峰值计算速率提高了50％。</p>
+<p>For functional evaluation, the Tesla architecture SFU employs quadratic interpolation based on enhanced minimax approximations for approximating the reciprocal, reciprocal square-root, log2x, 2x, and sin/cos functions. Te accuracy of the function estimates ranges from 22 to 24 mantissa bits. See Section C.6 for more details on SFU arithmetic.<br>对于功能评估，特斯拉架构SFU采用基于增强的极小极大近似的二次插值来近似倒数，倒数平方根，log2x，2x和正弦/余弦函数。 功能估计的准确度范围从22到24个尾数位。 有关SFU算法的更多详细信息，请参见第C.6节。</p>
+<h2 id="Comparing-with-Other-Multiprocessors-与其他多处理器比较"><a href="#Comparing-with-Other-Multiprocessors-与其他多处理器比较" class="headerlink" title="Comparing with Other Multiprocessors 与其他多处理器比较"></a>Comparing with Other Multiprocessors 与其他多处理器比较</h2><p>Compared with SIMD vector architectures such as x86 SSE, the SIMT multiprocessor can execute individual threads independently, rather than always executing them together in synchronous groups. SIMT hardware fnds data parallelism among independent threads, whereas SIMD hardware requires the sofware to express data parallelism explicitly in each vector instruction. A SIMT machine executes a warp of 32 threads synchronously when the threads take the same execution path, yet can execute each thread independently when they diverge. Te advantage is signifcant because SIMT programs and instructions simply describe the behavior of a single independent thread, rather than a SIMD data vector of four or more data lanes. Yet the SIMT multiprocessor has SIMD-like efciency, spreading the area and cost of one instruction unit across the 32 threads of a warp and across the eight streaming processor cores. SIMT provides the performance of SIMD together with the productivity of multithreading, avoiding the need to explicitly code SIMD vectors for edge conditions and partial divergence.<br>与SIM86矢量体系结构（如x86 SSE）相比，SIMT多处理器可以独立执行各个线程，而不是始终在同步组中一起执行它们。 SIMT硬件支持独立线程之间的数据并行性，而SIMD硬件要求软件在每个向量指令中明确表达数据并行性。当线程采用相同的执行路径时，SIMT机器同步执行32个线程的warp，但是当它们发散时可以独立地执行每个线程。优点是显着的，因为SIMT程序和指令简单地描述了单个独立线程的行为，而不是四个或更多数据通道的SIMD数据向量。然而，SIMT多处理器具有类似SIMD的效率，在一个扭曲的32个线程和八个流处理器内核之间扩展了一个指令单元的面积和成本。 SIMT提供SIMD的性能以及多线程的生产率，无需为边缘条件和部分发散明确编码SIMD向量。</p>
+<p>The SIMT multiprocessor imposes little overhead because it is hardware multithreaded with hardware barrier synchronization. That allows graphics shaders and CUDA threads to express very fne-grained parallelism. Graphics and CUDA programs use threads to express fne-grained data parallelism in a perthread program, rather than forcing the programmer to express it as SIMD vector instructions. It is simpler and more productive to develop scalar single-thread code than vector code, and the SIMT multiprocessor executes the code with SIMD-like effciency.<br>SIMT多处理器的开销很小，因为它是具有硬件屏障同步的硬件多线程。 这允许图形着色器和CUDA线程表达非常细致的并行性。 图形和CUDA程序使用线程在perthread程序中表达细粒度数据并行性，而不是强迫程序员将其表达为SIMD向量指令。 开发标量单线程代码比矢量代码更简单，更高效，而SIMT多处理器以类似SIMD的效率执行代码。</p>
+<p>Coupling eight streaming processor cores together closely into a multiprocessor and then implementing a scalable number of such multiprocessors makes a twolevel multiprocessor composed of multiprocessors. The CUDA programming model exploits the two-level hierarchy by providing individual threads for fne-grained parallel computations, and by providing grids of thread blocks for coarse-grained parallel operations. The same thread program can provide both fine-grained and coarse-grained operations. In contrast, CPUs with SIMD vector instructions must use two diﬀerent programming models to provide fne-grained and coarse-grained operations: coarse-grained parallel threads on different cores, and SIMD vector instructions for fne-grained data parallelism.<br>将八个流处理器核心紧密地耦合到多处理器中，然后实现可扩展数量的这种多处理器，使得由多处理器组成的两级多处理器成为可能。 CUDA编程模型通过为细粒度并行计算提供单独的线程，并通过为粗粒度并行操作提供线程块网格来利用两级层次结构。 相同的线程程序可以提供细粒度和粗粒度操作。 相反，具有SIMD向量指令的CPU必须使用两种不同的编程模型来提供细粒度和粗粒度操作：不同内核上的粗粒度并行线程，以及用于细粒度数据并行性的SIMD向量指令。</p>
+<h2 id="Multithreaded-Multiprocessor-Conclusion-多线程多处理器结论"><a href="#Multithreaded-Multiprocessor-Conclusion-多线程多处理器结论" class="headerlink" title="Multithreaded Multiprocessor Conclusion 多线程多处理器结论"></a>Multithreaded Multiprocessor Conclusion 多线程多处理器结论</h2><p>The example GPU multiprocessor based on the Tesla architecture is highly multithreaded, executing a total of up to 512 lightweight threads concurrently to support fne-grained pixel shaders and CUDA threads. It uses a variation on SIMD architecture and multithreading called SIMT (single-instruction multiple-thread) to effciently broadcast one instruction to a warp of 32 parallel threads, while permitting each thread to branch and execute independently. Each thread executes its instruction stream on one of the eight streaming processor (SP) cores, which are multithreaded up to 64 threads.<br>基于Tesla架构的示例GPU多处理器是高度多线程的，同时执行总共多达512个轻量级线程，以支持细粒度像素着色器和CUDA线程。 它使用SIMD架构的变体和称为SIMT（单指令多线程）的多线程来有效地将一条指令广播到32个并行线程的warp，同时允许每个线程独立地分支和执行。 每个线程在八个流处理器（SP）内核之一上执行其指令流，这些内核是多线程的，最多64个线程。</p>
+<p>The PTX ISA is a register-based load/store scalar ISA that describes the execution of a single thread. Because PTX instructions are optimized and translated to binary microinstructions for a specifc GPU, the hardware instructions can evolve rapidly without disrupting compilers and sofware tools that generate PTX instructions.<br>PTX ISA是一个基于寄存器的加载/存储标量ISA，用于描述单个线程的执行。 由于PTX指令经过优化并转换为特定GPU的二进制微指令，因此硬件指令可以快速发展，而不会中断生成PTX指令的编译器和软件工具</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/" title="4_Multithreaded_Multiprocessor_Architecture">http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/24/Programming_GPUs/" rel="next" title="3_Programming_GPUs">
+                <i class="fa fa-chevron-left"></i> 3_Programming_GPUs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/30/5_Parallel_Memory_System/" rel="prev" title="5_Parallel_Memory_System">
+                5_Parallel_Memory_System <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Multithreaded-Multiprocessor-Architecture-多线程多处理器体系结构"><span class="nav-number">1.</span> <span class="nav-text">Multithreaded Multiprocessor Architecture 多线程多处理器体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Massive-Multithreading"><span class="nav-number">1.1.</span> <span class="nav-text">Massive Multithreading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiprocessor-Architecture-多处理器架构"><span class="nav-number">1.2.</span> <span class="nav-text">Multiprocessor Architecture 多处理器架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Single-Instruction-Multiple-Thread-SIMT"><span class="nav-number">1.3.</span> <span class="nav-text">Single-Instruction Multiple-Thread (SIMT)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIMT-Warp-Execution-and-Divergence-SIMT-Warp-执行和分歧"><span class="nav-number">1.4.</span> <span class="nav-text">SIMT Warp Execution and Divergence SIMT Warp 执行和分歧 ??</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Managing-Threads-and-Thread-Blocks-管理线程和线程块"><span class="nav-number">1.5.</span> <span class="nav-text">Managing Threads and Thread Blocks 管理线程和线程块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-Instructions-线程指令"><span class="nav-number">1.6.</span> <span class="nav-text">Thread Instructions 线程指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Instruction-Set-Architecture-ISA-指令集架构"><span class="nav-number">1.7.</span> <span class="nav-text">Instruction Set Architecture (ISA) 指令集架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Access-Instructions-内存访问指令"><span class="nav-number">1.8.</span> <span class="nav-text">Memory Access Instructions 内存访问指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Barrier-Synchronization-for-Thread-Communication-线程通信的屏障同步"><span class="nav-number">1.9.</span> <span class="nav-text">Barrier Synchronization for Thread Communication 线程通信的屏障同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Streaming-Processor-SP-流处理器（SP）"><span class="nav-number">1.10.</span> <span class="nav-text">Streaming Processor (SP) 流处理器（SP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Special-Function-Unit-SFU-特殊功能单元（SFU）"><span class="nav-number">1.11.</span> <span class="nav-text">Special Function Unit (SFU) 特殊功能单元（SFU）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparing-with-Other-Multiprocessors-与其他多处理器比较"><span class="nav-number">1.12.</span> <span class="nav-text">Comparing with Other Multiprocessors 与其他多处理器比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multithreaded-Multiprocessor-Conclusion-多线程多处理器结论"><span class="nav-number">1.13.</span> <span class="nav-text">Multithreaded Multiprocessor Conclusion 多线程多处理器结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism t">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3_Programming_GPUs">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/24/Programming_GPUs/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism t">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126034035599.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126034418529.png">
+<meta property="og:image" content="http://cooguyan.github.io/Programming_GPUs/20190126034518166.png">
+<meta property="og:image" content="http://cooguyan.github.io/Programming_GPUs/20190126034832372.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035148883.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035347204.png">
+<meta property="og:updated_time" content="2019-02-04T04:26:16.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3_Programming_GPUs">
+<meta name="twitter:description" content="Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism t">
+<meta name="twitter:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/24/Programming_GPUs/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>3_Programming_GPUs | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/24/Programming_GPUs/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">3_Programming_GPUs
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-24 09:30:01" itemprop="dateCreated datePublished" datetime="2019-01-24T09:30:01+08:00">2019-01-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-04 12:26:16" itemprop="dateModified" datetime="2019-02-04T12:26:16+08:00">2019-02-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/GPU相关/" itemprop="url" rel="index"><span itemprop="name">GPU相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://img.shields.io/badge/version-v1.1.1-519dd9.svg" alt=""></p>
+<p>Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism than CPUs, scaling to hundreds of processor cores and tens of thousands of concurrent threads. GPUs continue to increase their parallelism, doubling it about every 12 to 18 months, enabled by Moore’s law [1965] of increasing integrated circuit density and by improving architectural efciency. To span the wide price and performance range of different market segments, different GPU products implement widely varying numbers of processors and threads. Yet users expect games, graphics, imaging, and computing applications to work on any GPU, regardless of how many parallel threads it executes or how many parallel processor cores it has, and they expect more expensive GPUs (with more threads and cores) to run applications faster. As a result, GPU programming models and application programs are designed to scale transparently to a wide range of parallelism.<br>编程多处理器GPU与编程其他多处理器（如多核CPU）的质量不同。 GPU比CPU提供两到三个数量级的线程和数据并行性，可扩展到数百个处理器内核和数万个并发线程。随着集成电路密度的提高和提高架构效率的摩尔定律[1965]，GPU每12到18个月就会继续增加并行性，并且会增加一倍。为了跨越不同细分市场的广泛价格和性能范围，不同的GPU产品实现了大量不同数量的处理器和线程。然而，用户期望游戏，图形，成像和计算应用程序可以在任何GPU上运行，无论它执行多少并行线程或它有多少并行处理器核心，他们期望更多昂贵的GPU（具有更多线程和核心）可以更快地运行应用程序。因此，GPU编程模型和应用程序旨在透明地扩展到各种并行性。</p>
+<p>The driving force behind the large number of parallel threads and cores in a GPU is real-time graphics performance—the need to render complex 3D scenes with high resolution at interactive frame rates, at least 60 frames per second. Correspondingly, the scalable programming models of graphics shading languages such as Cg (C for graphics) and HLSL (high-level shading language) are designed to exploit large degrees of parallelism via many independent parallel threads and to scale to any number of processor cores. The CUDA scalable parallel programming model similarly enables general parallel computing applications to leverage large numbers of parallel threads and scale to any number of parallel processor cores, transparently to the application.<br>GPU中大量并行线程和核心背后的驱动力是实时图形性能 - 需要以交互式帧速率（至少每秒60帧）渲染具有高分辨率的复杂3D场景。 相应地，图形着色语言（如Cg（图形用C）和HLSL（高级着色语言））的可伸缩编程模型旨在通过许多独立的并行线程利用大程度的并行性，并扩展到任意数量的处理器内核。 CUDA可扩展并行编程模型同样使通用并行计算应用程序能够利用大量并行线程，并扩展到任意数量的并行处理器内核，对应用程序透明。</p>
+<p>In these scalable programming models, the programmer writes code for a single thread, and the GPU runs myriad thread instances in parallel. Programs thus scale transparently over a wide range of hardware parallelism. Tis simple paradigm arose from graphics APIs and shading languages that describe how to shade one vertex or one pixel. It has remained an effective paradigm as GPUs have rapidly increased their parallelism and performance since the late 1990s.<br>在这些可伸缩的编程模型中，程序员为单个线程编写代码，GPU并行运行无数的线程实例。 因此，程序在广泛的硬件并行性上透明地扩展。 这是一种简单的范例，它来自描述如何遮蔽一个顶点或一个像素的图形API和着色语言。 自从20世纪90年代末以来，GPU一直在迅速提高其并行性和性能，这仍然是一种有效的范例。<br>This section brieﬂy describes programming GPUs for real-time graphics applications using graphics APIs and programming languages. It then describes programming GPUs for visual computing and general parallel computing applications using the C language and the CUDA programming model.<br>本节简要介绍如何使用图形API和编程语言为实时图形应用程序编程GPU。 然后，它描述了使用C语言和CUDA编程模型编程用于可视计算和通用并行计算应用程序的GPU。<br><a id="more"></a></p>
+<h2 id="Programming-Real-Time-Graphics-实时图形编程"><a href="#Programming-Real-Time-Graphics-实时图形编程" class="headerlink" title="Programming Real-Time Graphics 实时图形编程"></a>Programming Real-Time Graphics 实时图形编程</h2><p>APIs have played an important role in the rapid, successful development of GPUs and processors. There are two primary standard graphics APIs: <strong>OpenGL</strong> and <strong>Direct3D</strong>, one of the Microsoft DirectX multimedia programming interfaces. OpenGL, an open standard, was originally proposed and defined by Silicon Graphics Incorporated. Te ongoing development and extension of the OpenGL standard [Segal and Akeley, 2006], [Kessenich, 2006] is managed by Khronos, an industry consortium. Direct3D [Blythe, 2006], a de facto standard, is defined<br>and evolved forward by Microsoft and partners. OpenGL and Direct3D are similarly structured, and continue to evolve rapidly with GPU hardware advances. They defne a logical graphics processing pipeline that is mapped onto the GPU hardware and processors, along with programming models and languages for the programmable pipeline stages.<br>API在GPU和处理器的快速而成功的发展中发挥了重要作用。 现在有两个主要的标准图形API：<strong>OpenGL</strong> 和 <strong>Direct3D</strong>。 Direct3D是微软 <em>DirectX</em> 多媒体编程接口之一。 OpenGL是一种开放标准，最初是由Silicon Graphics Incorporated提出并定义的。 OpenGL标准的持续发展和扩展[Segal和Akeley，2006]，[Kessenich，2006]由行业协会Khronos管理。 Direct3D [Blythe，2006]是事实上的标准，由微软和合作伙伴定义和发展。 OpenGL和Direct3D结构相似，并且随着GPU硬件的发展而不断发展。 它们定义了映射到GPU硬件和处理器的逻辑图形处理流水线，以及可编程流水线级的编程模型和语言。</p>
+<blockquote>
+<p><strong>OpenGL</strong> :An open standard graphics API. Direct3D A graphics API defined by Microsoft and partners. 一个开放标准的图形API。</p>
+</blockquote>
+<blockquote>
+<p><strong>Direct3D</strong>: A graphics API defined by Microsof and partners. 由Microsoft和合作伙伴定义的图形API。</p>
+</blockquote>
+<blockquote>
+<p>译注：DirectX中 Direct3D接口负责3D效果显示，DirectDraw负责2D图像加速</p>
+</blockquote>
+<h2 id="Logical-Graphics-Pipeline-逻辑图形管道"><a href="#Logical-Graphics-Pipeline-逻辑图形管道" class="headerlink" title="Logical Graphics Pipeline 逻辑图形管道"></a>Logical Graphics Pipeline 逻辑图形管道</h2><p>Figure C.3.1 illustrates the Direct3D 10 logical graphics pipeline. OpenGL has a similar graphics pipeline structure. The API and logical pipeline provide a streaming dataﬂow infrastructure and plumbing for the programmable shader stages, shown in blue. The 3D application sends the GPU a sequence of vertices grouped into geometric primitives—points, lines, triangles, and polygons. The input assembler collects vertices and primitives. The vertex shader program executes per-vertex processing including transforming the vertex 3D position into a screen position and lighting the vertex to determine its color. The geometry shader program executes per-primitive processing and can add or drop primitives. The setup and rasterizer unit generates pixel fragments (fragments are potential contributions to pixels) that are covered by a geometric primitive. The pixel shader program performs per-fragment processing, including interpolating per-fragment parameters, texturing, and coloring. Pixel shaders make extensive use of sampled and filtered lookups into large 1D, 2D, or 3D arrays called textures, using interpolated ﬂoating-point coordinates. Shaders use texture accesses for maps, functions, decals, images, and data. The raster operations processing (or output merger) stage performs Z-buffer depth testing and stencil testing, which may discard a hidden pixel fragment or replace the pixel’s depth with the fragment’s depth, and performs a color blending operation that combines the fragment color with the pixel color and writes the pixel with the blended color.<br>图C.3.1说明了Direct3D 10的逻辑图形管道。 OpenGL具有类似的图形管道结构。 API和逻辑管道为可编程着色器阶段提供流数据流基础结构和管道，以蓝色显示。 3D应用程序向GPU发送一系列顶点，这些顶点被分组为几何图元 - 点，线，三角形和多边形。输入汇编程序收集顶点和基元。顶点着色器程序执行每顶点处理，包括将顶点3D位置变换为屏幕位置并点亮顶点以确定其颜色。几何着色器程序执行每个基元处理，并可以添加或删除基元。设置和光栅化器单元生成由几何图元覆盖的像素片段（片段是对像素的潜在贡献）。像素着色器程序执行每片段处理，包括内插每片段参数，纹理和着色。像素着色器使用插值的浮点坐标，将采样和滤波查找广泛用于称为纹理的大型1D，2D或3D阵列。着色器使用纹理访问地图，函数，贴花，图像和数据。光栅操作处理（或输出合并）阶段执行Z缓冲深度测试和模板测试，它可以丢弃隐藏的像素片段或用片段的深度替换像素的深度，执行将片段颜色与像素颜色组合在一起的混合操作，并将混合的颜色写入像素。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126034035599.png" alt=""></p>
+<p>The graphics API and graphics pipeline provide input, output, memory objects, and infrastructure for the shader programs that process each vertex, primitive, and pixel fragment.<br>图形API和图形管道为处理每个顶点，基元和像素片段的着色器程序提供输入，输出，存储器对象和基础结构。</p>
+<blockquote>
+<p><strong>texture</strong>: A 1D, 2D, or 3D array that supports sampled and filtered lookups with interpolated coordinates. 支持带插值坐标的采样和滤波查找的1D，2D或3D阵列。</p>
+</blockquote>
+<h2 id="Graphics-Shader-Programs-图形着色器程序"><a href="#Graphics-Shader-Programs-图形着色器程序" class="headerlink" title="Graphics Shader Programs 图形着色器程序"></a>Graphics Shader Programs 图形着色器程序</h2><p>Real-time graphics applications use many diﬀerent shader programs to model how light interacts with diﬀerent materials and to render complex lighting and shadows. Shading languages are based on a dataﬂow or streaming programming model that corresponds with the logical graphics pipeline. Vertex shader programs map the position of triangle vertices onto the screen, altering their position, color, or orientation. Typically a vertex shader thread inputs a ﬂoating-point (x, y, z, w) vertex position and computes a ﬂoating-point (x, y, z) screen position. Geometry shader programs operate on geometric primitives (such as lines and triangles) defined by multiple vertices, changing them or generating additional primitives. Pixel fragment shaders each “shade” one pixel, computing a ﬂoating-point red, green, blue, alpha (RGBA) color contribution to the rendered image at its pixel sample (x, y) image position. Shaders (and GPUs) use ﬂoating-point arithmetic for all pixel color calculations to eliminate visible artifacts while computing the extreme range of pixel contribution values encountered while rendering scenes with complex lighting, shadows, and high dynamic range. For all three types of graphics shaders, many program instances can be run in parallel, as independent parallel threads, because each works on independent data, produces independent results, and has no side effects. Independent vertices, primitives, and pixels further enable the same graphics program to run on diﬀerently sized GPUs that process different numbers of vertices, primitives, and pixels in parallel. Graphics programs thus scale transparently to GPUs with different amounts of parallelism and performance. </p>
+<blockquote>
+<p>shader: A program that operates on graphics data such as a vertex or a pixel fragment. 一种对图形数据（如顶点或像素片段）进行操作的程序。</p>
+</blockquote>
+<blockquote>
+<p>shading language: A graphics rendering language, usually having a dataﬂow or streaming programming model.一种图形渲染语言，通常具有数据流或流编程模型。</p>
+</blockquote>
+<p>Users program all three logical graphics threads with a common targeted highlevel language. HLSL (high-level shading language) and Cg (C for graphics) are commonly used. They have C-like syntax and a rich set of library functions for matrix operations, trigonometry, interpolation, and texture access and filtering, but are far from general computing languages: they currently lack general memory access, pointers, fle I/O, and recursion. HLSL and Cg assume that programs live within a logical graphics pipeline, and thus I/O is implicit. For example, a pixel fragment shader may expect the geometric normal and multiple texture coordinates to have been interpolated from vertex values by upstream fxed-function stages and can simply assign a value to the COLOR output parameter to pass it downstream to be blended with a pixel at an implied (x, y) position.<br>用户使用共同的目标高级语言对所有三个逻辑图形线程进行编程。 通常使用HLSL（高级着色语言）和Cg（图形用C）。 它们具有类似C语法和丰富的库函数，用于矩阵运算，三角函数，插值和纹理访问和过滤，但远不是通用计算语言：它们目前缺少通用内存访问，指针，文件I / O和递归。 HLSL和Cg假设程序存在于逻辑图形管道中，因此I / O是隐含的。 例如，像素片段着色器可以预期几何法线和多个纹理坐标已经通过上游固定功能阶段从顶点值插值，并且可以简单地将值分配给COLOR输出参数以将其传递到下游以与像素混合。 在隐含的（x，y）位置。<br>The GPU hardware creates a new independent thread to execute a vertex, geometry, or pixel shader program for every vertex, every primitive, and every pixel fragment. In video games, the bulk of threads execute pixel shader programs, as there are typically 10 to 20 times or more pixel fragments than vertices, and complex lighting and shadows require even larger ratios of pixel to vertex shader threads. The graphics shader programming model drove the GPU architecture to effciently execute thousands of independent fne-grained threads on many parallel processor cores.<br>GPU硬件创建一个新的独立线程，为每个顶点，每个基元和每个像素片段执行顶点，几何或像素着色器程序。 在视频游戏中，大部分线程执行像素着色器程序，因为通常存在比顶点多10到20倍或更多的像素片段，并且复杂的光照和阴影需要甚至更大比例的像素到顶点着色器线程。 图形着色器编程模型推动GPU架构在许多并行处理器内核上有效地执行数千个独立的细粒度线程。</p>
+<h2 id="Pixel-Shader-Example"><a href="#Pixel-Shader-Example" class="headerlink" title="Pixel Shader Example"></a>Pixel Shader Example</h2><p>Consider the following Cg pixel shader program that implements the “environment mapping” rendering technique. For each pixel thread, this shader is passed five parameters, including 2D ﬂoating-point texture image coordinates needed to sample the surface color, and a 3D ﬂoating-point vector giving the refection of the view direction off the surface. The other three “uniform” parameters do not vary from one pixel instance (thread) to the next. The shader looks up color in two texture images: a 2D texture access for the surface color, and a 3D texture access into a cube map (six images corresponding to the faces of a cube) to obtain the external world color corresponding to the refection direction. Then the final four-component (red, green, blue, alpha) ﬂoating-point color is computed using a weighted average called a “lerp” or linear interpolation function.<br>考虑以下Cg像素着色器程序，该程序实现“环境映射”渲染技术。 对于每个像素线程，该着色器传递五个参数，包括采样表面颜色所需的2D浮点纹理图像坐标，以及3D浮点矢量，从而使视图方向偏离表面。 其他三个“统一”参数不会从一个像素实例（线程）到下一个像素实例。 着色器在两个纹理图像中查找颜色：表面颜色的2D纹理访问，以及立方体贴图中的3D纹理访问（对应于立方体的面的六个图像），以获得与反射方向对应的外部世界颜色。 然后使用称为“lerp”或线性插值函数的加权平均来计算最终的四分量（红色，绿色，蓝色，α）浮点颜色。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refection</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">float2 texCoord : TEXCOORD0,</span></span></span><br><span class="line"><span class="function"><span class="params">float3 refection_dir : TEXCOORD1,</span></span></span><br><span class="line"><span class="function"><span class="params">out float4 color : COLOR,</span></span></span><br><span class="line"><span class="function"><span class="params">uniform <span class="keyword">float</span> shiny,</span></span></span><br><span class="line"><span class="function"><span class="params">uniform sampler2D surfaceMap,</span></span></span><br><span class="line"><span class="function"><span class="params">uniform samplerCUBE envMap)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">// Fetch the surface color from a texture</span></span><br><span class="line">float4 surfaceColor = tex2D(surfaceMap, texCoord);</span><br><span class="line"><span class="comment">// Fetch reflected color by sampling a cube map</span></span><br><span class="line">float4 reflectedColor = texCUBE(environmentMap, refection_dir);</span><br><span class="line"><span class="comment">// Output is weighted average of the two colors</span></span><br><span class="line">color = lerp(surfaceColor, refectedColor, shiny);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Although this shader program is only three lines long, it activates a lot of GPU hardware. For each texture fetch, the GPU texture subsystem makes multiple memory accesses to sample image colors in the vicinity of the sampling coordinates, and then interpolates the final result with ﬂoating-point fltering arithmetic. The multithreaded GPU executes thousands of these lightweight Cg pixel shader threads in parallel, deeply interleaving them to hide texture fetch and memory latency.<br>虽然这个着色器程序只有三行，但它激活了很多GPU硬件。 对于每次纹理提取，GPU纹理子系统对采样坐标附近的采样图像颜色进行多次存储器访问，然后使用浮点运算算法对最终结果进行插值。 多线程GPU并行执行数千个这些轻量级Cg像素着色器线程，深度交错以隐藏纹理获取和内存延迟。<br>Cg focuses the programmer’s view to a single vertex or primitive or pixel, which the GPU implements as a single thread; the shader program transparently scales to exploit thread parallelism on the available processors. Being applicationspecifc, Cg provides a rich set of useful data types, library functions, and language constructs to express diverse rendering techniques.<br>Cg将程序员的视图聚焦到单个顶点或基元或像素，GPU将其实现为单个线程; 着色器程序透明地扩展以利用可用处理器上的线程并行性。 作为应用程序规范，Cg提供了丰富的有用数据类型，库函数和语言结构，以表达各种呈现技术。<br>Figure C.3.2 shows skin rendered by a fragment pixel shader. Real skin appears quite different from ﬂesh-color paint because light bounces around a lot before re-emerging. In this complex shader, three separate skin layers, each with unique subsurface scattering behavior, are modeled to give the skin a visual depth and translucency. Scattering can be modeled by a blurring convolution in a fattened “texture” space, with red being blurred more than green, and blue blurred less. The compiled Cg shader executes 1400 instructions to compute the color of one skin pixel.<br>图C.3.2显示了由片段像素着色器渲染的外观。 真正的皮肤看起来与粉红色涂料完全不同，因为在重新出现之前，光线会在很多地方反弹。 在这个复杂的着色器中，三个独立的皮肤层（每个都具有独特的次表面散射行为）被建模，以赋予皮肤视觉深度和半透明度。 散射可以通过在肥胖的“纹理”空间中的模糊卷积来建模，其中红色比绿色更模糊，而蓝色模糊得更少。 编译的Cg着色器执行1400条指令以计算一个皮肤像素的颜色。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126034418529.png" alt=""></p>
+<p>As GPUs have evolved superior ﬂoating-point performance and very high streaming memory bandwidth for real-time graphics, they have attracted highly parallel applications beyond traditional graphics. At frst, access to this power was available only by couching an application as a graphics-rendering algorithm, but this GPGPU approach was ofen awkward and limiting. More recently, the CUDA programming model has provided a far easier way to exploit the scalable high-performance ﬂoating-point and memory bandwidth of GPUs with the C programming language.<br>由于GPU已经为实时图形提供了出色的浮点性能和非常高的流存储器带宽，因此它们吸引了超越传统图形的高度并行应用。 首先，只有通过将应用程序作为图形渲染算法进行访问才能获得这种功能，但是这种GPGPU方法非常笨拙且有限。 最近，CUDA编程模型提供了一种更简单的方法，可以利用C编程语言利用GPU的可扩展高性能浮点和存储器带宽。</p>
+<h2 id="Programming-Parallel-Computing-Applications"><a href="#Programming-Parallel-Computing-Applications" class="headerlink" title="Programming Parallel Computing Applications"></a>Programming Parallel Computing Applications</h2><p>CUDA, Brook, and CAL are programming interfaces for GPUs that are focused on data parallel computation rather than on graphics. CAL (Compute Abstraction Layer) is a low-level assembler language interface for AMD GPUs. Brook is a streaming language adapted for GPUs by Buck et al. [2004]. CUDA, developed by NVIDIA [2007], is an extension to the C and C++ languages for scalable parallel programming of manycore GPUs and multicore CPUs. The CUDA programming model is described below, adapted from an article by Nickolls et al.[2008].<br>CUDA，Brook和CAL是GPU的编程接口，专注于数据并行计算而非图形。 CAL（Compute Abstraction Layer）是AMD GPU的低级汇编语言接口。 Brook是一种适用于GPU等GPU的流媒体语言。[2004年]。 由NVIDIA [2007]开发的CUDA是C和C ++语言的扩展，用于多核GPU和多核CPU的可扩展并行编程。 下面描述了CUDA编程模型，改编自Nickolls等人[2008]的文章。</p>
+<p>With the new model the GPU excels in data parallel and throughput computing, executing high performance computing applications as well as graphics applications.<br>凭借新型号，GPU擅长数据并行和吞吐量计算，执行高性能计算应用程序以及图形应用程序。</p>
+<h2 id="Data-Parallel-Problem-Decomposition-数据并行问题分解"><a href="#Data-Parallel-Problem-Decomposition-数据并行问题分解" class="headerlink" title="Data Parallel Problem Decomposition 数据并行问题分解"></a>Data Parallel Problem Decomposition 数据并行问题分解</h2><p>To map large computing problems effectively to a highly parallel processing architecture, the programmer or compiler decomposes the problem into many small problems that can be solved in parallel. For example, the programmer partitions a large result data array into blocks and further partitions each block into elements, such that the result blocks can be computed independently in parallel, and the elements within each block are computed in parallel. Figure C.3.3 shows a decomposition of a result data array into a 3 x 2 grid of blocks, where each block is further decomposed into a 5 x 3 array of elements. Te two-level parallel decomposition maps naturally to the GPU architecture: parallel multiprocessors compute result blocks, and parallel threads compute result elements.<br>为了将大型计算问题有效地映射到高度并行的处理架构，程序员或编译器将问题分解为许多可以并行解决的小问题。 例如，程序员将大结果数据阵列分成块并进一步将每个块分成元素，使得结果块可以独立地并行计算，并且每个块内的元素是并行计算的。 图C.3.3显示了将结果数据阵列分解为3×2的块网格，其中每个块进一步分解为5×3的元素阵列。 两级并行分解自然地映射到GPU架构：并行多处理器计算结果块，并行线程计算结果元素。</p>
+<p>The programmer writes a program that computes a sequence of result data grids, partitioning each result grid into coarse-grained result blocks that can be computed independently in parallel. The program computes each result block with<br>an array of fine-grained parallel threads, partitioning the work among threads so that each computes one or more result elements.<br>程序员编写一个程序来计算结果数据网格序列，将每个结果网格划分为可以并行独立计算的粗粒度结果块。 程序使用细粒度并行线程数组计算每个结果块，在线程之间对工作进行分区，以便每个都计算一个或多个结果元素。</p>
+<h2 id="Scalable-Parallel-Programming-with-CUDA-使用CUDA进行可扩展的并行编程"><a href="#Scalable-Parallel-Programming-with-CUDA-使用CUDA进行可扩展的并行编程" class="headerlink" title="Scalable Parallel Programming with CUDA 使用CUDA进行可扩展的并行编程"></a>Scalable Parallel Programming with CUDA 使用CUDA进行可扩展的并行编程</h2><p>The CUDA scalable parallel programming model extends the C and C++ languages to exploit large degrees of parallelism for general applications on highly parallel multiprocessors, particularly GPUs. Early experience with CUDA shows that many sophisticated programs can be readily expressed with a few easily understood abstractions. Since NVIDIA released CUDA in 2007, developers have rapidly developed scalable parallel programs for a wide range of applications, including seismic data processing, computational chemistry, linear algebra, sparse matrix solvers, sorting, searching, physics models, and visual computing. These applications scale transparently to hundreds of processor cores and thousands of concurrent threads. NVIDIA GPUs with the Tesla unifed graphics and computing architecture (described in Sections C.4 and C.7) run CUDA C programs, and are widely available in laptops, PCs, workstations, and servers. The CUDA model is also applicable to other shared memory parallel processing architectures, including multicore CPUs.<br>CUDA可扩展并行编程模型扩展了C和C ++语言，以便在高度并行的多处理器（尤其是GPU）上为一般应用程序利用大程度的并行性。早期使用CUDA的经验表明，许多复杂的程序可以通过一些易于理解的抽象来表达。自NVIDIA于2007年发布CUDA以来，开发人员已迅速开发出可扩展的并行程序，适用于各种应用，包括地震数据处理，计算化学，线性代数，稀疏矩阵求解器，排序，搜索，物理模型和视觉计算。这些应用程序透明地扩展到数百个处理器核心和数千个并发线程。采用Tesla统一图形和计算架构的NVIDIA GPU（在C.4和C.7节中描述）运行CUDA C程序，并广泛用于笔记本电脑，PC，工作站和服务器。 CUDA模型也适用于其他共享内存并行处理体系结构，包括多核CPU。<br><img src="/Programming_GPUs/20190126034518166.png" alt=""><br>CUDA provides three key abstractions-a hierarchy of thread groups, shared memories, and barrier synchronization—that provide a clear parallel structure to conventional C code for one thread of the hierarchy. Multiple levels of threads, memory, and synchronization provide fine-grained data parallelism and thread parallelism, nested within coarse-grained data parallelism and task parallelism. The abstractions guide the programmer to partition the problem into coarse subproblems that can be solved independently in parallel, and then into fner pieces that can be solved in parallel. The programming model scales transparently to large numbers of processor cores: a compiled CUDA program executes on any number of processors, and only the runtime system needs to know the physical processor count.<br>CUDA提供三个关键的抽象 - 线程组，共享存储器和屏障同步的层次结构 - 为层次结构的一个线程提供与传统C代码的清晰并行结构。 多级线程，内存和同步提供细粒度数据并行和线程并行，嵌套在粗粒度数据并行和任务并行中。 抽象指导程序员将问题划分为粗略的子问题，这些子问题可以并行独立解决，然后分成可以并行求解的更多部分。 编程模型透明地扩展到大量处理器内核：编译的CUDA程序在任意数量的处理器上执行，只有运行时系统需要知道物理处理器数量。</p>
+<h2 id="The-CUDA-Paradigm-CUDA范式"><a href="#The-CUDA-Paradigm-CUDA范式" class="headerlink" title="The CUDA Paradigm CUDA范式"></a>The CUDA Paradigm CUDA范式</h2><p>CUDA is a minimal extension of the C and C++ programming languages. The programmer writes a serial program that calls parallel kernels, which may be simple functions or full programs. A kernel executes in parallel across a set of parallel threads. The programmer organizes these threads into a hierarchy of thread blocks and grids of thread blocks. A thread block is a set of concurrent threads that can cooperate among themselves through barrier synchronization and through shared access to a memory space private to the block. A grid is a set of thread blocks that may each be executed independently and thus may execute in parallel.<br>CUDA是C和C ++编程语言的最小扩展。 程序员编写一个调用并行内核的串行程序，可以是简单的函数或完整的程序。 内核跨一组并行线程并行执行。 程序员将这些线程组织成线程块和线程块网格的层次结构。 线程块是一组并发线程，它们可以通过屏障同步和通过对块专用的内存空间的共享访问来相互协作。 网格是一组线程块，每个线程块可以独立执行，因此可以并行执行。</p>
+<blockquote>
+<p>kernel: A program or function for one thread, designed to be executed by many threads.一个程序或函数，用于一个线程，旨在由许多线程执行。</p>
+</blockquote>
+<blockquote>
+<p>thread block: A set of concurrent threads that execute the same thread program and may cooperate to compute a result.一组并发线程，它们执行相同的线程程序并可以协作计算结果。</p>
+</blockquote>
+<blockquote>
+<p>grid: A set of thread blocks that execute the same kernel program 一组执行相同内核程序的线程块</p>
+</blockquote>
+<p>When invoking a kernel, the programmer specifes the number of threads per block and the number of blocks comprising the grid. Each thread is given a unique thread ID number threadIdx within its thread block, numbered 0, 1, 2, …, blockDim-1, and each thread block is given a unique block ID number blockIdx within its grid. CUDA supports thread blocks containing up to 512 threads. For convenience, thread blocks and grids may have 1, 2, or 3 dimensions, accessed via .x, .y, and .z index fields.<br>在调用内核时，程序员指定每个块的线程数和构成网格的块数。 每个线程在其线程块内被赋予唯一的线程ID号threadIdx，编号为0,1,2，…，blockDim-1，并且每个线程块在其网格内被赋予唯一的块ID号blockIdx。 CUDA支持包含多达512个线程的线程块。 为方便起见，线程块和网格可以有1,2或3个维度，可通过.x，.y和.z索引字段访问。</p>
+<p>As a very simple example of parallel programming, suppose that we are given two vectors x and y of n ﬂoating-point numbers each and that we wish to compute the result of y = ax + y for some scalar value a. This is the so-called SAXPY kernel defined by the BLAS linear algebra library. Figure C.3.4 shows C code for performing this computation on both a serial processor and in parallel using CUDA.<br>作为并行编程的一个非常简单的例子，假设我们给出了两个向量x和y的n个浮点数，并且我们希望计算某些标量值a的y = ax + y的结果。 这是由BLAS线性代数库定义的所谓的SAXPY内核。 图C.3.4显示了使用CUDA在串行处理器和并行上执行此计算的C代码。</p>
+<p>The __global__ declaration specifer indicates that the procedure is a kernel<br>entry point. CUDA programs launch parallel kernels with the extended function<br>call syntax:<br>__global__声明说明符表明该过程是一个内核入口点。 CUDA程序使用扩展功能启动并行内核调用语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kernel&lt;&lt;&lt;dimGrid, dimBlock&gt;&gt;&gt;(... parameter list ...);</span><br></pre></td></tr></table></figure>
+<p>where dimGrid and dimBlock are three-element vectors of type dim3 that specify the dimensions of the grid in blocks and the dimensions of the blocks in threads, respectively. Unspecifed dimensions default to one.<br>其中dimGrid和dimBlock是dim3类型的三元素向量，分别指定块中网格的尺寸和线程中块的尺寸。 未指定的维度默认为1。</p>
+<p>In Figure C.3.4, we launch a grid of n threads that assigns one thread to each element of the vectors and puts 256 threads in each block. Each individual thread computes an element index from its thread and block IDs and then performs the desired calculation on the corresponding vector elements. Comparing the serial and parallel versions of this code, we see that they are strikingly similar. This represents a fairly common pattern. Te serial code consists of a loop where each iteration is independent of all the others. Such loops can be mechanically transformed into parallel kernels: each loop iteration becomes an independent thread. By assigning a single thread to each output element, we avoid the need for any synchronization among threads when writing results to memory.<br>在图C.3.4中，我们启动了一个包含n个线程的网格，它为一个向量的每个元素分配一个线程，并在每个块中放入256个线程。每个单独的线程从其线程和块ID计算元素索引，然后对相应的向量元素执行所需的计算。比较此代码的串行和并行版本，我们发现它们非常相似。这代表了一种相当普遍的模式。 Te序列代码由一个循环组成，其中每个迭代独立于所有其他迭代。这样的循环可以机械地转换为并行内核：每个循环迭代成为一个独立的线程。通过为每个输出元素分配单个线程，我们避免了在将结果写入内存时线程之间的任何同步。</p>
+<p>The text of a CUDA kernel is simply a C function for one sequential thread. Thus, it is generally straightforward to write and is typically simpler than writing parallel code for vector operations. Parallelism is determined clearly and explicitly by specifying the dimensions of a grid and its thread blocks when launching a kernel.</p>
+<p>CUDA内核的文本只是一个顺序线程的C函数。因此，编写通常很简单，并且通常比为向量操作编写并行代码更简单。通过在启动内核时指定网格及其线程块的尺寸，可以清楚明确地确定并行性。</p>
+<p><img src="/Programming_GPUs/20190126034832372.png" alt=""></p>
+<p>Parallel execution and thread management is automatic. All thread creation, scheduling, and termination is handled for the programmer by the underlying system. Indeed, a Tesla architecture GPU performs all thread management directly in hardware. The threads of a block execute concurrently and may synchronize at a synchronization barrier by calling the __syncthreads() intrinsic. This guarantees that no thread in the block can proceed until all threads in the block have reached the barrier. Afer passing the barrier, these threads are also guaranteed to see all writes to memory performed by threads in the block before the barrier. Thus, threads in a block may communicate with each other by writing and reading per-block shared memory at a synchronization barrier.<br>并行执行和线程管理是自动的。 所有线程创建，调度和终止都由底层系统为程序员处理。 实际上，Tesla架构GPU直接在硬件中执行所有线程管理。 块的线程并发执行，并且可以通过调用__syncthreads（）内在函数在同步屏障上同步。 这保证了块中的所有线程都到达屏障之前块中的任何线程都不能继续。 在通过屏障后，这些线程也可以保证在屏障之前看到块中线程执行的所有内存写入。<br>因此，块中的线程可以通过在同步屏障处写入和读取每块共享存储器来彼此通信。</p>
+<blockquote>
+<p>synchronization barrier: Threads wait at a synchronization barrier until all threads in the thread block arrive at the barrier. 线程在同步障碍处等待，直到线程块中的所有线程到达屏障。</p>
+</blockquote>
+<p>Since threads in a block may share memory and synchronize via barriers, they will reside together on the same physical processor or multiprocessor. The number of thread blocks can, however, greatly exceed the number of processors. The CUDA thread programming model virtualizes the processors and gives the programmer the ﬂexibility to parallelize at whatever granularity is most convenient. Virtualization into threads and thread blocks allows intuitive problem decompositions, as the number of blocks can be dictated by the size of the data being processed rather than by the number of processors in the system. It also allows the same CUDA program to scale to widely varying numbers of processor cores.<br>由于块中的线程可以共享内存并通过障碍进行同步，因此它们将一起驻留在同一物理处理器或多处理器上。 但是，线程块的数量可以大大超过处理器的数量。 CUDA线程编程模型虚拟化处理器，并使程序员能够灵活地以最方便的粒度进行并行化。 虚拟化到线程和线程块允许直观的问题分解，因为块的数量可以由正在处理的数据的大小而不是由系统中的处理器的数量决定。 它还允许相同的CUDA程序扩展到各种数量的处理器内核。</p>
+<p>To manage this processing element virtualization and provide scalability, CUDA requires that thread blocks be able to execute independently. It must be possible to execute blocks in any order, in parallel or in series. Different blocks have no means of direct communication, although they may coordinate their activities using atomic memory operations on the global memory visible to all threads—by atomically incrementing queue pointers, for example. This independence requirement allows thread blocks to be scheduled in any order across any number of cores, making the CUDA model scalable across an arbitrary number of cores as well as across a variety of parallel architectures. It also helps to avoid the possibility of deadlock. An application may execute multiple grids either independently or dependently. Independent grids may execute concurrently, given sufcient hardware resources. Dependent grids execute sequentially, with an implicit interkernel barrier between them, thus guaranteeing that all blocks of the first grid complete before any block of the second, dependent grid begins.<br>为了管理此处理元素虚拟化并提供可伸缩性，CUDA要求线程块能够独立执行。必须能够以任何顺序，并行或串行执行块。不同的块没有直接通信的手段，尽管它们可以使用原子内存操作在所有线程可见的全局内存上协调它们的活动 - 例如通过原子递增的队列指针。这种独立性要求允许在任意数量的内核上以任何顺序调度线程块，使CUDA模型可以跨任意数量的内核以及各种并行体系结构进行扩展。它还有助于避免死锁的可能性。应用程序可以独立地或依赖地执行多个网格。在给定足够的硬件资源的情况下，独立网格可以同时执行。依赖网格顺序执行，它们之间具有隐式内核屏障，从而保证第一网格的所有块在第二依赖网格的任何块开始之前完成。</p>
+<blockquote>
+<p>atomic memory operation: A memory read, modify, write operation sequence that completes without any intervening access.内存读取，修改，写入操作序列，无需任何中间访问即可完成。</p>
+</blockquote>
+<p>Threads may access data from multiple memory spaces during their execution. Each thread has a private local memory. CUDA uses local memory for threadprivate variables that do not ft in the thread’s registers, as well as for stack frames and register spilling. Each thread block has a shared memory, visible to all threads of the block, which has the same lifetime as the block. Finally, all threads have access to the same global memory. Programs declare variables in shared and global memory with the <strong>shared</strong> and <strong>device</strong> type qualifers. On a Tesla architecture GPU, these memory spaces correspond to physically separate memories: per-block shared memory is a low-latency on-chip RAM, while global memory resides in the fast DRAM on the graphics board.<br>线程可以在执行期间从多个存储空间访问数据。 每个线程都有一个私有本地内存。 CUDA将本地内存用于线程私有变量，这些变量不在线程寄存器中，也不用于堆栈帧和寄存器溢出。 每个线程块都有一个共享内存，对块的所有线程都是可见的，它与块的生命周期相同。 最后，所有线程都可以访问相同的全局内存。 程序使用<strong>shared</strong>和<strong>device</strong>类型的限定符在共享和全局内存中声明变量。 在Tesla架构GPU上，这些存储空间对应于物理上独立的存储器：每块共享存储器是低延迟片上RAM，而全局存储器驻留在图形板上的快速DRAM中。</p>
+<blockquote>
+<p>local memory: Per-thread local memory private to the thread. 每线程本地内存对线程是私有的。<br>shared memory: Per-block memory shared by all threads of the block. 块的所有线程共享的每块内存。<br>global memory: Per-application memory shared by all threads. 所有线程共享的每个应用程序内存。</p>
+</blockquote>
+<p>Shared memory is expected to be a low-latency memory near each processor, much like an L1 cache. It can therefore provide high-performance communication and data sharing among the threads of a thread block. Since it has the same lifetime as its corresponding thread block, kernel code will typically initialize data in shared variables, compute using shared variables, and copy shared memory results to global memory. Thread blocks of sequentially dependent grids communicate via global memory, using it to read input and write results.<br>共享内存预计是每个处理器附近的低延迟内存，很像L1缓存。 因此，它可以在线程块的线程之间提供高性能通信和数据共享。 由于它与相应的线程块具有相同的生命周期，因此内核代码通常会初始化共享变量中的数据，使用共享变量进行计算，并将共享内存结果复制到全局内存中。 顺序相关网格的线程块通过全局存储器进行通信，使用它来读取输入和写入结果。<br>Figure C.3.5 shows diagrams of the nested levels of threads, thread blocks, and grids of thread blocks. It further shows the corresponding levels of memory sharing: local, shared, and global memories for per-thread, per-thread-block, and per-application data sharing.<br>图C.3.5显示了线程块的线程，线程块和网格的嵌套级别的图表。 它进一步显示了相应的内存共享级别：每个线程，每个线程块和每个应用程序数据共享的本地，共享和全局内存。</p>
+<p>A program manages the global memory space visible to kernels through calls to the CUDA runtime, such as cudaMalloc() and cudaFree(). Kernels may execute on a physically separate device, as is the case when running kernels on the GPU. Consequently, the application must use cudaMemcpy() to copy data between the allocated space and the host system memory.<br>程序通过调用CUDA运行时（例如cudaMalloc（）和cudaFree（））来管理内核可见的全局内存空间。 内核可以在物理上独立的设备上执行，就像在GPU上运行内核一样。 因此，应用程序必须使用cudaMemcpy（）在分配的空间和主机系统内存之间复制数据。</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035148883.png" alt=""></p>
+<p>The CUDA programming model is similar in style to the familiar singleprogram multiple data (SPMD) model—it expresses parallelism explicitly, and each kernel executes on a fxed number of threads. However, CUDA is more ﬂexible than most realizations of SPMD, because each kernel call dynamically creates a new grid with the right number of thread blocks and threads for that application step. The programmer can use a convenient degree of parallelism for each kernel, rather than having to design all phases of the computation to use the same number<br>of threads. Figure C.3.6 shows an example of an SPMD-like CUDA code sequence. It first instantiates kernelF on a 2D grid of 3 x 2 blocks where each 2D thread block consists of 5 x 3 threads. It then instantiates kernelG on a 1D grid of four 1D thread blocks with six threads each. Because kernelG depends on the results of kernelF, they are separated by an interkernel synchronization barrier.<br>CUDA编程模型的风格类似于熟悉的单程序多数据（SPMD）模型 - 它明确地表达并行性，并且每个内核在固定数量的线程上执行。 但是，CUDA比SPMD的大多数实现更灵活，因为每个内核调用动态地为该应用程序步骤创建具有正确数量的线程块和线程的新网格。 程序员可以为每个内核使用方便的并行度，而不必设计计算的所有阶段以使用相同数量的线程。 图C.3.6显示了类似SPMD的CUDA代码序列的示例。 它首先在3 x 2块的2D网格上实例化kernelF，其中每个2D线程块由5 x 3个线程组成。 然后，它在四个1D线程块的1D网格上实例化kernelG，每个线程块有6个线程。 因为kernelG依赖于kernelF的结果，所以它们被内核同步障碍隔开。</p>
+<blockquote>
+<p>single-program multiple data (SPMD): A style of parallel programming model in which all threads execute the same program. SPMD threads typically coordinate with barrier synchronization.一种并行编程模型，其中所有线程都执行相同的程序。 SPMD线程通常与屏障同步协调。</p>
+</blockquote>
+<p>The concurrent threads of a thread block express fne-grained data parallelism and thread parallelism. The independent thread blocks of a grid express coarse-grained data parallelism. Independent grids express coarse-grained task parallelism. A kernel is simply C code for one thread of the hierarchy.<br>线程块的并发线程表示细粒度数据并行性和线程并行性。 网格的独立线程块表示粗粒度数据并行性。 独立网格表示粗粒度的任务并行性。 内核只是层次结构中一个线程的C代码<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035347204.png" alt=""></p>
+<h2 id="Restrictions"><a href="#Restrictions" class="headerlink" title="Restrictions"></a>Restrictions</h2><p>For efficiency, and to simplify its implementation, the CUDA programming model has some restrictions. Threads and thread blocks may only be created by invoking a parallel kernel, not from within a parallel kernel. Together with the required independence of thread blocks, this makes it possible to execute CUDA programs with a simple scheduler that introduces minimal runtime overhead. In fact, the Tesla GPU architecture implements hardware management and scheduling of threads and thread blocks.<br>为了提高效率并简化其实现，CUDA编程模型有一些限制。线程和线程块只能通过调用并行内核来创建，而不能通过并行内核来创建。与线程块所需的独立性一起，这使得使用简单的调度程序执行CUDA程序成为可能，该调度程序引入了最小的运行时开销。实际上，Tesla GPU架构实现了线程和线程块的硬件管理和调度。</p>
+<p>Task parallelism can be expressed at the thread block level but is difficult to express within a thread block because thread synchronization barriers operate on all the threads of the block. To enable CUDA programs to run on any number of processors, dependencies among thread blocks within the same kernel grid are not allowed—blocks must execute independently. Since CUDA requires that thread blocks be independent and allows blocks to be executed in any order, combining results generated by multiple blocks must in general be done by launching a second kernel on a new grid of thread blocks (although thread blocks may coordinate their activities using atomic memory operations on the global memory visible to all threads—by atomically incrementing queue pointers, for example).任务并行性可以在线程块级别表示，但难以在线程块内表达，因为线程同步障碍在块的所有线程上运行。要使CUDA程序能够在任意数量的处理器上运行，不允许同一内核网格中的线程块之间的依赖关系 - 块必须独立执行。由于CUDA要求线程块是独立的并且允许以任何顺序执行块，因此通常必须通过在新的线程块网格上启动第二个内核来组合由多个块生成的结果（尽管线程块可以使用它来协调它们的活动）所有线程都可见的全局内存上的原子内存操作 - 例如，通过原子递增队列指针）。</p>
+<p>Recursive function calls are not currently allowed in CUDA kernels. Recursion is unattractive in a massively parallel kernel, because providing stack space for the tens of thousands of threads that may be active would require substantial amounts of memory. Serial algorithms that are normally expressed using recursion, such as<br>quicksort, are typically best implemented using nested data parallelism rather than explicit recursion.<br>CUDA内核当前不允许递归函数调用。 递归在大规模并行内核中没有吸引力，因为为可能活跃的数万个线程提供堆栈空间将需要大量的内存。 通常使用递归表示的串行算法（例如快速排序）通常最好使用嵌套数据并行而不是显式递归来实现。</p>
+<p>To support a heterogeneous system architecture combining a CPU and a GPU, each with its own memory system, CUDA programs must copy data and results between host memory and device memory. The overhead of CPU–GPU interaction and data transfers is minimized by using DMA block transfer engines and fast interconnects. Compute-intensive problems large enough to need a GPU performance boost amortize the overhead better than small problems.<br>为了支持组合CPU和GPU的异构系统架构，每个架构都有自己的内存系统，CUDA程序必须在主机内存和设备内存之间复制数据和结果。 通过使用DMA块传输引擎和快速互连，可以最大限度地减少CPU-GPU交互和数据传输的开销。 大到足以需要GPU性能提升的计算密集型问题可以比小问题更好地分摊开销。</p>
+<h2 id="Implications-for-Architecture-对建筑的启示"><a href="#Implications-for-Architecture-对建筑的启示" class="headerlink" title="Implications for Architecture 对建筑的启示"></a>Implications for Architecture 对建筑的启示</h2><p>The parallel programming models for graphics and computing have driven GPU architecture to be different than CPU architecture. The key aspects of GPU programs driving GPU processor architecture are:<br>用于图形和计算的并行编程模型驱动GPU架构与CPU架构不同。 GPU程序驱动GPU处理器架构的关键方面是：</p>
+<ul>
+<li>Extensive use of fne-grained data parallelism: Shader programs describe how to process a single pixel or vertex, and CUDA programs describe how to compute an individual result.广泛使用细粒度数据并行：着色器程序描述如何处理单个像素或顶点，而CUDA程序描述如何计算单个结果。</li>
+<li>Highly threaded programming model: A shader thread program processes a single pixel or vertex, and a CUDA thread program may generate a single result. A GPU must create and execute millions of such thread programs per frame, at 60 frames per second. 高线程编程模型：着色器线程程序处理单个像素或顶点，CUDA线程程序可以生成单个结果。 GPU必须每帧创建并执行数百万个这样的线程程序，每秒60帧。</li>
+<li>Scalability: A program must automatically increase its performance when provided with additional processors, without recompiling. 程序必须在提供额外的处理器时自动提高其性能，而无需重新编译。</li>
+<li>Intensive ﬂoating-point (or integer) computation.强化浮点（或整数）计算。</li>
+<li>Support of high throughput computations.支持高吞吐量计算。</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/24/Programming_GPUs/" title="3_Programming_GPUs">http://cooguyan.github.io/2019/01/24/Programming_GPUs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/23/GPU_System_Architectures/" rel="next" title="2_GPU_System_Architectures">
+                <i class="fa fa-chevron-left"></i> 2_GPU_System_Architectures
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/27/Multithreaded_Multiprocessor_Architecture/" rel="prev" title="4_Multithreaded_Multiprocessor_Architecture">
+                4_Multithreaded_Multiprocessor_Architecture <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Programming-Real-Time-Graphics-实时图形编程"><span class="nav-number">1.</span> <span class="nav-text">Programming Real-Time Graphics 实时图形编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logical-Graphics-Pipeline-逻辑图形管道"><span class="nav-number">2.</span> <span class="nav-text">Logical Graphics Pipeline 逻辑图形管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Graphics-Shader-Programs-图形着色器程序"><span class="nav-number">3.</span> <span class="nav-text">Graphics Shader Programs 图形着色器程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pixel-Shader-Example"><span class="nav-number">4.</span> <span class="nav-text">Pixel Shader Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Programming-Parallel-Computing-Applications"><span class="nav-number">5.</span> <span class="nav-text">Programming Parallel Computing Applications</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Parallel-Problem-Decomposition-数据并行问题分解"><span class="nav-number">6.</span> <span class="nav-text">Data Parallel Problem Decomposition 数据并行问题分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scalable-Parallel-Programming-with-CUDA-使用CUDA进行可扩展的并行编程"><span class="nav-number">7.</span> <span class="nav-text">Scalable Parallel Programming with CUDA 使用CUDA进行可扩展的并行编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-CUDA-Paradigm-CUDA范式"><span class="nav-number">8.</span> <span class="nav-text">The CUDA Paradigm CUDA范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Restrictions"><span class="nav-number">9.</span> <span class="nav-text">Restrictions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implications-for-Architecture-对建筑的启示"><span class="nav-number">10.</span> <span class="nav-text">Implications for Architecture 对建筑的启示</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述首先声明：经过对项目的分析以及对区块链特性的了解，我认为：医院私有区块链是没有意义的。区块链的私有化，会导致区块链丧失其“去中心化”的特征，也就意味着第三方无法承认该链所包含的信息。">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="练习项目：区块链在医院的应用">
+<meta property="og:url" content="http://cooguyan.github.io/2018/05/07/练习项目：区块链在医院的应用/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="概述首先声明：经过对项目的分析以及对区块链特性的了解，我认为：医院私有区块链是没有意义的。区块链的私有化，会导致区块链丧失其“去中心化”的特征，也就意味着第三方无法承认该链所包含的信息。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9C%A8%E5%8C%BB%E9%99%A2%E7%9A%84%E5%BA%94%E7%94%A8/20180507104653295.png">
+<meta property="og:image" content="http://img.mp.itc.cn/upload/20161110/60adbe5824b942b996bb1507b5218636_th.png">
+<meta property="og:image" content="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9C%A8%E5%8C%BB%E9%99%A2%E7%9A%84%E5%BA%94%E7%94%A8/20180507102931498.png">
+<meta property="og:updated_time" content="2018-05-07T15:58:28.163Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="练习项目：区块链在医院的应用">
+<meta name="twitter:description" content="概述首先声明：经过对项目的分析以及对区块链特性的了解，我认为：医院私有区块链是没有意义的。区块链的私有化，会导致区块链丧失其“去中心化”的特征，也就意味着第三方无法承认该链所包含的信息。">
+<meta name="twitter:image" content="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9C%A8%E5%8C%BB%E9%99%A2%E7%9A%84%E5%BA%94%E7%94%A8/20180507104653295.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/05/07/练习项目：区块链在医院的应用/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>练习项目：区块链在医院的应用 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/05/07/练习项目：区块链在医院的应用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">练习项目：区块链在医院的应用
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-07 17:27:32 / 修改时间：23:58:28" itemprop="dateCreated datePublished" datetime="2018-05-07T17:27:32+08:00">2018-05-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>首先声明：经过对项目的分析以及对区块链特性的了解，我认为：医院私有区块链是没有意义的。区块链的私有化，会导致区块链丧失其“去中心化”的特征，也就意味着第三方无法承认该链所包含的信息。<br><a id="more"></a></p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9C%A8%E5%8C%BB%E9%99%A2%E7%9A%84%E5%BA%94%E7%94%A8/20180507104653295.png" alt=""></p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><ol>
+<li>P2P服务模块</li>
+<li>挖矿模块</li>
+</ol>
+<h3 id="P2P服务模块"><a href="#P2P服务模块" class="headerlink" title="P2P服务模块"></a>P2P服务模块</h3><p>P2P服务模块负责与其他节点建立连接。程序运行后常驻内存，主要负责监听其他节点的广播信息，同时挖矿模块也通过它来宣布自己的挖矿成果。</p>
+<ul>
+<li>节点列表：用来存放网络环境中所有节点的IP和端口号</li>
+<li>监听线程：while(true) 监听所有节点广播的消息</li>
+<li>文件接收线程：负责文件的接收和缓冲，文件按流接收</li>
+</ul>
+<p>TCP协议发送文件的时候是发送的字节流，那么它是无法知道一个文件是否已经传送完了的。按照老师的设想，他打算在医院服务器向数据库传输文件的时候，通过某种方式获取到它。实现所谓的，上传一个处理一个。</p>
+<h3 id="挖矿模块"><a href="#挖矿模块" class="headerlink" title="挖矿模块"></a>挖矿模块</h3><p>想不到什么好名字，就叫挖矿模块吧。挖矿模块包括</p>
+<ul>
+<li>挖矿线程（SM3运算）</li>
+<li>区块有效性验证：当P2P服务模块监听到其他节点的区块广播后，立即暂停挖矿线程，并对传入的模块进行认证</li>
+<li>文件队列</li>
+</ul>
+<p>当文件队列为空的时候</p>
+<h3 id="区块结构"><a href="#区块结构" class="headerlink" title="区块结构"></a>区块结构</h3><p>区块头</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"hash"</span>: <span class="string">"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee"</span>,</span><br><span class="line">    <span class="attr">"ver"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"prev_block"</span>: <span class="string">"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"</span>,</span><br><span class="line">    <span class="attr">"mrkl_root"</span>: <span class="string">"7dac2c5666815c17a3b36427de37bb9d2e2c5ccec3f8633eb91a4205cb4c10ff"</span>,</span><br><span class="line">    <span class="attr">"time"</span>: <span class="number">1231731025</span>,</span><br><span class="line">    <span class="attr">"bits"</span>: <span class="number">486604799</span>,</span><br><span class="line">    <span class="attr">"nonce"</span>: <span class="number">1889418792</span></span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>区块体</strong><br>区块体中存放文件的Hash值，这个值可以使用任何散列函数得出，当然也可以用SM3。区块体中存放多少个文件的Hash值以及存放信息的具体结构设计暂未确定。另外，老师的意见是不保留区块体，所有节点只保留区块头以节省空间。我认为保留区块体可以使区块链与数据库的对应关系的建立变得简单。私有链的一个特点就是用户量小，产生的信息也相对较少。所以保留hash值以及其他辅助信息，并不会太占用空间。</p>
+<h3 id="技术疑难"><a href="#技术疑难" class="headerlink" title="技术疑难"></a>技术疑难</h3><ul>
+<li>区块链与数据库文件对应关系的建立</li>
+<li>P2P网络发现。即如何实现机房内节点在启动时可以互相发现？</li>
+<li>TCP传输大文件的处理</li>
+<li>当传输文件较多，上传的速度大于所有节点的处理速度时，是要求服务器等待</li>
+</ul>
+<h2 id="挖矿原理"><a href="#挖矿原理" class="headerlink" title="挖矿原理"></a>挖矿原理</h2><p><img src="http://img.mp.itc.cn/upload/20161110/60adbe5824b942b996bb1507b5218636_th.png" alt="图片来自巴比特"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">int32_t</td>
+<td style="text-align:center">nVersion</td>
+<td style="text-align:center">版本号，4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">uint256</td>
+<td style="text-align:center">hashPrevBlock</td>
+<td style="text-align:center">前一个区块的区块头hash值，32字节</td>
+</tr>
+<tr>
+<td style="text-align:center">uint256</td>
+<td style="text-align:center">hashMerkleRoot</td>
+<td style="text-align:center">包含进本区块的所有交易构造的Merkle树根，32字节</td>
+</tr>
+<tr>
+<td style="text-align:center">uint32_t</td>
+<td style="text-align:center">nTime</td>
+<td style="text-align:center">Unix时间戳，4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">uint32_t</td>
+<td style="text-align:center">nBits</td>
+<td style="text-align:center">记录本区块难度，4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">uint32_t</td>
+<td style="text-align:center">nNonce</td>
+<td style="text-align:center">随机数，4字节</td>
+</tr>
+</tbody>
+</table>
+<p>如上<br>比特币每一次挖矿就是对这80个字节连续进行两次SHA256运算(SHA256D)，运算结果是固定的32字节(二进制256位)。</p>
+<blockquote>
+<p>注:SHA256D即， SHA256D(x) =SHA256(SHA256(x))</p>
+</blockquote>
+<p>以上3个字段可以理解为是固定的，对于每个矿工来说都一样。矿工可以自由调整的地方是剩下的3个字段，<br><strong>nNonce</strong>，提供2^32种可能取值<br><strong>nTime</strong>，其实本字段能提供的值空间非常有限，因为合理的区块时间有一个范围，这个范围是根据前一个区块时间来定，比前一个区块时间太早或者太超前都会被其他节点拒绝。值得一提的是，后一个区块的区块时间略早于前一个区块时间，这是允许的。一般来说，矿工会直接使用机器当前时间戳。<br><strong>hashMerkleRoot</strong>，理论上提供2^256种可能，本字段的变化来自于对包含进区块的交易进行增删，或改变顺序，或者修改Coinbase交易的输入字段。</p>
+<blockquote>
+<p>以上图文来自巴比特</p>
+</blockquote>
+<p>我所要实现的这个区块链所使用的Hash函数，按照老师的要求，我们使用国密算法<strong>SM3</strong>，对80个字节进行两次SHA256运算大概也可以替换为对这80个字节进行两次SM3运算，即SM3(SM3(x))</p>
+<h2 id="SM3"><a href="#SM3" class="headerlink" title="SM3"></a>SM3</h2><p>国密算法SM3是一个散列算法，在保障安全的前提下，综合性能指标于SHA-256同等条件下相当。SM3密码杂凑算法结构上与SHA-256相似，并且链接变量长度，消息分组大小和步数均与SHA-256相同。我们使用它来计算文件的Hash值</p>
+<h3 id="关于SM3的性能"><a href="#关于SM3的性能" class="headerlink" title="关于SM3的性能"></a>关于SM3的性能</h3><p>我想知道SM3对文件进行Hash的性能，于是生成了不同大小的文件进行多次测试，测试结果如下：</p>
+<ul>
+<li>操作系统：windows10</li>
+<li>CPU：4核 2.5GHz主频</li>
+<li>内存：12GB</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>文件大小</th>
+<th style="text-align:center">耗时   （包括硬盘读取文件的时间）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1KB</td>
+<td style="text-align:center">0.004s</td>
+</tr>
+<tr>
+<td>4KB</td>
+<td style="text-align:center">0.004s</td>
+</tr>
+<tr>
+<td>1MB</td>
+<td style="text-align:center">0.026s</td>
+</tr>
+<tr>
+<td>10MB</td>
+<td style="text-align:center">0.367s</td>
+</tr>
+<tr>
+<td>20MB</td>
+<td style="text-align:center">0.723s</td>
+</tr>
+<tr>
+<td>100MB</td>
+<td style="text-align:center">3.466s</td>
+</tr>
+<tr>
+<td>200MB</td>
+<td style="text-align:center">6.853s</td>
+</tr>
+<tr>
+<td>500MB</td>
+<td style="text-align:center">17.082s</td>
+</tr>
+<tr>
+<td>1GB</td>
+<td style="text-align:center">34.894s</td>
+</tr>
+<tr>
+<td>2GB</td>
+<td style="text-align:center">69.084s</td>
+</tr>
+</tbody>
+</table>
+<p>根据测试结果我们认为，计算Hash值消耗的时间与文件的大小是成正比的。并且在当前测试环境下，SM3不适合用来计算大小在20MB以上的文件的Hash值。因为超过20MB之后，运算单个文件的时间会达到秒级，系统会有明显的等待。这样会降低区块链的运行效率。<br>如果需要进一步缩短耗时，那么可以重点考虑使用某种算法缩短大文件的读取时间</p>
+<blockquote>
+<p>注：再Windows下生成指定大小文件的命令为：<br>fsutil file createnew (文件名) &lt;字节数&gt;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fsutil file createnew 1KB.testfile 1024</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>另注: 以上的测试过程是一个小白随便弄的，下面的测试结果来自王小云院士发表的期刊文章</p>
+</blockquote>
+<h3 id="软硬件实现性能（专业）"><a href="#软硬件实现性能（专业）" class="headerlink" title="软硬件实现性能（专业）"></a>软硬件实现性能（专业）</h3><p><img src="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/%E7%BB%83%E4%B9%A0%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9C%A8%E5%8C%BB%E9%99%A2%E7%9A%84%E5%BA%94%E7%94%A8/20180507102931498.png" alt=""></p>
+<p>通过专业的评测可以知道，选择SM3并没有什么不妥。因为SM3跟SHA-256难分伯仲。</p>
+<h2 id="区块链安全问题"><a href="#区块链安全问题" class="headerlink" title="区块链安全问题"></a>区块链安全问题</h2><p>首先我们知道比特币区块链的安全问题有</p>
+<ol>
+<li>“双花”</li>
+<li>“51%攻击”</li>
+</ol>
+<p>当然上述问题再比特币区块链中都已经解决。那么医院私有区块链是否也存在这样的问题？</p>
+<h3 id="双花"><a href="#双花" class="headerlink" title="双花"></a>双花</h3><p>双花的原理暂略。双花可以成功的关键在于交易的收钱方在交易没有被永久确认的情况下把自己的披萨给付钱方。双花必然不会成功，因为比特币的协议已经限制死，到时候两笔交易必然只能真正完成一笔。另外一笔会因为处于短链而被丢弃。造成收钱方在没有收到比特币的情况下就完成了交易本身，比如买一个披萨。对于卖披萨的人来说，就是亏损了。但是区块链并没有影响所以医院区块链也是不存在这个问题的。</p>
+<h3 id="51-攻击"><a href="#51-攻击" class="headerlink" title="51%攻击"></a>51%攻击</h3><p>它是指一个人或者一个组织掌握了整个系统百分之51以上的算力，从而可以修改自己的交易记录等等。这对比特币来说几乎不可能发生，但是对于这么小型的一个区块链来说，还是很有可能的。所以着就关系到医院区块链是否要面向社会招募矿工了。一旦面向社会开放，而且规模又不够时，那么将大不足与抵御51%攻击。如果是封闭的局域网环境，并且网络安全做的够好，就可以避免来自外界的攻击。只需要做好医院内部的防范即可。并且，不对外开放，就意味着任何人替医院挖矿都是无利可图的，医院自负电费。</p>
+<h3 id="已经写入的信息是否可更改"><a href="#已经写入的信息是否可更改" class="headerlink" title="已经写入的信息是否可更改"></a>已经写入的信息是否可更改</h3><p>理论上当然可以更改。想要修改某一个记录的话，只要把医院百分之51以上的节点上的区块链信息做相应修改。然后把机房停电，让全部节点重启。这样，节点在初始化的时候会从其他节点获取最新的区块链信息。由于 51%的节点存放的都是篡改过的信息。那么剩余的49%的节点就会放弃自己存储的区块链信息而去选择相信另外的51%的节点。等全部节点初始化完成，那么一条崭新的链就出现了。是不是很简单？</p>
+<h3 id="攻击的动机"><a href="#攻击的动机" class="headerlink" title="攻击的动机"></a>攻击的动机</h3><p>再来讨论一下攻击的动机。有动机对区块链进行修改的可能是开错药的医生，又或者科室之间合作的时候出现失误的一方。比如，A科室要求B部门提供某些数据，但是B部门发送的数据出错，导致A科室的治疗出现事故，此时需要追责，那么B部门就有了对区块链更改的动机。<br>即使有动机，只要他们无法干预机房节点的运行，那么他们就基本不可能去修改。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在区块链规模不大的时候，最好使其运行在封闭的局域网环境下。这样既可以规避风险，又降低了开发难度。</p>
+<h2 id="共识机制"><a href="#共识机制" class="headerlink" title="共识机制"></a>共识机制</h2><p>占坑</p>
+<h3 id="工作量证明"><a href="#工作量证明" class="headerlink" title="工作量证明"></a>工作量证明</h3><p>工作量证明是为了加大区块生成的难度，让单个节点不能连续的产生区块。因此节点之间是有竞争关系的</p>
+<h2 id="区块链的持久化"><a href="#区块链的持久化" class="headerlink" title="区块链的持久化"></a>区块链的持久化</h2><p>我决定采用JSON格式来保存本地的区块链信息，它的优点很明显，结构清晰。因为有现成的库可以使用，所以特别方便。</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/05/07/练习项目：区块链在医院的应用/" title="练习项目：区块链在医院的应用">http://cooguyan.github.io/2018/05/07/练习项目：区块链在医院的应用/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/05/VSCode插件入门/" rel="next" title="VSCode插件开发">
+                <i class="fa fa-chevron-left"></i> VSCode插件开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/关于Unity3D中的协程-Coroutine/" rel="prev" title="关于Unity3D中的协程-Coroutine">
+                关于Unity3D中的协程-Coroutine <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">1.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计"><span class="nav-number">1.2.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#P2P服务模块"><span class="nav-number">1.2.1.</span> <span class="nav-text">P2P服务模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挖矿模块"><span class="nav-number">1.2.2.</span> <span class="nav-text">挖矿模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区块结构"><span class="nav-number">1.2.3.</span> <span class="nav-text">区块结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术疑难"><span class="nav-number">1.2.4.</span> <span class="nav-text">技术疑难</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挖矿原理"><span class="nav-number">1.3.</span> <span class="nav-text">挖矿原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SM3"><span class="nav-number">1.4.</span> <span class="nav-text">SM3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于SM3的性能"><span class="nav-number">1.4.1.</span> <span class="nav-text">关于SM3的性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软硬件实现性能（专业）"><span class="nav-number">1.4.2.</span> <span class="nav-text">软硬件实现性能（专业）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区块链安全问题"><span class="nav-number">1.5.</span> <span class="nav-text">区块链安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双花"><span class="nav-number">1.5.1.</span> <span class="nav-text">双花</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#51-攻击"><span class="nav-number">1.5.2.</span> <span class="nav-text">51%攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已经写入的信息是否可更改"><span class="nav-number">1.5.3.</span> <span class="nav-text">已经写入的信息是否可更改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#攻击的动机"><span class="nav-number">1.5.4.</span> <span class="nav-text">攻击的动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.5.5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共识机制"><span class="nav-number">1.6.</span> <span class="nav-text">共识机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作量证明"><span class="nav-number">1.6.1.</span> <span class="nav-text">工作量证明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区块链的持久化"><span class="nav-number">1.7.</span> <span class="nav-text">区块链的持久化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

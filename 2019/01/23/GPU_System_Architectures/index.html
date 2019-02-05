@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="In this section, we survey GPU system architectures in common use today. We discuss system configurations, GPU functions and services, standard programming interfaces, and a basic GPU internal archit">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2_GPU_System_Architectures">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/23/GPU_System_Architectures/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="In this section, we survey GPU system architectures in common use today. We discuss system configurations, GPU functions and services, standard programming interfaces, and a basic GPU internal archit">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec21.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec22.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec23.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec24.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec25.png">
+<meta property="og:updated_time" content="2019-02-04T03:51:22.045Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2_GPU_System_Architectures">
+<meta name="twitter:description" content="In this section, we survey GPU system architectures in common use today. We discuss system configurations, GPU functions and services, standard programming interfaces, and a basic GPU internal archit">
+<meta name="twitter:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/23/GPU_System_Architectures/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>2_GPU_System_Architectures | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/23/GPU_System_Architectures/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">2_GPU_System_Architectures
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-23 14:38:34" itemprop="dateCreated datePublished" datetime="2019-01-23T14:38:34+08:00">2019-01-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-04 11:51:22" itemprop="dateModified" datetime="2019-02-04T11:51:22+08:00">2019-02-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/GPU相关/" itemprop="url" rel="index"><span itemprop="name">GPU相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://img.shields.io/badge/version-v1.1.1-519dd9.svg" alt=""></p>
+<p>In this section, we survey GPU system architectures in common use today. We discuss system configurations, GPU functions and services, standard programming interfaces, and a basic GPU internal architecture.<br>在本节中，我们将调查目前常用的GPU系统架构。 我们将讨论系统配置，GPU功能和服务，标准编程接口以及基本的GPU内部架构。</p>
+<a id="more"></a>
+<h2 id="Heterogeneous-CPU–GPU-System-Architecture-异构CPU-GPU系统架构"><a href="#Heterogeneous-CPU–GPU-System-Architecture-异构CPU-GPU系统架构" class="headerlink" title="Heterogeneous CPU–GPU System Architecture 异构CPU-GPU系统架构"></a>Heterogeneous CPU–GPU System Architecture 异构CPU-GPU系统架构</h2><p>A heterogeneous computer system architecture using a GPU and a CPU can be described at a high level by two primary characteristics: first, how many functional subsystems and/or chips are used and what are their interconnection technologies and topology; and second, what memory subsystems are available to these functional subsystems. See Chapter 6 for background on the PC I/O systems and chip sets.<br>使用GPU和CPU的异构计算机系统架构可以通过两个主要特征在高级别描述：第一，使用多少功能子系统和/或芯片以及它们的互连技术和拓扑是什么; 第二，这些功能子系统可以使用哪些内存子系统。 有关PC I / O系统和芯片组的背景信息，请参见第6章。</p>
+<h2 id="The-Historical-PC-circa-1990-历史PC（大约1990年）"><a href="#The-Historical-PC-circa-1990-历史PC（大约1990年）" class="headerlink" title="The Historical PC(circa 1990) 历史PC（大约1990年）"></a>The Historical PC(circa 1990) 历史PC（大约1990年）</h2><p>Figure C.2.1 shows a high-level block diagram of a legacy PC, circa 1990. The north bridge (see Chapter 6) contains high-bandwidth interfaces, connecting the CPU, memory, and PCI bus. The south bridge contains legacy interfaces and devices: ISA bus (audio, LAN), interrupt controller; DMA controller; time/counter. In this system, the display was driven by a simple framebuffer subsystem known as a VGA (video graphics array) which was attached to the PCI bus. Graphics subsystems with built-in processing elements (GPUs) did not exist in the PC landscape of 1990.<br>图C.2.1显示了大约是1990年、<br>的传统PC的高级框图。北桥（见第6章）包含高带宽接口，连接CPU，内存和PCI总线。 南桥包含传统接口和设备：ISA总线（音频，LAN），中断控制器; DMA控制器;定时/计数器。 在该系统中，显示器由称为VGA（视频图形阵列）的简单帧缓冲子系统驱动，该子系统连接到PCI总线。 1990年的PC环境中不存在具有内置处理元件（GPU）的图形子系统。</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec21.png" alt="s"></p>
+<p>Figure C.2.2 illustrates two configurations in common use today. These are characterized by a separate GPU (discrete GPU) and CPU with respective memory subsystems. In Figure C.2.2a, with an Intel CPU, we see the GPU attached via a 16-lane PCI-Express 2.0 link to provide a peak 16 GB/s transfer rate, (peak of 8 GB/s in each direction). Similarly, in Figure C.2.2b, with an AMD CPU, the GPU is attached to the chipset, also via PCI-Express with the same available bandwidth. In both cases, the GPUs and CPUs may access each other’s memory, albeit with less available bandwidth than their access to the more directly attached memories. In the case of the AMD system, the north bridge or memory controller is integrated into the same die as the CPU.<br>图C.2.2说明了目前常用的两种配置。 它们的特征在于单独的GPU（离散GPU）和具有相应存储器子系统的CPU。 在图C.2.2a中，使用Intel CPU，我们看到GPU通过16通道PCI-Express 2.0链路连接，以提供16 GB / s的峰值传输速率（每个方向的峰值为8 GB / s）。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec22.png" alt=""><br>同样，在图C.2.2b中，使用AMD CPU，GPU也通过具有相同可用带宽的PCI-Express连接到芯片组。 在这两种情况下，GPU和CPU可以访问彼此的内存，尽管可用带宽少于访问更直接连接的内存。 在AMD系统的情况下，北桥或存储器控制器集成到与CPU相同的管芯中。</p>
+<p>A low-cost variation on these systems, a unifed memory architecture (UMA) system, uses only CPU system memory, omitting GPU memory from the system. These systems have relatively low performance GPUs, since their achieved performance is limited by the available system memory bandwidth and increased latency of memory access, whereas dedicated GPU memory provides high bandwidth and low latency.<br>这些系统的低成本变化，统一内存架构（UMA）系统，仅使用CPU系统内存，从系统中省略GPU内存。 这些系统具有相对低性能的GPU，因为它们实现的性能受可用系统存储器带宽和存储器访问延迟的限制，而专用GPU存储器提供高带宽和低延迟。<br>A high performance system variation uses multiple attached GPUs, typically two to four working in parallel, with their displays daisy-chained. An example is the NVIDIA SLI (scalable link interconnect) multi-GPU system, designed for high performance gaming and workstations.<br>高性能系统变体使用多个连接的GPU，通常两到四个并行工作，其显示器采用菊花链式连接。一个例子是NVIDIA SLI（可扩展链路互连）多GPU系统，专为高性能游戏和工作站而设计。<br>The next system category integrates the GPU with the north bridge (Intel) or chipset (AMD) with and without dedicated graphics memory.<br>下一个系统类别将GPU与北桥（Intel）或芯片组（AMD）集成，有或没有专用的图形内存<br>Chapter 5 explains how caches maintain coherence in a shared address space. With CPUs and GPUs, there are multiple address spaces. GPUs can access their own physical local memory and the CPU system’s physical memory using virtual addresses that are translated by an MMU on the GPU. The operating system kernel manages the GPU’s page tables. A system physical page can be accessed using either coherent or noncoherent PCI-Express transactions, determined by an attribute in the GPU’s page table. The CPU can access GPU’s local memory through an address range (also called aperture) in the PCI-Express address space.<br>第5章解释了缓存如何在共享地址空间中保持一致性。对于CPU和GPU，有多个地址空间。 GPU可以使用由GPU上的MMU转换的虚拟地址访问自己的物理本地内存和CPU系统的物理内存。操作系统内核管理GPU的页表。可以使用由GPU页面表中的属性确定的相干或非相干PCI-Express事务来访问系统物理页面。 CPU可以通过PCI-Express地址空间中的地址范围（也称为孔径）访问GPU的本地存储器。</p>
+<h2 id="Game-Consoles-游戏主机"><a href="#Game-Consoles-游戏主机" class="headerlink" title="Game Consoles 游戏主机"></a>Game Consoles 游戏主机</h2><p>Console systems such as the Sony PlayStation 3 and the Microsof Xbox 360 resemble the PC system architectures previously described. Console systems are designed to be shipped with identical performance and functionality over a lifespan that can last five years or more. During this time, a system may be reimplemented many times to exploit more advanced silicon manufacturing processes and thereby to provide constant capability at ever lower costs. Console systems do not need to have their subsystems expanded and upgraded the way PC systems do, so the<br>major internal system buses tend to be customized rather than standardized.<br>诸如Sony PlayStation 3和Microsof Xbox 360之类的控制台系统类似于先前描述的PC系统架构。 控制台系统设计为在相同的使用寿命期内具有相同的性能和功能，可以使用五年或更长时间。 在此期间，系统可以多次重新实现以利用更先进的硅制造工艺，从而以更低的成本提供恒定的能力。 控制台系统不需要像PC系统那样扩展和升级子系统，所以<br>主要的内部系统总线往往是定制的而不是标准化的。</p>
+<h2 id="GPU-Interfaces-and-Drivers"><a href="#GPU-Interfaces-and-Drivers" class="headerlink" title="GPU Interfaces and Drivers"></a>GPU Interfaces and Drivers</h2><p>In a PC today, GPUs are attached to a CPU via PCI-Express. Earlier generations used AGP. Graphics applications call OpenGL [Segal and Akeley, 2006] or Direct3D [Microsof DirectX Specifcation] API functions that use the GPU as a coprocessor. The APIs send commands, programs, and data to the GPU via a graphics device driver optimized for the particular GPU.<br>在今天的PC中，GPU通过PCI-Express连接到CPU。 早期的几代人使用AGP。 图形应用程序调用OpenGL [Segal和Akeley，2006]或Direct3D [Microsof DirectX规范] API函数，这些函数使用GPU作为协处理器。 API通过针对特定GPU优化的图形设备驱动程序将命令，程序和数据发送到GPU。</p>
+<blockquote>
+<p>APG :An extended version of the original PCI I/O bus, which provided up to eight times the bandwidth of the original PCI bus to a single card slot. Its primary purpose was to connect graphics subsystems into PC systems.<br>APG: 原始PCI I / O总线的扩展版本，其提供的带宽是原始PCI总线的八倍，达到单个卡插槽。 其主要目的是将图形子系统连接到PC系统。</p>
+</blockquote>
+<h2 id="Graphics-Logical-Pipeline"><a href="#Graphics-Logical-Pipeline" class="headerlink" title="Graphics Logical Pipeline"></a>Graphics Logical Pipeline</h2><p>The graphics logical pipeline is described in Section C.3. Figure C.2.3 illustrates the major processing stages, and highlights the important programmable stages (vertex, geometry, and pixel shader stages).<br>图形逻辑流水线在C.3节中描述。 图C.2.3说明了主要的处理阶段，并重点介绍了重要的可编程阶段（顶点，几何和像素着色器阶段）。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec23.png" alt=""></p>
+<h2 id="Mapping-Graphics-Pipeline-to-Unified-GPU-Processors"><a href="#Mapping-Graphics-Pipeline-to-Unified-GPU-Processors" class="headerlink" title="Mapping Graphics Pipeline to Unified GPU Processors"></a>Mapping Graphics Pipeline to Unified GPU Processors</h2><p>Figure C.2.4 shows how the logical pipeline comprising separate independent programmable stages is mapped onto a physical distributed array of processors.</p>
+<h2 id="Basic-Unifed-GPU-Architecture"><a href="#Basic-Unifed-GPU-Architecture" class="headerlink" title="Basic Unifed GPU Architecture"></a>Basic Unifed GPU Architecture</h2><p>Unifed GPU architectures are based on a parallel array of many programmable processors. They unify vertex, geometry, and pixel shader processing and parallel computing on the same processors, unlike earlier GPUs which had separate processors dedicated to each processing type. The programmable processor array is tightly integrated with fixed function processors for texture filtering, rasterization, raster operations, anti-aliasing, compression, decompression, display, video decoding, and high-defnition video processing. Although the fixed-function processors signifcantly outperform more general programmable processors in terms of absolute performance constrained by an area, cost, or power budget, we will focus on the programmable processors here.<br>统一的GPU架构基于许多可编程处理器的并行阵列。 它们在相同的处理器上统一顶点，几何和像素着色器处理以及并行计算，这与早期的GPU不同，后者具有专用于每种处理类型的独立处理器。 可编程处理器阵列与固定功能处理器紧密集成，用于纹理过滤，光栅化，光栅操作，抗锯齿，压缩，解压缩，显示，视频解码和高清晰度视频处理。 虽然固定功能处理器在面积，成本或功率预算限制的绝对性能方面明显优于更多通用可编程处理器，但我们将专注于此处的可编程处理器。</p>
+<p>Compared with multicore CPUs, manycore GPUs have a different architectural design point, one focused on executing many parallel threads effciently on many processor cores. By using many simpler cores and optimizing for data-parallel behavior among groups of threads, more of the per-chip transistor budget is devoted to computation, and less to on-chip caches and overhead.<br>与多核CPU相比，多核GPU具有不同的架构设计点，一个侧重于在许多处理器内核上有效地执行许多并行线程。 通过使用许多更简单的内核并优化线程组之间的数据并行行为，更多的每芯片晶体管预算用于计算，而更少用于片上高速缓存和开销。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec24.png" alt=""></p>
+<h2 id="Processor-Array"><a href="#Processor-Array" class="headerlink" title="Processor Array"></a>Processor Array</h2><p>A unifed GPU processor array contains many processor cores, typically organized into multithreaded multiprocessors. Figure C.2.5 shows a GPU with an array of 112 streaming processor (SP) cores, organized as 14 multithreaded streaming multiprocessors (SMs). Each SP core is highly multithreaded, managing 96 concurrent threads and their state in hardware. The processors connect with four 64-bit-wide DRAM partitions via an interconnection network. Each SM has eight SP cores, two special function units (SFUs), instruction and constant caches, a multithreaded instruction unit, and a shared memory. This is the basic Tesla architecture implemented by the NVIDIA GeForce 8800. It has a unifed architecture in which the traditional graphics programs for vertex, geometry, and pixel shading run on the unifed SMs and their SP cores, and computing programs run on the same processors.<br>统一GPU处理器阵列包含许多处理器内核，通常组织成多线程多处理器。 图C.2.5显示了一个具有112个流处理器（SP）内核阵列的GPU，组织为14个多线程流多处理器（SM）。 每个SP核心都是高度多线程的，管理96个并发线程及其硬件状态。 处理器通过互连网络连接四个64位宽的DRAM分区。 每个SM有8个SP内核，2个特殊功能单元（SFU），指令和常量高速缓存，多线程指令单元和共享存储器。 这是由NVIDIA GeForce 8800实现的基本Tesla架构。它采用统一架构，其中顶点，几何和像素着色的传统图形程序在统一的SM及其SP内核上运行，计算程序在相同的处理器上运行。<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/GPU_System_Architectures/figurec25.png" alt=""><br>The processor array architecture is scalable to smaller and larger GPU confgurations by scaling the number of multiprocessors and the number of memory partitions. Figure C.2.5 shows seven clusters of two SMs sharing a texture unit and a texture L1 cache. The texture unit delivers filtered results to the SM given a set of coordinates into a texture map. Because filter regions of support often overlap for successive texture requests, a small streaming L1 texture cache is effective to reduce the number of requests to the memory system. The processor array connects with raster operation processors (ROPs), L2 texture caches, external DRAM memories, and system memory via a GPU-wide interconnection network. The number of processors and number of memories can scale to design balanced GPU systems for different performance and market segments.<br>通过扩展多处理器的数量和内存分区的数量，处理器阵列架构可扩展到越来越小的GPU配置。 图C.2.5显示了共享纹理单元和纹理L1缓存的两个SM的七个簇。 纹理单元将过滤结果传递给SM，给定一组坐标到纹理贴图中。 因为支持的过滤器区域经常与连续的纹理请求重叠，所以小的流式L1纹理高速缓存对于减少对存储器系统的请求的数量是有效的。 处理器阵列通过GPU范围的互连网络与光栅操作处理器（ROP），L2纹理高速缓存，外部DRAM存储器和系统存储器连接。 处理器的数量和存储器的数量可以扩展，以设计用于不同性能和细分市场的平衡GPU系统。</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/23/GPU_System_Architectures/" title="2_GPU_System_Architectures">http://cooguyan.github.io/2019/01/23/GPU_System_Architectures/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/11/Graphics_and_Computing_GPUs/" rel="next" title="1_图形和计算GPU">
+                <i class="fa fa-chevron-left"></i> 1_图形和计算GPU
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/24/Programming_GPUs/" rel="prev" title="3_Programming_GPUs">
+                3_Programming_GPUs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Heterogeneous-CPU–GPU-System-Architecture-异构CPU-GPU系统架构"><span class="nav-number">1.</span> <span class="nav-text">Heterogeneous CPU–GPU System Architecture 异构CPU-GPU系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Historical-PC-circa-1990-历史PC（大约1990年）"><span class="nav-number">2.</span> <span class="nav-text">The Historical PC(circa 1990) 历史PC（大约1990年）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Game-Consoles-游戏主机"><span class="nav-number">3.</span> <span class="nav-text">Game Consoles 游戏主机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Interfaces-and-Drivers"><span class="nav-number">4.</span> <span class="nav-text">GPU Interfaces and Drivers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Graphics-Logical-Pipeline"><span class="nav-number">5.</span> <span class="nav-text">Graphics Logical Pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapping-Graphics-Pipeline-to-Unified-GPU-Processors"><span class="nav-number">6.</span> <span class="nav-text">Mapping Graphics Pipeline to Unified GPU Processors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Unifed-GPU-Architecture"><span class="nav-number">7.</span> <span class="nav-text">Basic Unifed GPU Architecture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Processor-Array"><span class="nav-number">8.</span> <span class="nav-text">Processor Array</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这篇博客是对过去几天来折腾Next主题经验的一次大总结。本来用的是 yilia主题，可是不知道怎么着脑抽了想换一个主题玩玩，这下好了，一折腾折腾了好几天····博客嘛，当然是内容最重要···不过高颜值更能让我有动力哈哈哈😂没办法我就喜欢这些花里胡哨的东西">
+<meta name="keywords" content="Next">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next主题个性化">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/02/Next主题个性化/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="这篇博客是对过去几天来折腾Next主题经验的一次大总结。本来用的是 yilia主题，可是不知道怎么着脑抽了想换一个主题玩玩，这下好了，一折腾折腾了好几天····博客嘛，当然是内容最重要···不过高颜值更能让我有动力哈哈哈😂没办法我就喜欢这些花里胡哨的东西">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg">
+<meta property="og:updated_time" content="2019-01-05T10:14:55.395Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Next主题个性化">
+<meta name="twitter:description" content="这篇博客是对过去几天来折腾Next主题经验的一次大总结。本来用的是 yilia主题，可是不知道怎么着脑抽了想换一个主题玩玩，这下好了，一折腾折腾了好几天····博客嘛，当然是内容最重要···不过高颜值更能让我有动力哈哈哈😂没办法我就喜欢这些花里胡哨的东西">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/02/Next主题个性化/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Next主题个性化 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/02/Next主题个性化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Next主题个性化
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-02 15:24:09" itemprop="dateCreated datePublished" datetime="2019-01-02T15:24:09+08:00">2019-01-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-05 18:14:55" itemprop="dateModified" datetime="2019-01-05T18:14:55+08:00">2019-01-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Hexo相关/" itemprop="url" rel="index"><span itemprop="name">Hexo相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope="" itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox" href="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg" rel="gallery_cjrrtqxe3004rnovalza1fans" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg" itemprop="contentUrl">
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <p>这篇博客是对过去几天来折腾Next主题经验的一次大总结。本来用的是 <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a>主题，可是不知道怎么着脑抽了想换一个主题玩玩，这下好了，一折腾折腾了好几天····<br>博客嘛，当然是内容最重要···不过高颜值更能让我有动力哈哈哈😂没办法我就喜欢这些花里胡哨的东西</p>
+<a id="more"></a>
+<h2 id="主题美化"><a href="#主题美化" class="headerlink" title="主题美化"></a>主题美化</h2><p>以下是我用到的Next主题的个性化参考链接。这两个已经很全面啦，更多的美化方案就看这两个吧。</p>
+<p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html" target="_blank" rel="noopener">打造个性超赞博客Hexo+NexT+GitHubPages的超深度优化</a></p>
+<p><a href="https://blog.csdn.net/qq_33699981/article/details/72716951" target="_blank" rel="noopener">hexo的next主题个性化教程：打造炫酷网站</a></p>
+<h3 id="增加看板娘"><a href="#增加看板娘" class="headerlink" title="增加看板娘"></a>增加看板娘</h3><p>知道看板娘是什么意思的估计差不多都很宅吧。当然看板娘不一定非得是人，我的就是一直小黑猫哈哈哈<br>详情请看下面的链接<br><a href="https://11.tt/posts/2018/how-to-play-with-live2d-on-hexo/" target="_blank" rel="noopener">用Live2D让看板喵入住你的Hexo博客吧(^o^)/~</a></p>
+<h3 id="增加鼠标点击特效"><a href="#增加鼠标点击特效" class="headerlink" title="增加鼠标点击特效"></a>增加鼠标点击特效</h3><h4 id="浮现彩色桃心"><a href="#浮现彩色桃心" class="headerlink" title="浮现彩色桃心"></a>浮现彩色桃心</h4><p>以下是所需js代码：<br>未压缩<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">! <span class="function"><span class="keyword">function</span>(<span class="params">e, t, a</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        c(</span><br><span class="line">            <span class="string">".heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;"</span>), o(), r()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> e = <span class="number">0</span>; e &lt; d.length; e++) d[e].alpha &lt;= <span class="number">0</span> ? (t.body.removeChild(d[e].el), d.splice(e, <span class="number">1</span>)) : (d[e].y--, d[e].scale += <span class="number">.004</span>, d[e].alpha -= <span class="number">.013</span>, d[e].el.style.cssText = <span class="string">"left:"</span> + d[e].x + <span class="string">"px;top:"</span> + d[e].y + <span class="string">"px;opacity:"</span> + d[e].alpha + <span class="string">";transform:scale("</span> + d[e].scale + <span class="string">","</span> + d[e].scale + <span class="string">") rotate(45deg);background:"</span> + d[e].color + <span class="string">";z-index:99999"</span>);</span><br><span class="line">        requestAnimationFrame(r)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> t = <span class="string">"function"</span> == <span class="keyword">typeof</span> e.onclick &amp;&amp; e.onclick;</span><br><span class="line">        e.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">            t &amp;&amp; t(), i(e)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">i</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a = t.createElement(<span class="string">"div"</span>);</span><br><span class="line">        a.className = <span class="string">"heart"</span>, d.push(&#123;</span><br><span class="line">            el: a,</span><br><span class="line">            x: e.clientX - <span class="number">5</span>,</span><br><span class="line">            y: e.clientY - <span class="number">5</span>,</span><br><span class="line">            scale: <span class="number">1</span>,</span><br><span class="line">            alpha: <span class="number">1</span>,</span><br><span class="line">            color: s()</span><br><span class="line">        &#125;), t.body.appendChild(a)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a = t.createElement(<span class="string">"style"</span>);</span><br><span class="line">        a.type = <span class="string">"text/css"</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            a.appendChild(t.createTextNode(e))</span><br><span class="line">        &#125; <span class="keyword">catch</span> (t) &#123;</span><br><span class="line">            a.styleSheet.cssText = e</span><br><span class="line">        &#125;</span><br><span class="line">        t.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(a)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">s</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"rgb("</span> + ~~(<span class="number">255</span> * <span class="built_in">Math</span>.random()) + <span class="string">","</span> + ~~(<span class="number">255</span> * <span class="built_in">Math</span>.random()) + <span class="string">","</span> + ~~(<span class="number">255</span> * <span class="built_in">Math</span>.random()) + <span class="string">")"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> d = [];</span><br><span class="line">    e.requestAnimationFrame = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">            setTimeout(e, <span class="number">1e3</span> / <span class="number">60</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;(), n()</span><br><span class="line">&#125;(<span class="built_in">window</span>, <span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></p>
+<p>压缩后：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span>(<span class="params">e,t,a</span>)</span>&#123;<span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params"></span>)</span>&#123;c(<span class="string">".heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;"</span>),o(),r()&#125;<span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> e=<span class="number">0</span>;e&lt;d.length;e++)d[e].alpha&lt;=<span class="number">0</span>?(t.body.removeChild(d[e].el),d.splice(e,<span class="number">1</span>)):(d[e].y--,d[e].scale+=<span class="number">.004</span>,d[e].alpha-=<span class="number">.013</span>,d[e].el.style.cssText=<span class="string">"left:"</span>+d[e].x+<span class="string">"px;top:"</span>+d[e].y+<span class="string">"px;opacity:"</span>+d[e].alpha+<span class="string">";transform:scale("</span>+d[e].scale+<span class="string">","</span>+d[e].scale+<span class="string">") rotate(45deg);background:"</span>+d[e].color+<span class="string">";z-index:99999"</span>);requestAnimationFrame(r)&#125;<span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> t=<span class="string">"function"</span>==<span class="keyword">typeof</span> e.onclick&amp;&amp;e.onclick;e.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;t&amp;&amp;t(),i(e)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">i</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">"div"</span>);a.className=<span class="string">"heart"</span>,d.push(&#123;<span class="attr">el</span>:a,<span class="attr">x</span>:e.clientX<span class="number">-5</span>,<span class="attr">y</span>:e.clientY<span class="number">-5</span>,<span class="attr">scale</span>:<span class="number">1</span>,<span class="attr">alpha</span>:<span class="number">1</span>,<span class="attr">color</span>:s()&#125;),t.body.appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> a=t.createElement(<span class="string">"style"</span>);a.type=<span class="string">"text/css"</span>;<span class="keyword">try</span>&#123;a.appendChild(t.createTextNode(e))&#125;<span class="keyword">catch</span>(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(<span class="string">"head"</span>)[<span class="number">0</span>].appendChild(a)&#125;<span class="function"><span class="keyword">function</span> <span class="title">s</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span><span class="string">"rgb("</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">","</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">","</span>+~~(<span class="number">255</span>*<span class="built_in">Math</span>.random())+<span class="string">")"</span>&#125;<span class="keyword">var</span> d=[];e.requestAnimationFrame=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;setTimeout(e,<span class="number">1e3</span>/<span class="number">60</span>)&#125;&#125;(),n()&#125;(<span class="built_in">window</span>,<span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></p>
+<p>新建love.js文件并且将上面的代码复制进去。然后将love.js文件放到路径 <span class="label default">/themes/next/source/js/src</span> 下，然后打开<span class="label default">\themes\next\layout\_layout.swig</span>文件,在末尾添加以下代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 鼠标桃心动画 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"/js/src/love.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="浮现Emoji和其他文字"><a href="#浮现Emoji和其他文字" class="headerlink" title="浮现Emoji和其他文字"></a>浮现Emoji和其他文字</h3><p><a href="https://blog.csdn.net/djzhao627/article/details/72871042" target="_blank" rel="noopener">原作者博客</a></p>
+<p>以下是我稍微改了下自己用的版本😳，如果你成功加入了上面的桃心特效，那么这个就是换下代码而已。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> click_cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> $html = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"html"</span>)[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">var</span> $body = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>];</span><br><span class="line">    $html.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> $elem = <span class="built_in">document</span>.createElement(<span class="string">"b"</span>);</span><br><span class="line">        $elem.style.color = <span class="string">"#E94F06"</span>;</span><br><span class="line">        $elem.style.zIndex = <span class="number">9999</span>;</span><br><span class="line">        $elem.style.position = <span class="string">"absolute"</span>;</span><br><span class="line">        $elem.style.select = <span class="string">"none"</span>;</span><br><span class="line">        <span class="keyword">var</span> x = e.pageX;</span><br><span class="line">        <span class="keyword">var</span> y = e.pageY;</span><br><span class="line">        $elem.style.left = (x - <span class="number">10</span>) + <span class="string">"px"</span>;</span><br><span class="line">        $elem.style.top = (y - <span class="number">20</span>) + <span class="string">"px"</span>;</span><br><span class="line">        clearInterval(anim);</span><br><span class="line">        <span class="keyword">switch</span> (++click_cnt) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"🤩"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">20</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"😎"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">30</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"😏"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">40</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"😐"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">50</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"😑"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">60</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"😒"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">70</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"૮( ᵒ̌皿ᵒ̌ )ა"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">80</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"(╯°口°)╯(┴—┴"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">90</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"别点啦"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">100</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">101</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">102</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">103</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">104</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">105</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"休息会儿"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                $elem.innerText = <span class="string">"🎈"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $elem.style.fontSize = <span class="built_in">Math</span>.random() * <span class="number">10</span> + <span class="number">8</span> + <span class="string">"px"</span>;</span><br><span class="line">        <span class="keyword">var</span> increase = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">var</span> anim;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            anim = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (++increase == <span class="number">150</span>) &#123;</span><br><span class="line">                    clearInterval(anim);</span><br><span class="line">                    $body.removeChild($elem);</span><br><span class="line">                &#125;</span><br><span class="line">                $elem.style.top = y - <span class="number">20</span> - increase + <span class="string">"px"</span>;</span><br><span class="line">                $elem.style.opacity = (<span class="number">150</span> - increase) / <span class="number">120</span>;</span><br><span class="line">            &#125;, <span class="number">8</span>);</span><br><span class="line">        &#125;, <span class="number">70</span>);</span><br><span class="line">        $body.appendChild($elem);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>压缩后</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> click_cnt=<span class="number">0</span>;<span class="keyword">var</span> $html=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"html"</span>)[<span class="number">0</span>];<span class="keyword">var</span> $body=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>];$html.onclick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> $elem=<span class="built_in">document</span>.createElement(<span class="string">"b"</span>);$elem.style.color=<span class="string">"#E94F06"</span>;$elem.style.zIndex=<span class="number">9999</span>;$elem.style.position=<span class="string">"absolute"</span>;$elem.style.select=<span class="string">"none"</span>;<span class="keyword">var</span> x=e.pageX;<span class="keyword">var</span> y=e.pageY;$elem.style.left=(x<span class="number">-10</span>)+<span class="string">"px"</span>;$elem.style.top=(y<span class="number">-20</span>)+<span class="string">"px"</span>;clearInterval(anim);<span class="keyword">switch</span>(++click_cnt)&#123;<span class="keyword">case</span> <span class="number">10</span>:$elem.innerText=<span class="string">"🤩"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">20</span>:$elem.innerText=<span class="string">"😎"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">30</span>:$elem.innerText=<span class="string">"😏"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">40</span>:$elem.innerText=<span class="string">"😐"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">50</span>:$elem.innerText=<span class="string">"😑"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">60</span>:$elem.innerText=<span class="string">"😒"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">70</span>:$elem.innerText=<span class="string">"૮( ᵒ̌皿ᵒ̌ )ა"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">80</span>:$elem.innerText=<span class="string">"(╯°口°)╯(┴—┴"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">90</span>:$elem.innerText=<span class="string">"别点啦"</span>;<span class="keyword">break</span>;<span class="keyword">case</span> <span class="number">100</span>:<span class="keyword">case</span> <span class="number">101</span>:<span class="keyword">case</span> <span class="number">102</span>:<span class="keyword">case</span> <span class="number">103</span>:<span class="keyword">case</span> <span class="number">104</span>:<span class="keyword">case</span> <span class="number">105</span>:$elem.innerText=<span class="string">"休息会儿"</span>;<span class="keyword">break</span>;<span class="keyword">default</span>:$elem.innerText=<span class="string">"🎈"</span>;<span class="keyword">break</span>&#125;$elem.style.fontSize=<span class="built_in">Math</span>.random()*<span class="number">10</span>+<span class="number">8</span>+<span class="string">"px"</span>;<span class="keyword">var</span> increase=<span class="number">0</span>;<span class="keyword">var</span> anim;setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;anim=setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">if</span>(++increase==<span class="number">150</span>)&#123;clearInterval(anim);$body.removeChild($elem)&#125;$elem.style.top=y<span class="number">-20</span>-increase+<span class="string">"px"</span>;$elem.style.opacity=(<span class="number">150</span>-increase)/<span class="number">120</span>&#125;,<span class="number">8</span>)&#125;,<span class="number">70</span>);$body.appendChild($elem)&#125;&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="动态标签栏"><a href="#动态标签栏" class="headerlink" title="动态标签栏"></a>动态标签栏</h3><p><a href="https://asdfv1929.github.io/2018/01/25/crash-cheat/" target="_blank" rel="noopener">Hexo NexT主题中添加网页标题崩溃欺骗搞怪特效</a></p>
+<p>算是一个小细节的美化吧，它可以在你切换页面的时候更改标签栏的文字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> OriginTitle = <span class="built_in">document</span>.title;</span><br><span class="line"><span class="keyword">var</span> titleTime;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'visibilitychange'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.hidden) &#123;</span><br><span class="line">       <span class="comment">// $('[rel="icon"]').attr('href', "/images/TEP.ico"); //如果需要图标一起变，那么就将这行取消注释并选择正确的图片路径</span></span><br><span class="line">        <span class="built_in">document</span>.title = <span class="string">' 😉不看了就关掉 ~'</span>;<span class="comment">//要显示的信息</span></span><br><span class="line">        clearTimeout(titleTime);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//$('[rel="icon"]').attr('href', "/favicon.ico"); 同上</span></span><br><span class="line">        <span class="built_in">document</span>.title = <span class="string">'😍欢迎回来~'</span> + OriginTitle;</span><br><span class="line">        titleTime = setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">document</span>.title = OriginTitle;</span><br><span class="line">        &#125;, <span class="number">2000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>新建crash_cheat.js文件并且将上面的代码复制进去。然后将love.js文件放到路径 <span class="label default">/themes/next/source/js/src</span> 下，然后打开<span class="label default">\themes\next\layout\_layout.swig</span>文件,在末尾添加以下代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--崩溃欺骗--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"/js/src/crash_cheat.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="排版相关"><a href="#排版相关" class="headerlink" title="排版相关"></a>排版相关</h2><h3 id="tabs的使用"><a href="#tabs的使用" class="headerlink" title="tabs的使用"></a>tabs的使用</h3><p><a href="https://almostover.ru/2016-01/hexo-theme-next-test/#Button-tag-test" target="_blank" rel="noopener">tabs的详细用法</a></p>
+<p>我认为tab可以起到节省页面空间的作用，把一些文字分页放置更加美观<br><div class="tabs" id="tab标题测试"><ul class="nav-tabs"><li class="tab active"><a href="#tab标题测试-1">tab标题测试 1</a></li><li class="tab"><a href="#tab标题测试-2">tab标题测试 2</a></li><li class="tab"><a href="#tab标题测试-3">tab标题测试 3</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tab标题测试-1"><p><strong>这是第一页</strong></p></div><div class="tab-pane" id="tab标题测试-2"><p><strong>第2页</strong></p></div><div class="tab-pane" id="tab标题测试-3"><p><strong>第3页</strong></p></div></div></div></p>
+<div class="note warning">
+            <p>这个tab标签在放js代码块的时候有bug：<br>首先它不能使用 “ <strong>``` 代码块 ```</strong> ” 这样的标签. 不然它就会显示 <span class="label primary">undefined</span>。这时候要使用code标签。另外它只能在第一页插入代码块，插入之后第二页就翻不出来，总之插入代码的时候BUG一堆根本不能用😭</p>
+          </div>
+<h3 id="label的使用"><a href="#label的使用" class="headerlink" title="label的使用"></a>label的使用</h3><p><a href="https://almostover.ru/2016-01/hexo-theme-next-test/#Button-tag-test" target="_blank" rel="noopener">label测试</a><br><a href="https://github.com/iissnan/hexo-theme-next/pull/1682" target="_blank" rel="noopener">label使用详情</a></p>
+<p><strong>Demo:</strong><br>所谓的label从效果上看神似<span class="label danger">荧光笔</span> 反正我就是当荧光笔来划重点吧</p>
+<ul>
+<li>这是<span class="label default">Default</span></li>
+<li>这是<span class="label primary">Primary</span></li>
+<li>这是<span class="label success">Success</span></li>
+<li>这是<span class="label info">Info</span></li>
+<li>这是<span class="label warning">Warning</span></li>
+<li>这是<span class="label danger">Danger</span></li>
+<li>这是有删除线的<del><span class="label danger">Danger</span></del></li>
+</ul>
+<p><strong>Code:</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">这是&#123;% label default@Default%&#125;</span><br><span class="line">这是&#123;% label primary@Primary%&#125;</span><br><span class="line">这是&#123;% label success@Success%&#125;</span><br><span class="line">这是&#123;% label info@Info%&#125;</span><br><span class="line">这是&#123;% label warning@Warning%&#125;</span><br><span class="line">这是&#123;% label danger@Danger%&#125;</span><br><span class="line">这是有删除线的~~&#123;% label danger@Danger%&#125;~~</span><br></pre></td></tr></table></figure></p>
+<h3 id="Button的使用"><a href="#Button的使用" class="headerlink" title="Button的使用"></a>Button的使用</h3><p><a href="https://almostover.ru/2016-01/hexo-theme-next-test/#Button-tag-test" target="_blank" rel="noopener">button的详细用法</a><br><strong>Demo:</strong><br>按钮我也不经常用，但是如果像这样分享下载链接的时候可能会有点用吧</p>
+<p>点击会下载老婆！慎点😜<br><a class="btn" href="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/gakki/5267d628b0f0b81855f15b80494d36c2.jpg" target="_blank" rel="noopener"><i class="fa fa-download fa-lg fa-fw"></i>点击下载</a></p>
+<blockquote>
+<p>好多bug啊····如果这里加一个note标签下面的code和标题就不会渲染了，😶</p>
+</blockquote>
+<p><strong>Code:</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% btn https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/gakki/5267d628b0f0b81855f15b80494d36c2.jpg, 点击下载, download fa-lg fa-fw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="note的使用"><a href="#note的使用" class="headerlink" title="note的使用"></a>note的使用</h3><p><a href="https://github.com/iissnan/hexo-theme-next/pull/1697" target="_blank" rel="noopener">note标签详细用法</a></p>
+<p><strong>Demo:</strong><br><div class="note ">
+            <p>默认 用来替代引用标签还行</p>
+          </div><div class="note default">
+            <p>默认 有图标的引用标签吧</p>
+          </div>
+<div class="note info">
+            <p>可以补充一些信息</p>
+          </div><div class="note primary">
+            <p>Primary，不知道怎么用</p>
+          </div>
+<div class="note warning">
+            <p>Warning，写一些警告信息</p>
+          </div><div class="note danger">
+            <p>Danger,就是这样很危险吧</p>
+          </div>
+<div class="note success">
+            <p>Success，成功是什么鬼啊</p>
+          </div><div class="note success no-icon">
+            <p>没有图标的样子</p>
+          </div></p>
+<p><strong>Code:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;% note %&#125;默认 用来替代引用标签还行&#123;%endnote%&#125;</span><br><span class="line">&#123;% note default %&#125; 默认 有图标的引用标签吧&#123;%endnote%&#125;</span><br><span class="line">&#123;% note info %&#125;可以补充一些信息&#123;%endnote%&#125;</span><br><span class="line">&#123;% note primary%&#125;Primary，不知道怎么用&#123;%endnote%&#125;</span><br><span class="line">&#123;% note warning%&#125;Warning，写一些警告信息&#123;%endnote%&#125;</span><br><span class="line">&#123;% note danger %&#125;Danger,就是这样很危险吧&#123;% endnote%&#125;</span><br><span class="line">&#123;% note success%&#125;Success，成功是什么鬼啊&#123;%endnote%&#125;</span><br><span class="line">&#123;% note success no-icon%&#125;没有图标的样子&#123;%endnote%&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="引用文本居中显示"><a href="#引用文本居中显示" class="headerlink" title="引用文本居中显示"></a>引用文本居中显示</h3><p><a href="http://theme-next.iissnan.com/tag-plugins.html" target="_blank" rel="noopener">详细用法</a></p>
+<p><strong>Demo:</strong><br><!-- HTML方式: 直接在 Markdown 文件中编写 HTML 来调用 --><br><!-- 其中 class="blockquote-center" 是必须的 --></p>
+<blockquote class="blockquote-center">我们能体验的最美好的东西是神秘的事物。他是所有真正艺术和科学的来源。<br>——阿尔伯特·爱因斯坦 《我的世界观》，1930</blockquote>
+
+<!-- 标签 方式，要求版本在0.4.5或以上 -->
+<blockquote class="blockquote-center"><p>增多我们不加思索就能完成的重要工作的数量，文明便是如此进步的。<br>——Alfred North Whitehead，An Introduction to Mathematics，1911</p>
+</blockquote>
+<!-- 标签别名 -->
+<blockquote class="blockquote-center"><p>我对上帝说西班牙语，对女人说意大利语，对男人说法语，对我的马说德语。<br>——查理五世，法国国王（1337~1380） </p>
+</blockquote>
+<p><strong>Code:</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML方式: 直接在 Markdown 文件中编写 HTML 来调用 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 其中 class="blockquote-center" 是必须的 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">blockquote</span> <span class="attr">class</span>=<span class="string">"blockquote-center"</span>&gt;</span>我们能体验的最美好的东西是神秘的事物。他是所有真正艺术和科学的来源。</span><br><span class="line">——阿尔伯特·爱因斯坦 《我的世界观》，1930<span class="tag">&lt;/<span class="name">blockquote</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 标签 方式，要求版本在0.4.5或以上 --&gt;</span></span><br><span class="line">&#123;% centerquote %&#125;增多我们不加思索就能完成的重要工作的数量，文明便是如此进步的。</span><br><span class="line">——Alfred North Whitehead，An Introduction to Mathematics，1911&#123;% endcenterquote %&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 标签别名 --&gt;</span></span><br><span class="line">&#123;% cq %&#125;我对上帝说西班牙语，对女人说意大利语，对男人说法语，对我的马说德语。</span><br><span class="line">——查理五世，法国国王（1337~1380） &#123;% endcq %&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/02/Next主题个性化/" title="Next主题个性化">http://cooguyan.github.io/2019/01/02/Next主题个性化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Next/" rel="tag"># Next</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/30/RAID的理解/" rel="next" title="RAID(Reduntant Arrays of Inexpensive Disks)">
+                <i class="fa fa-chevron-left"></i> RAID(Reduntant Arrays of Inexpensive Disks)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/05/Tello/" rel="prev" title="Tello特洛无人机编程小结">
+                Tello特洛无人机编程小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主题美化"><span class="nav-number">1.</span> <span class="nav-text">主题美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增加看板娘"><span class="nav-number">1.1.</span> <span class="nav-text">增加看板娘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加鼠标点击特效"><span class="nav-number">1.2.</span> <span class="nav-text">增加鼠标点击特效</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浮现彩色桃心"><span class="nav-number">1.2.1.</span> <span class="nav-text">浮现彩色桃心</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮现Emoji和其他文字"><span class="nav-number">1.3.</span> <span class="nav-text">浮现Emoji和其他文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态标签栏"><span class="nav-number">1.4.</span> <span class="nav-text">动态标签栏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排版相关"><span class="nav-number">2.</span> <span class="nav-text">排版相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tabs的使用"><span class="nav-number">2.1.</span> <span class="nav-text">tabs的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#label的使用"><span class="nav-number">2.2.</span> <span class="nav-text">label的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Button的使用"><span class="nav-number">2.3.</span> <span class="nav-text">Button的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note的使用"><span class="nav-number">2.4.</span> <span class="nav-text">note的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用文本居中显示"><span class="nav-number">2.5.</span> <span class="nav-text">引用文本居中显示</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Parallel Memory SystemOutside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to an">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5_Parallel_Memory_System">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="Parallel Memory SystemOutside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to an">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-30T04:49:33.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5_Parallel_Memory_System">
+<meta name="twitter:description" content="Parallel Memory SystemOutside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to an">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>5_Parallel_Memory_System | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">5_Parallel_Memory_System
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-30 10:38:48 / 修改时间：12:49:33" itemprop="dateCreated datePublished" datetime="2019-01-30T10:38:48+08:00">2019-01-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/GPU相关/" itemprop="url" rel="index"><span itemprop="name">GPU相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Parallel-Memory-System"><a href="#Parallel-Memory-System" class="headerlink" title="Parallel Memory System"></a>Parallel Memory System</h1><p>Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel write and blend (read-modifywrite) operations, depth buffer reads and writes, and texture map reads, as well as command and object vertex and attribute data reads, comprise the majority of memory traffic.<br>在GPU本身之外，存储器子系统是图形系统性能的最重要的决定因素。 图形工作负载需要非常高的内存传输速率。 像素写入和混合（读取 - 修改写入）操作，深度缓冲区读取和写入以及纹理映射读取以及命令和对象顶点和属性数据读取构成了大部分内存流量。</p>
+<p>Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous.<br>现代GPU高度并行，如图C.2.5所示。 例如，GeForce 8800每时钟可处理32个像素，频率为600 MHz。 每个像素通常需要颜色读取和写入以及4字节像素的深度读取和写入。 通常，读取平均每个四个字节的两个或三个纹素，以生成像素的颜色。 因此，对于典型情况，需要28个字节乘以32个像素=每个时钟896个字节。 显然，存储系统的带宽需求是巨大的。</p>
+<p>To supply these requirements, GPU memory systems have the following characteristics:<br>为满足这些要求，GPU内存系统具有以下特征：</p>
+<ul>
+<li><p>They are wide, meaning there are a large number of pins to convey data between the GPU and its memory devices, and the memory array itself comprises many DRAM chips to provide the full total data bus width. 它们很宽，意味着有大量的引脚在GPU和它的存储器设备之间传送数据，并且存储器阵列本身包括许多DRAM芯片以提供完整的总数据总线宽度。</p>
+</li>
+<li><p>They are fast, meaning aggressive signaling techniques are used to maximize the data rate (bits/second) per pin. 它们很快，意味着积极的信令技术用于最大化每个引脚的数据速率（位/秒）。</p>
+</li>
+<li><p>GPUs seek to use every available cycle to transfer data to or from the memory array. To achieve this, GPUs specifcally do not aim to minimize latency to the memory system. High throughput (utilization efciency) and short latency are fundamentally in conﬂict. GPU寻求使用每个可用周期来将数据传输到存储器阵列或从存储器阵列传输数据。 为实现此目的，GPU特别不旨在最小化对存储器系统的延迟。 高吞吐量（利用效率）和短延迟基本上是冲突的。</p>
+</li>
+<li><p>Compression techniques are used, both lossy, of which the programmer must be aware, and lossless, which is invisible to the application and opportunistic. 使用压缩技术，既有损耗，程序员必须知道，无损，对应用程序和机会主义是不可见的。</p>
+</li>
+<li><p>Caches and work coalescing structures are used to reduce the amount of offchip traffic needed and to ensure that cycles spent moving data are used as fully as possible. 高速缓存和工作合并结构用于减少所需的片外流量，并确保尽可能充分地使用移动数据的周期。</p>
+</li>
+</ul>
+<h2 id="DRAM-Considerations-DRAM注意事项"><a href="#DRAM-Considerations-DRAM注意事项" class="headerlink" title="DRAM Considerations DRAM注意事项"></a>DRAM Considerations DRAM注意事项</h2><p>GPUs must take into account the unique characteristics of DRAM. DRAM chips are internally arranged as multiple (typically four to eight) banks, where each bank includes a power-of-2 number of rows (typically around 16,384), and each row contains a power-of-2 number of bits (typically 8192). DRAMs impose a variety of timing requirements on their controlling processor. For example, dozens of cycles are required to activate one row, but once activated, the bits within that row are randomly accessible with a new column address every four clocks. Double-data rate (DDR) synchronous DRAMs transfer data on both rising and falling edges of the interface clock (see Chapter 5). So a 1 GHz clocked DDR DRAM transfers data at 2 gigabits per second per data pin. Graphics DDR DRAMs usually have 32 bidirectional data pins, so eight bytes can be read or written from the DRAM per clock.<br>GPU必须考虑DRAM的独特特性。 DRAM芯片内部排列为多个（通常为四到八个）存储体，其中每个存储体包括2个幂的行数（通常约为16,384个），每行包含2个幂的位数（通常为8192个））。 DRAM对其控制处理器施加了各种时序要求。 例如，激活一行需要几十个周期，但一旦激活，该行中的位可随机访问，每四个时钟使用一个新的列地址。 双倍数据速率（DDR）同步DRAM在接口时钟的上升沿和下降沿传输数据（见第5章）。 因此，1 GHz时钟DDR DRAM以每个数据引脚每秒2千兆位的速度传输数据。 图形DDR DRAM通常具有32个双向数据引脚，因此每个时钟可以从DRAM读取或写入8个字节。</p>
+<p>GPUs internally have a large number of generators of memory traffic. Different stages of the logical graphics pipeline each have their own request streams: command and vertex attribute fetch, shader texture fetch and load/store, and pixel depth and color read-write. At each logical stage, there are ofen multiple independent units to deliver the parallel throughput. These are each independent memory requestors. When viewed at the memory system, there are an enormous number of uncorrelated requests in ﬂight. This is a natural mismatch to the reference pattern preferred by the DRAMs. A solution is for the GPU’s memory controller to maintain separate heaps of trafc bound for diﬀerent DRAM banks, and wait until enough traffic for a particular DRAM row is pending before activating that row and transferring all the trafc at once. Note that accumulating pending requests, while good for DRAM row locality and thus efcient use of the data bus, leads to longer average latency as seen by the requestors whose requests spend time waiting for others. The design must take care that no particular request waits too long, otherwise some processing units can starve waiting for data and ultimately cause neighboring processors to become idle.<br>GPU内部具有大量内存流量生成器。逻辑图形管道的不同阶段各自具有其自己的请求流：命令和顶点属性获取，着色器纹理获取和加载/存储，以及像素深度和颜色读写。在每个逻辑阶段，有多个独立单元来提供并行吞吐量。这些是每个独立的内存请求者。在内存系统中查看时，飞行中存在大量不相关的请求。这与DRAM优选的参考图案自然不匹配。一种解决方案是GPU的内存控制器维护绑定到不同DRAM库的单独的流量堆，并等待特定DRAM行的足够流量待激活，然后激活该行并立即传输所有流量。请注意，累积待处理请求虽然有利于DRAM行位置并因此有效地使用数据总线，但会导致请求者花费时间等待其他请求者的平均延迟时间更长。设计必须注意没有特定请求等待太长时间，否则一些处理单元可能会饿死等待数据并最终导致相邻处理器变为空闲。</p>
+<p>GPU memory subsystems are arranged as multiple memory partitions, each of which comprises a fully independent memory controller and one or two DRAM devices that are fully and exclusively owned by that partition. To achieve the best load balance and therefore approach the theoretical performance of n partitions, addresses are fnely interleaved evenly across all memory partitions. The partition interleaving stride is typically a block of a few hundred bytes. The number of memory partitions is designed to balance the number of processors and other memory requesters.<br>GPU存储器子系统被布置为多个存储器分区，每个存储器分区包括完全独立的存储器控制器和由该分区完全和专有地拥有的一个或两个DRAM设备。 为了实现最佳负载平衡并因此接近n个分区的理论性能，地址在所有内存分区上均匀地交错。 分区交织步幅通常是几百字节的块。 内存分区的数量旨在平衡处理器和其他内存请求者的数量。</p>
+<h2 id="Caches"><a href="#Caches" class="headerlink" title="Caches"></a>Caches</h2><p>GPU workloads typically have very large working sets—on the order of hundreds of megabytes to generate a single graphics frame. Unlike with CPUs, it is not practical to construct caches on chips large enough to hold anything close to the full working set of a graphics application. Whereas CPUs can assume very high cache hit rates (99.9% or more), GPUs experience hit rates closer to 90% and must therefore cope with many misses in ﬂight. While a CPU can reasonably be designed to halt while waiting for a rare cache miss, a GPU needs to proceed with misses and hits intermingled. We call this a streaming cache architecture.<br>GPU工作负载通常具有非常大的工作集 - 大约数百兆字节以生成单个图形帧。 与CPU不同，在足够大的芯片上构建缓存以保存靠近图形应用程序的完整工作集的任何东西都是不实际的。 虽然CPU可以承担非常高的缓存命中率（99.9％或更高），但GPU的命中率接近90％，因此必须应对飞行中的许多未命中。 虽然CPU可以合理地设计为在等待罕见的高速缓存未命中时停止，但是GPU需要继续进行未命中和命中混合。 我们称之为流缓存架构。</p>
+<p>GPU caches must deliver very high-bandwidth to their clients. Consider the case of a texture cache. A typical texture unit may evaluate two bilinear interpolations for each of four pixels per clock cycle, and a GPU may have many such texture units all operating independently. Each bilinear interpolation requires four separate texels, and each texel might be a 64-bit value. Four 16-bit components are typical. Thus, total bandwidth is 2 x 4 x 4 x 64 = 2048 bits per clock. Each separate 64-bit texel is independently addressed, so the cache needs to handle 32 unique addresses per clock. This naturally favors a multibank and/or multiport arrangement of SRAM arrays.<br>GPU缓存必须为其客户提供非常高的带宽。 考虑纹理缓存的情况。 典型的纹理单元可以针对每个时钟周期的四个像素中的每一个评估两个双线性插值，并且GPU可以具有全部独立操作的许多这样的纹理单元。 每个双线性插值需要四个单独的纹素，每个纹素可能是64位值。 通常有四个16位组件。 因此，总带宽是每时钟2×4×4×64 = 2048比特。 每个独立的64位纹素都是独立寻址的，因此缓存需要每个时钟处理32个唯一地址。 这自然有利于SRAM阵列的多库和/或多端口布置。</p>
+<h2 id="MMU"><a href="#MMU" class="headerlink" title="MMU"></a>MMU</h2><p>Modern GPUs are capable of translating virtual addresses to physical addresses. On the GeForce 8800, all processing units generate memory addresses in a 40-bit virtual address space. For computing, load and store thread instructions use 32-bit byte addresses, which are extended to a 40-bit virtual address by adding a 40-bit offset. A memory management unit performs virtual to physical address translation; hardware reads the page tables from local memory to respond to misses on behalf of a hierarchy of translation lookaside buffers spread out among the processors and rendering engines. In addition to physical page bits, GPU page table entries specify the compression algorithm for each page. Page sizes range from 4 to 128 kilobytes.<br>现代GPU能够将虚拟地址转换为物理地址。 在GeForce 8800上，所有处理单元都在40位虚拟地址空间中生成内存地址。 对于计算，加载和存储线程指令，使用32位字节地址，通过添加40位偏移量将其扩展为40位虚拟地址。 存储器管理单元执行虚拟到物理地址转换; 硬件从本地存储器读取页表以代表在处理器和呈现引擎之间展开的转换后备缓冲器的层次结构来响应未命中。 除了物理页面位之外，GPU页表条目还为每个页面指定压缩算法。 页面大小范围为4到128千字节。</p>
+<h2 id="Memory-Spaces"><a href="#Memory-Spaces" class="headerlink" title="Memory Spaces"></a>Memory Spaces</h2><p>As introduced in Section C.3, CUDA exposes different memory spaces to allow the programmer to store data values in the most performance-optimal way. For the following discussion, NVIDIA Tesla architecture GPUs are assumed.<br>如C.3节所述，CUDA公开了不同的内存空间，以允许程序员以最佳性能最佳的方式存储数据值。 对于以下讨论，假设使用NVIDIA Tesla架构GPU。</p>
+<h2 id="Global-memory"><a href="#Global-memory" class="headerlink" title="Global memory"></a>Global memory</h2><p>Global memory is stored in external DRAM; it is not local to any one physical streaming multiprocessor (SM) because it is meant for communication among different CTAs (thread blocks) in different grids. In fact, the many CTAs that reference a location in global memory may not be executing in the GPU at the same time; by design, in CUDA a programmer does not know the relative order in which CTAs are executed. Because the address space is evenly distributed among all memory partitions, there must be a read/write path from any streaming multiprocessor to any DRAM partition.</p>
+<p>1399/5000<br>全局存储器存储在外部DRAM中;它不是任何一个物理流多处理器（SM）的本地，因为它用于不同网格中不同CTA（线程块）之间的通信。实际上，引用全局存储器中的位置的许多CTA可能不会同时在GPU中执行;按照设计，在CUDA中，程序员不知道执行CTA的相对顺序。由于地址空间均匀分布在所有内存分区中，因此必须存在从任何流式多处理器到任何DRAM分区的读/写路径。</p>
+<p>Access to global memory by different threads (and diﬀerent processors) is not guaranteed to have sequential consistency. Thread programs see a relaxed memory ordering model. Within a thread, the order of memory reads and writes to the same address is preserved, but the order of accesses to different addresses may not be preserved. Memory reads and writes requested by different threads are unordered. Within a CTA, the barrier synchronization instruction bar.sync can be used to obtain strict memory ordering among the threads of the CTA. The membar thread instruction provides a memory barrier/fence operation that commits prior memory accesses and makes them visible to other threads before proceeding. Threads can also use the atomic memory operations described in Section C.4 to coordinate work on memory they share.<br>不同线程（和不同的处理器）对全局内存的访问不保证具有顺序一致性。 线程程序看到放松的内存排序模型。 在线程内，保留了对同一地址的内存读取和写入顺序，但可能无法保留对不同地址的访问顺序。 不同线程请求的内存读取和写入是无序的。 在CTA中，屏障同步指令bar.sync可用于在CTA的线程之间获得严格的内存排序。 membar线程指令提供了一个内存屏障/围栅操作，它提交先前的内存访问，并使其在继续之前对其他线程可见。 线程还可以使用第C.4节中描述的原子内存操作来协调它们共享的内存的工作。</p>
+<h2 id="Shared-memory"><a href="#Shared-memory" class="headerlink" title="Shared memory"></a>Shared memory</h2><p>Per-CTA shared memory is only visible to the threads that belong to that CTA, and shared memory only occupies storage from the time a CTA is created to the time it terminates. Shared memory can therefore reside on-chip. This approach has many benefits. First, shared memory traffic does not need to compete with limited off-chip bandwidth needed for global memory references. Second, it is practical to build very high-bandwidth memory structures on-chip to support the read/write demands of each streaming multiprocessor. In fact, the shared memory is closely coupled to the streaming multiprocessor<br>Per-CTA共享内存仅对属于该CTA的线程可见，共享内存仅占用从创建CTA到终止时的存储。 因此，共享存储器可以驻留在芯片上。 这种方法有很多好处。 首先，共享内存流量不需要与全局内存引用所需的有限片外带宽竞争。 其次，在片上构建非常高带宽的存储器结构以支持每个流多处理器的读/写需求是实用的。 实际上，共享存储器与流式多处理器紧密耦合</p>
+<p>Each streaming multiprocessor contains eight physical thread processors. During one shared memory clock cycle, each thread processor can process two threads’ worth of instructions, so 16 threads’ worth of shared memory requests must be handled in each clock. Because each thread can generate its own addresses, and the addresses are typically unique, the shared memory is built using 16 independently addressable SRAM banks. For common access patterns, 16 banks are sufcient to maintain throughput, but pathological cases are possible; for example, all 16 threads might happen to access a different address on one SRAM bank. It must be possible to route a request from any thread lane to any bank of SRAM, so a 16-by-16 interconnection network is required.<br>每个流式多处理器包含八个物理线程处理器。 在一个共享内存时钟周期内，每个线程处理器可以处理两个线程的指令，因此必须在每个时钟中处理16个线程的共享内存请求。 由于每个线程都可以生成自己的地址，并且地址通常是唯一的，因此共享内存使用16个可独立寻址的SRAM bank构建。 对于常见的访问模式，16个银行足以维持吞吐量，但病理情况是可能的; 例如，所有16个线程可能碰巧访问一个SRAM组上的不同地址。 必须可以将来自任何线程通道的请求路由到任何SRAM组，因此需要16×16的互连网络。</p>
+<h2 id="Local-Memory"><a href="#Local-Memory" class="headerlink" title="Local Memory"></a>Local Memory</h2><p>Per-thread local memory is private memory visible only to a single thread. Local memory is architecturally larger than the thread’s register file, and a program can compute addresses into local memory. To support large allocations of local memory (recall the total allocation is the per-thread allocation times the number of active threads), local memory is allocated in external DRAM. Although global and per-thread local memory reside oﬀ-chip, they are wellsuited to being cached on-chip.<br>每线程本地内存是仅对单个线程可见的私有内存。 本地存储器在体系结构上比线程的寄存器文件大，并且程序可以将地址计算到本地存储器中。 为了支持本地内存的大量分配（调用总分配是每线程分配乘以活动线程数），本地内存分配在外部DRAM中。 虽然全局和每线程本地内存驻留在芯片上，但它们非常适合在片上缓存。</p>
+<h2 id="Constant-Memory"><a href="#Constant-Memory" class="headerlink" title="Constant Memory"></a>Constant Memory</h2><p>Constant memory is read-only to a program running on the SM (it can be written via commands to the GPU). It is stored in external DRAM and cached in the SM. Because commonly most or all threads in a SIMT warp read from the same address in constant memory, a single address lookup per clock is sufcient. The constant cache is designed to broadcast scalar values to threads in each warp.<br>常量存储器对SM上运行的程序是只读的（可以通过命令写入GPU）。 它存储在外部DRAM中并缓存在SM中。 因为SIMT warp中的大多数或所有线程通常从常量存储器中的相同地址读取，所以每个时钟的单个地址查找是足够的。 常量缓存旨在向每个warp中的线程广播标量值。</p>
+<h2 id="Texture-Memory"><a href="#Texture-Memory" class="headerlink" title="Texture Memory"></a>Texture Memory</h2><p>Texture memory holds large read-only arrays of data. Textures for computing have the same attributes and capabilities as textures used with 3D graphics. Although textures are commonly two-dimensional images (2D arrays of pixel values), 1D (linear) and 3D (volume) textures are also available.<br>纹理内存包含大量只读数据数组。 用于计算的纹理具有与用于3D图形的纹理相同的属性和能力。 虽然纹理通常是二维图像（像素值的2D阵列），但也可以使用1D（线性）和3D（体积）纹理。</p>
+<p>A compute program references a texture using a tex instruction. Operands include an identifer to name the texture, and 1, 2, or 3 coordinates based on the texture dimensionality. Te ﬂoating-point coordinates include a fractional portion that specifes a sample location, ofen in between texel locations. Noninteger coordinates invoke a bilinear weighted interpolation of the four closest values (for a 2D texture) before the result is returned to the program.<br>计算程序使用tex指令引用纹理。 操作数包括用于命名纹理的标识符，以及基于纹理维度的1,2或3个坐标。 浮点坐标包括指定样本位置的小数部分，位于纹素位置之间。 在将结果返回到程序之前，非整数坐标调用四个最接近值（对于2D纹理）的双线性加权插值。</p>
+<p>Texture fetches are cached in a streaming cache hierarchy designed to optimize throughput of texture fetches from thousands of concurrent threads. Some programs use texture fetches as a way to cache global memory.<br>纹理提取缓存在流缓存层次结构中，旨在优化来自数千个并发线程的纹理提取的吞吐量。 一些程序使用纹理提取作为缓存全局内存的方法。</p>
+<h2 id="Surfaces"><a href="#Surfaces" class="headerlink" title="Surfaces"></a>Surfaces</h2><p>Surface is a generic term for a one-dimensional, two-dimensional, or threedimensional array of pixel values and an associated format. A variety of formats are defned; for example, a pixel may be defned as four 8-bit RGBA integer components, or four 16-bit ﬂoating-point components. A program kernel does not need to know the surface type. A tex instruction recasts its result values as ﬂoating-point, depending on the surface format.</p>
+<h2 id="Load-Store-Access"><a href="#Load-Store-Access" class="headerlink" title="Load/Store Access"></a>Load/Store Access</h2><p>Load/store instructions with integer byte addressing enable the writing and compiling of programs in conventional languages like C and C++. CUDA programs use load/store instructions to access memory.<br>带有整数字节寻址的加载/存储指令可以用C和C ++等传统语言编写和编译程序。 CUDA程序使用加载/存储指令来访问内存。</p>
+<p>To improve memory bandwidth and reduce overhead, the local and global load/store instructions coalesce individual parallel thread requests from the same warp together into a single memory block request when the addresses fall in the same block and meet alignment criteria. Coalescing individual small memory requests into large block requests provides a signifcant performance boost over separate requests. Te large thread count, together with support for many outstanding load requests, helps cover load-to-use latency for local and global memory implemented in external DRAM.<br>为了改善存储器带宽并减少开销，当地址落入同一块并满足对齐标准时，本地和全局加载/存储指令将来自相同warp的各个并行线程请求合并为单个存储器块请求。 将单个小内存请求合并到大块请求中可以显着提升单独请求的性能。 大线程数以及对许多未完成的负载请求的支持有助于覆盖外部DRAM中实现的本地和全局内存的负载使用延迟。</p>
+<h2 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h2><p>As shown in Figure C.2.5, NVIDIA Tesla architecture GPUs comprise a scalable streaming processor array (SPA), which performs all of the GPU’s programmabl calculations, and a scalable memory system, which comprises external DRAM control and fxed function Raster Operation Processors (ROPs) that perform color and depth framebuffer operations directly on memory. Each ROP unit is paired with a specifc memory partition. ROP partitions are fed from the SMs via an interconnection network. Each ROP is responsible for depth and stencil tests and updates, as well as color blending. The ROP and memory controllers cooperate to implement lossless color and depth compression (up to 8:1) to reduce external bandwidth demand. ROP units also perform atomic operations on memory.<br>如图C.2.5所示，NVIDIA Tesla架构GPU包括一个可扩展的流处理器阵列（SPA），它执行所有GPU的programmabl计算，以及一个可扩展的存储器系统，包括外部DRAM控制和固定功能光栅操作处理器（ROP） ）直接在内存上执行颜色和深度帧缓冲操作。 每个ROP单元与特定的内存分区配对。 ROP分区通过互连网络从SM馈送。 每个ROP负责深度和模板测试和更新，以及颜色混合。 ROP和内存控制器协同工作，实现无损色彩和深度压缩（高达8：1），以减少外部带宽需求。 ROP单元还对内存执行原子操作。</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/" title="5_Parallel_Memory_System">http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/27/Multithreaded_Multiprocessor_Architecture/" rel="next" title="4_Multithreaded_Multiprocessor_Architecture">
+                <i class="fa fa-chevron-left"></i> 4_Multithreaded_Multiprocessor_Architecture
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Parallel-Memory-System"><span class="nav-number">1.</span> <span class="nav-text">Parallel Memory System</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DRAM-Considerations-DRAM注意事项"><span class="nav-number">1.1.</span> <span class="nav-text">DRAM Considerations DRAM注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Caches"><span class="nav-number">1.2.</span> <span class="nav-text">Caches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MMU"><span class="nav-number">1.3.</span> <span class="nav-text">MMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Spaces"><span class="nav-number">1.4.</span> <span class="nav-text">Memory Spaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-memory"><span class="nav-number">1.5.</span> <span class="nav-text">Global memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shared-memory"><span class="nav-number">1.6.</span> <span class="nav-text">Shared memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Local-Memory"><span class="nav-number">1.7.</span> <span class="nav-text">Local Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constant-Memory"><span class="nav-number">1.8.</span> <span class="nav-text">Constant Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Texture-Memory"><span class="nav-number">1.9.</span> <span class="nav-text">Texture Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Surfaces"><span class="nav-number">1.10.</span> <span class="nav-text">Surfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-Store-Access"><span class="nav-number">1.11.</span> <span class="nav-text">Load/Store Access</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROP"><span class="nav-number">1.12.</span> <span class="nav-text">ROP</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

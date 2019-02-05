@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="摘要： 想以后研究一下VSCode的插件开发，所以就决定把官方文档翻译一下。当然了，大部分是机器翻译，我只是把翻译的奇怪的地方和不通顺的地方稍微改改，不影响理解就成。🤣">
+<meta name="keywords" content="翻译,VSCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSCode插件开发">
+<meta property="og:url" content="http://cooguyan.github.io/2018/05/05/VSCode插件入门/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="摘要： 想以后研究一下VSCode的插件开发，所以就决定把官方文档翻译一下。当然了，大部分是机器翻译，我只是把翻译的奇怪的地方和不通顺的地方稍微改改，不影响理解就成。🤣">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/extensions/overview/extensibility-architecture.png">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/generator.png">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/running.png">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/hitbp.png">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/selection-length.png">
+<meta property="og:updated_time" content="2019-01-05T09:53:54.262Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VSCode插件开发">
+<meta name="twitter:description" content="摘要： 想以后研究一下VSCode的插件开发，所以就决定把官方文档翻译一下。当然了，大部分是机器翻译，我只是把翻译的奇怪的地方和不通顺的地方稍微改改，不影响理解就成。🤣">
+<meta name="twitter:image" content="https://code.visualstudio.com/assets/docs/extensions/overview/extensibility-architecture.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/05/05/VSCode插件入门/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>VSCode插件开发 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/05/05/VSCode插件入门/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">VSCode插件开发
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-05 16:53:28" itemprop="dateCreated datePublished" datetime="2018-05-05T16:53:28+08:00">2018-05-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-05 17:53:54" itemprop="dateModified" datetime="2019-01-05T17:53:54+08:00">2019-01-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/VSCode相关/" itemprop="url" rel="index"><span itemprop="name">VSCode相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> <strong>摘要：</strong></p>
+<p>想以后研究一下VSCode的插件开发，所以就决定把<a href="">官方文档</a>翻译一下。当然了，大部分是机器翻译，我只是把翻译的奇怪的地方和不通顺的地方稍微改改，不影响理解就成。🤣</p>
+<a id="more"></a>
+<h1 id="概貌"><a href="#概貌" class="headerlink" title="概貌"></a>概貌</h1><p>如果你有兴趣扩展VS Code，你是在正确的地方。 在这里，我们提供VS Code扩展性文档的概要以及如何快速构建您的第一个VS Code扩展。 如果您对我们的VS Code的扩展性设计方法感到好奇，可以在这里阅读。</p>
+<p>如果您只想使用现有的扩展，请参阅Extension Marketplace主题，我们将向您展示如何从VS Code Marketplace中查找和安装扩展。</p>
+<p>所有VS代码扩展共享贡献（注册），激活（加载）和访问VS代码扩展性API的通用模型。 然而，VS代码扩展有两种特殊的风格，语言服务器和调试器，它们都有自己的附加协议，并在文档的各个部分中进行了介绍。</p>
+<ol>
+<li>扩展 - 基础构建块</li>
+<li>语言服务器 - 用于高成本的IO或CPU密集型任务</li>
+<li>调试器 - 通过调试适配器连接外部调试器</li>
+</ol>
+<p><img src="https://code.visualstudio.com/assets/docs/extensions/overview/extensibility-architecture.png" alt=""></p>
+<h2 id="Extensions"><a href="#Extensions" class="headerlink" title="Extensions"></a>Extensions</h2><p>激活时所有扩展在我们的共享扩展宿主进程中运行。 这种扩展的单独流程可确保VS代码始终保持响应。</p>
+<p>扩展包括支持：</p>
+<ul>
+<li>激活 - 在检测到特定文件类型时，特定文件存在时，或通过命令选项板或组合键选择命令时加载扩展名</li>
+<li>编辑 - 处理编辑的内容 - 阅读和操作文本，利用选择（s）</li>
+<li>工作区 - 访问打开的编辑器，状态栏，信息消息等等</li>
+<li>事件 - 连接到编辑器生命周期事件，例如：打开，关闭，更改等</li>
+<li>演变编辑 - 为丰富的语言支持创建提供商，包括IntelliSense，Peek，悬停，诊断等等</li>
+</ul>
+<p>我们有两个端到端的教程，让您了解扩展基础知识：</p>
+<ul>
+<li>Hello World - 生成基本扩展名，理解扩展的文件夹结构，扩展名清单，了解激活如何工作，运行和调试扩展并在本地安装。</li>
+<li>字数 - 根据特定文件类型激活，更新状态栏，响应文本编辑器中的更改，并在离开文件时处置扩展名。</li>
+</ul>
+<p>扩展性原则和模式也很有用，它描述了整个扩展性API使用的共享编程模式。</p>
+<h2 id="Language-Servers"><a href="#Language-Servers" class="headerlink" title="Language Servers"></a>Language Servers</h2><p>语言服务器可让您为您的扩展程序创建专用流程。 当您的扩展程序运行高成本的CPU或IO密集型任务时，这可能会延缓其他扩展，这对于您的扩展是一个有用的设计选择。 这对于在工作区中的所有文件中工作的任务是很常见的，例如 (linters or static analysis suites)棉绒或静态分析套件<br>详细了解语言服务器。</p>
+<h2 id="Debug-Adapter"><a href="#Debug-Adapter" class="headerlink" title="Debug Adapter"></a>Debug Adapter</h2><p>VS Code实现了一个通用的调试器UI，并依赖于调试器扩展和所谓的“调试适配器”来将调试用户界面连接到真实的调试器或运行时。 调试适配器是一个专用进程，通过VS代码调试协议与VS代码进行通信，并且可以用任何语言实现。</p>
+<p>了解更多关于创建调试器扩展的信息。</p>
+<hr>
+<p>查看VS代码扩展的最简单方法是通过扩展市场。 你可以浏览有用的扩展，安装它们来试用它们，并了解如何为自己的开发场景扩展VS Code。</p>
+<h2 id="Language-Extension-Guidelines"><a href="#Language-Extension-Guidelines" class="headerlink" title="Language Extension Guidelines"></a>Language Extension Guidelines</h2><p>语言扩展指南主题可以帮助您决定您的扩展支持哪些语言功能。 它显示了VS Code中提供的各种语言功能（例如，代码建议和操作，格式设置，重命名），以及如何通过语言服务器协议或直接使用扩展API从您的扩展实现它们。</p>
+<h2 id="Themes-Snippets-and-Colorizers"><a href="#Themes-Snippets-and-Colorizers" class="headerlink" title="Themes, Snippets, and Colorizers"></a>Themes, Snippets, and Colorizers</h2><p>您可以通过语法突出显示，有用的片段和精心设计的颜色主题等简单的东西，为编程语言提供出色的编辑体验。 TextMate自定义文件提供了这种支持，VS Code允许您轻松打包和重用这些文件，以便您可以在扩展中直接使用.tmTheme，.tmSnippets和.tmLanguage文件。 我们的主题，片段和着色器主题向您展示了如何包含TextMate文件，并就如何创建自己的主题，片段和语言着色器提供指导。</p>
+<h2 id="Writing-an-Extension"><a href="#Writing-an-Extension" class="headerlink" title="Writing an Extension"></a>Writing an Extension</h2><p>有一个Yeoman扩展生成器，可以非常容易地创建简单的扩展项目。 这些对于开始很有用，您还可以找到现有的扩展示例。</p>
+<p>扩展可以用TypeScript或JavaScript编写。 VS Code提供了一流的扩展开发经验，您可以在VS Code本身内开发，构建，运行，测试和调试所有内容。</p>
+<h2 id="Testing-Extensions"><a href="#Testing-Extensions" class="headerlink" title="Testing Extensions"></a>Testing Extensions</h2><p>我们也非常支持为您的扩展程序编写和运行测试。 您可以轻松创建调用VS Code API的集成测试，并在运行的VS Code实例中测试您的代码。</p>
+<h2 id="Extension-Ideas"><a href="#Extension-Ideas" class="headerlink" title="Extension Ideas"></a>Extension Ideas</h2><p>VS Code功能的许多伟大的社区理念更好地实现为扩展而不是核心产品的一部分。 这样用户就可以通过安装正确的扩展集来轻松选择他们想要的功能。 VS Code团队将可能的扩展跟踪为vscode存储库中标记为 * extension-candidate的GitHub问题。 如果你正在寻找一个伟大的扩展来构建，看看 * 扩展候选问题。</p>
+<h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><h1 id="Yo-Code-Extension-Generator"><a href="#Yo-Code-Extension-Generator" class="headerlink" title="Yo Code - Extension Generator"></a>Yo Code - Extension Generator</h1><h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><h2 id="Install-the-Generator"><a href="#Install-the-Generator" class="headerlink" title="Install the Generator"></a>Install the Generator</h2><h2 id="Run-Yo-Code"><a href="#Run-Yo-Code" class="headerlink" title="Run Yo Code"></a>Run Yo Code</h2><h2 id="Generator-Options"><a href="#Generator-Options" class="headerlink" title="Generator Options"></a>Generator Options</h2><h2 id="Your-extensions-folder"><a href="#Your-extensions-folder" class="headerlink" title="Your extensions folder"></a>Your extensions folder</h2><h2 id="Next-Steps-1"><a href="#Next-Steps-1" class="headerlink" title="Next Steps"></a>Next Steps</h2><h1 id="示例-Hello-World"><a href="#示例-Hello-World" class="headerlink" title="示例 - Hello World"></a>示例 - Hello World</h1><h2 id="你的第一个插件"><a href="#你的第一个插件" class="headerlink" title="你的第一个插件"></a>你的第一个插件</h2><p>本文档将指导您创建您的第一个VS代码扩展（“Hello World”）并解释基本的VS代码扩展性概念。</p>
+<p>在本演练中，您将向VS Code添加一个新命令，该命令将显示一个简单的“Hello World”消息。 稍后在演练中，您将与VS Code编辑器交互并查询用户当前选定的文本。</p>
+<h2 id="先决条件（Prerequisites）"><a href="#先决条件（Prerequisites）" class="headerlink" title="先决条件（Prerequisites）"></a>先决条件（Prerequisites）</h2><p>您需要安装Node.js并在您的$ PATH中可用。 Node.js包含npm，即Node.js包管理器，它将用于安装扩展生成器。</p>
+<h2 id="生成一个新的扩展"><a href="#生成一个新的扩展" class="headerlink" title="生成一个新的扩展"></a>生成一个新的扩展</h2><p>将自己的功能添加到VS Code的最简单方法是通过添加命令。 一个命令注册一个回调函数，该函数可以从命令面板或键盘绑定中调用。</p>
+<p>我们已经写了一个 Yeoman generator 来帮助你开始。 安装Yeoman和Yeoman VS代码扩展生成器并搭建一个新的扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo generator-code</span><br><span class="line">yo code</span><br></pre></td></tr></table></figure>
+<p>对于hello world扩展，您可以创建TypeScript扩展或JavaScript。 对于这个例子，我们选择一个TypeScript扩展。<br><img src="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/generator.png" alt=""></p>
+<h2 id="Running-your-extension"><a href="#Running-your-extension" class="headerlink" title="Running your extension"></a>Running your extension</h2><ul>
+<li>启动VS代码，选择文件&gt;打开文件夹，然后选择您生成的文件夹。</li>
+<li>按F5或单击调试图标，然后单击开始。</li>
+<li>VS Code的新实例将以特殊模式（扩展开发主机）启动，并且此新实例现在知道您的扩展。</li>
+<li>按下Ctrl + Shift + P并运行名为Hello World的命令。</li>
+<li>恭喜！ 你刚刚创建并执行了你的第一个VS Code命令！</li>
+</ul>
+<p><img src="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/running.png" alt=""></p>
+<h2 id="扩展的结构"><a href="#扩展的结构" class="headerlink" title="扩展的结构"></a>扩展的结构</h2><p>After running, the generated extension should have the following structure:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .gitignore</span><br><span class="line">├── .vscode                     // VS Code integration</span><br><span class="line">│   ├── launch.json</span><br><span class="line">│   ├── settings.json</span><br><span class="line">│   └── tasks.json</span><br><span class="line">├── .vscodeignore               // files ignored when publishing extension</span><br><span class="line">├── README.md</span><br><span class="line">├── src</span><br><span class="line">│   └── extension.ts            // the source of the extension entry point</span><br><span class="line">├── test                        // test folder</span><br><span class="line">│   ├── extension.test.ts       // extension.test.js, in case of JavaScript extension</span><br><span class="line">│   └── index.ts                // index.js, in case of JavaScript extension</span><br><span class="line">├── node_modules</span><br><span class="line">│   ├── vscode                  // include vscode type definition file for extension development</span><br><span class="line">│   └── typescript              // compiler for typescript (TypeScript only)</span><br><span class="line">├── out                         // compilation output (TypeScript only)</span><br><span class="line">│   ├── extension.js            // the extension entry point</span><br><span class="line">│   ├── extension.js.map</span><br><span class="line">│   └── test</span><br><span class="line">│       ├── extension.test.js</span><br><span class="line">│       ├── extension.test.js.map</span><br><span class="line">│       ├── index.js</span><br><span class="line">│       └── index.js.map</span><br><span class="line">├── package.json                // extension&apos;s manifest</span><br><span class="line">├── tsconfig.json               // jsconfig.json, in case of JavaScript extension</span><br><span class="line">└── vsc-extension-quickstart.md // extension development quick start</span><br></pre></td></tr></table></figure>
+<p>让我们通过所有这些文件的目的，并解释他们做了什么：</p>
+<h3 id="扩展名清单：package-json"><a href="#扩展名清单：package-json" class="headerlink" title="扩展名清单：package.json"></a>扩展名清单：package.json</h3><ul>
+<li>每个VS代码扩展必须有一个描述它及其功能的package.json文件。</li>
+<li>VS代码在启动过程中读取此文件，并立即响应每个文件。</li>
+<li>请阅读<a href="https://code.visualstudio.com/docs/extensionAPI/extension-manifest" target="_blank" rel="noopener">package.json扩展清单参考。</a></li>
+<li>有关package.json贡献点的<a href="https://code.visualstudio.com/docs/extensionAPI/extension-points" target="_blank" rel="noopener">更多信息。</a></li>
+</ul>
+<p><strong>示例TYPESCRIPT EXTENSION MANIFEST</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;myFirstExtension&quot;,</span><br><span class="line">    &quot;description&quot;: &quot;&quot;,</span><br><span class="line">    &quot;version&quot;: &quot;0.0.1&quot;,</span><br><span class="line">    &quot;publisher&quot;: &quot;&quot;,</span><br><span class="line">    &quot;engines&quot;: &#123;</span><br><span class="line">        &quot;vscode&quot;: &quot;^1.5.0&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;categories&quot;: [</span><br><span class="line">        &quot;Other&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;activationEvents&quot;: [</span><br><span class="line">        &quot;onCommand:extension.sayHello&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;main&quot;: &quot;./out/extension&quot;,</span><br><span class="line">    &quot;contributes&quot;: &#123;</span><br><span class="line">        &quot;commands&quot;: [&#123;</span><br><span class="line">            &quot;command&quot;: &quot;extension.sayHello&quot;,</span><br><span class="line">            &quot;title&quot;: &quot;Hello World&quot;</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;scripts&quot;: &#123;</span><br><span class="line">        &quot;vscode:prepublish&quot;: &quot;tsc -p ./&quot;,</span><br><span class="line">        &quot;compile&quot;: &quot;tsc -watch -p ./&quot;,</span><br><span class="line">        &quot;postinstall&quot;: &quot;node ./node_modules/vscode/bin/install&quot;,</span><br><span class="line">        &quot;test&quot;: &quot;node ./node_modules/vscode/bin/test&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;devDependencies&quot;: &#123;</span><br><span class="line">       &quot;typescript&quot;: &quot;^2.0.3&quot;,</span><br><span class="line">        &quot;vscode&quot;: &quot;^1.5.0&quot;,</span><br><span class="line">        &quot;mocha&quot;: &quot;^2.3.3&quot;,</span><br><span class="line">        &quot;@types/node&quot;: &quot;^6.0.40&quot;,</span><br><span class="line">        &quot;@types/mocha&quot;: &quot;^2.2.32&quot;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Note: JavaScript扩展不需要脚本字段，因为不需要编译。</p>
+</blockquote>
+<p>这个特定的package.json描述了一个扩展：</p>
+<ul>
+<li>使用标签“Hello world”为Command Palette（Ctrl + Shift + P）作出贡献，该标签将调用命令“extension.sayHello”。</li>
+<li>请求在调用“extension.sayHello”命令时加载（activationEvents）。</li>
+<li>将其主要JavaScript代码放在名为“./out/extension.js”的文件中。</li>
+</ul>
+<blockquote>
+<p>Note: VS代码不会在启动时急切地加载扩展的代码。 扩展必须通过activationEvents属性在什么条件下激活（加载）来描述。</p>
+</blockquote>
+<h3 id="生成的代码"><a href="#生成的代码" class="headerlink" title="生成的代码"></a>生成的代码</h3><p>生成的扩展的代码位于extension.ts（或扩展名为JavaScript的扩展名的情况下）：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The module 'vscode' contains the VS Code extensibility API</span></span><br><span class="line"><span class="comment">// Import the module and reference it with the alias vscode in your code below</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> vscode <span class="keyword">from</span> <span class="string">'vscode'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method is called when your extension is activated</span></span><br><span class="line"><span class="comment">// your extension is activated the very first time the command is executed</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">activate</span>(<span class="params">context: vscode.ExtensionContext</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use the console to output diagnostic information (console.log) and errors (console.error)</span></span><br><span class="line">    <span class="comment">// This line of code will only be executed once when your extension is activated</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Congratulations, your extension "my-first-extension" is now active!'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The command has been defined in the package.json file</span></span><br><span class="line">    <span class="comment">// Now provide the implementation of the command with  registerCommand</span></span><br><span class="line">    <span class="comment">// The commandId parameter must match the command field in package.json</span></span><br><span class="line">    <span class="keyword">let</span> disposable = vscode.commands.registerCommand(<span class="string">'extension.sayHello'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// The code you place here will be executed every time your command is executed</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Display a message box to the user</span></span><br><span class="line">        vscode.window.showInformationMessage(<span class="string">'Hello World!'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    context.subscriptions.push(disposable);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>每个扩展应从其主文件中导出一个名为activate（）的函数，当发生package.json文件中描述的任何激活事件时，该VS代码将只调用一次。</li>
+<li>如果扩展使用OS资源（例如衍生进程），则扩展可以从其主文件中导出一个名为deactivate（）的函数，在该函数中它可以执行清理工作，VS代码将在关闭时调用该函数。</li>
+<li>这个特定的扩展名导入了vscode API，然后注册一个命令，将命令“extension.sayHello”调用时关联一个函数。 该命令的实现在VS Code中显示“Hello world”消息。</li>
+</ul>
+<blockquote>
+<p>注：package.json的contribution部分向Command Palette添加一个条目。 extension.ts / .js中的代码定义了“extension.sayHello”的实现。</p>
+</blockquote>
+<p>另</p>
+<blockquote>
+<p>注：对于TypeScript扩展，生成的文件out / extension.js将在运行时加载并由VS代码执行。</p>
+</blockquote>
+<h3 id="杂项文件-Miscellaneous-files"><a href="#杂项文件-Miscellaneous-files" class="headerlink" title="杂项文件(Miscellaneous files)"></a>杂项文件(Miscellaneous files)</h3><ul>
+<li>.vscode / launch.json定义在扩展开发模式下启动VS代码。 它还使用preLaunchTask指向运行TypeScript编译器的.vscode / tasks.json中定义的任务。</li>
+<li>.vscode / settings.json默认排除out文件夹。 您可以修改要隐藏的文件类型。</li>
+<li>.gitignore - 告诉Git版本控制哪些模式要忽略。</li>
+<li>.vscodeignore - 告知打包工具在发布扩展时忽略哪些文件。</li>
+<li>README.md - 描述VS Code用户扩展的自述文件。</li>
+<li>vsc-extension-quickstart.md - 快速入门指南。</li>
+<li>test / extension.test.ts - 您可以将您的扩展单元测试放在这里，并针对VS Code API运行测试（请参阅测试您的扩展）</li>
+</ul>
+<h2 id="扩展激活"><a href="#扩展激活" class="headerlink" title="扩展激活"></a>扩展激活</h2><p> 现在扩展中包含的文件的角色已经明确，下面是您的扩展如何激活：</p>
+<ul>
+<li>扩展开发实例发现扩展并读取它的package.json文件。</li>
+<li>稍后当您按Ctrl + Shift + P时：</li>
+<li>注册的命令显示在命令面板中。</li>
+<li>在这个列表中，现在有一个在package.json中定义的条目“Hello world”。</li>
+<li>选择“Hello world”命令时：</li>
+<li>命令“extension.sayHello”被调用：<ul>
+<li>激活事件“onCommand：extension.sayHello”被创建。</li>
+<li>所有在激活事件中列出激活事件的扩展都会被激活。<ul>
+<li>./out/extension.js中的文件被加载到JavaScript VM中。</li>
+<li>VS代码查找导出的函数激活并调用它。</li>
+<li>命令“extension.sayHello”已注册，现在定义了其实现。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>调用命令“extension.sayHello”实现函数。</li>
+<li>命令实现显示“Hello World”消息。</li>
+</ul>
+<h2 id="调试你的拓展"><a href="#调试你的拓展" class="headerlink" title="调试你的拓展"></a>调试你的拓展</h2><p>例如，在注册的命令中设置断点，然后在Extension Development VS代码实例中运行“Hello world”命令。<br><img src="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/hitbp.png" alt=""></p>
+<blockquote>
+<p>注：对于TypeScript扩展，即使VS代码加载并执行out / extension.js，由于生成的源映射out / extension.js.map和VS Code的源代码映射器调试器支持，您实际上可以调试原始的TypeScript代码。<br>提示：调试控制台将显示您登录到控制台的所有消息。</p>
+</blockquote>
+<p>To learn more about the extension development environment.</p>
+<h2 id="一个简单的改变"><a href="#一个简单的改变" class="headerlink" title="一个简单的改变"></a>一个简单的改变</h2><p>在extension.ts（或extension.js，在JavaScript扩展中），请尝试替换extension.sayHello命令实现以显示在编辑器中选择的字符数：<br><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> disposable = vscode.commands.registerCommand(<span class="string">'extension.sayHello'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// The code you place here will be executed every time your command is executed</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> editor = vscode.window.activeTextEditor;</span><br><span class="line">    <span class="keyword">if</span> (!editor) &#123;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">// No open text editor</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> selection = editor.selection;</span><br><span class="line">    <span class="keyword">let</span> text = editor.document.getText(selection);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Display a message box to the user</span></span><br><span class="line">    vscode.window.showInformationMessage(<span class="string">'Selected characters: '</span> + text.length);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>提示：一旦您对扩展源代码进行更改，您需要重新启动VS Code的Extension Development Host实例。 您可以通过在Extension Development Host实例中使用Ctrl + R（macOS：Cmd + R）或通过单击主VS代码实例顶部的重启按钮来实现。</p>
+</blockquote>
+<p>创建一个文件（文件&gt;新建文件），输入一些文本并选择它。 当您运行Hello World命令时，您现在应该看到所选字符的计数。<br><img src="https://code.visualstudio.com/assets/docs/extensions/example-hello-world/selection-length.png" alt=""></p>
+<h2 id="在本地安装您的扩展"><a href="#在本地安装您的扩展" class="headerlink" title="在本地安装您的扩展"></a>在本地安装您的扩展</h2><p>到目前为止，您所编写的扩展只在VS Code的一个特殊实例中运行，即扩展开发实例。 要让您的扩展程序在VS代码的所有实例中运行，您需要将其复制到本地扩展文件夹下的新文件夹中：</p>
+<ul>
+<li>Windows: %USERPROFILE%.vscode\extensions</li>
+<li>macOS/Linux: $HOME/.vscode/extensions</li>
+</ul>
+<h2 id="发布您的扩展"><a href="#发布您的扩展" class="headerlink" title="发布您的扩展"></a>发布您的扩展</h2><p>阅读有关如何<a href="https://code.visualstudio.com/docs/extensions/publish-extension" target="_blank" rel="noopener">共享扩展</a>的信息。</p>
+<h2 id="Next-Steps-2"><a href="#Next-Steps-2" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>在本演练中，我们看到了一个非常简单的扩展。 有关更详细的示例，请参阅字数统计示例，其中显示了如何定位特定语言（Markdown）并收听编辑器的文档更改事件。</p>
+<p>如果您想更详细地阅读扩展API，请尝试以下主题：</p>
+<ul>
+<li><a href="https://code.visualstudio.com/docs/extensionAPI/overview" target="_blank" rel="noopener">扩展API概述</a> - 了解完整的VS代码扩展模型。</li>
+<li><a href="https://code.visualstudio.com/docs/extensionAPI/patterns-and-principles" target="_blank" rel="noopener">API原则和模式</a> - VS代码可扩展性基于几个指导原则和模式。</li>
+<li><a href="https://code.visualstudio.com/docs/extensionAPI/extension-points" target="_blank" rel="noopener">贡献点</a> - 关于各种VS Code贡献点的细节。</li>
+<li><a href="https://code.visualstudio.com/docs/extensionAPI/activation-events" target="_blank" rel="noopener">激活事件</a> - VS代码激活事件参考</li>
+<li><a href="https://code.visualstudio.com/docs/extensions/samples" target="_blank" rel="noopener">其他扩展示例</a> - 查看我们的示例扩展项目列表。</li>
+</ul>
+<h1 id="Example-Word-Count"><a href="#Example-Word-Count" class="headerlink" title="Example - Word Count"></a>Example - Word Count</h1><p>原文链接<a href="https://code.visualstudio.com/docs/extensions/example-word-count" target="_blank" rel="noopener">https://code.visualstudio.com/docs/extensions/example-word-count</a></p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><h2 id="Run-the-Extension"><a href="#Run-the-Extension" class="headerlink" title="Run the Extension"></a>Run the Extension</h2><h2 id="Update-the-Status-Bar"><a href="#Update-the-Status-Bar" class="headerlink" title="Update the Status Bar"></a>Update the Status Bar</h2><h2 id="Subscribing-to-Events"><a href="#Subscribing-to-Events" class="headerlink" title="Subscribing to Events"></a>Subscribing to Events</h2><h2 id="Customizing-the-Status-Bar"><a href="#Customizing-the-Status-Bar" class="headerlink" title="Customizing the Status Bar"></a>Customizing the Status Bar</h2><h2 id="Disposing-Extension-Resources"><a href="#Disposing-Extension-Resources" class="headerlink" title="Disposing Extension Resources"></a>Disposing Extension Resources</h2><h2 id="Installing-your-Extension-Locally"><a href="#Installing-your-Extension-Locally" class="headerlink" title="Installing your Extension Locally"></a>Installing your Extension Locally</h2><h2 id="Publishing-your-Extension"><a href="#Publishing-your-Extension" class="headerlink" title="Publishing your Extension"></a>Publishing your Extension</h2><h2 id="Next-Steps-3"><a href="#Next-Steps-3" class="headerlink" title="Next Steps"></a>Next Steps</h2><h1 id="Example-Language-Server"><a href="#Example-Language-Server" class="headerlink" title="Example - Language Server"></a>Example - Language Server</h1><p>原文链接 <a href="https://code.visualstudio.com/docs/extensions/example-language-server" target="_blank" rel="noopener">https://code.visualstudio.com/docs/extensions/example-language-server</a></p>
+<h2 id="Implement-your-own-Language-Server"><a href="#Implement-your-own-Language-Server" class="headerlink" title="Implement your own Language Server"></a>Implement your own Language Server</h2><h2 id="Explaining-the-‘Client’"><a href="#Explaining-the-‘Client’" class="headerlink" title="Explaining the ‘Client’"></a>Explaining the ‘Client’</h2><h2 id="Explaining-the-‘Server’"><a href="#Explaining-the-‘Server’" class="headerlink" title="Explaining the ‘Server’"></a>Explaining the ‘Server’</h2><h2 id="Adding-a-Simple-Validation"><a href="#Adding-a-Simple-Validation" class="headerlink" title="Adding a Simple Validation"></a>Adding a Simple Validation</h2><h2 id="Debugging-both-Client-and-Server"><a href="#Debugging-both-Client-and-Server" class="headerlink" title="Debugging both Client and Server"></a>Debugging both Client and Server</h2><h2 id="Using-Configuration-Settings-in-the-Server"><a href="#Using-Configuration-Settings-in-the-Server" class="headerlink" title="Using Configuration Settings in the Server"></a>Using Configuration Settings in the Server</h2><h2 id="Adding-additional-Language-Features"><a href="#Adding-additional-Language-Features" class="headerlink" title="Adding additional Language Features"></a>Adding additional Language Features</h2><h2 id="Additional-Language-Server-features"><a href="#Additional-Language-Server-features" class="headerlink" title="Additional Language Server features"></a>Additional Language Server features</h2><h2 id="Incremental-Text-Document-Synchronization"><a href="#Incremental-Text-Document-Synchronization" class="headerlink" title="Incremental Text Document Synchronization"></a>Incremental Text Document Synchronization</h2><h2 id="Next-Steps-4"><a href="#Next-Steps-4" class="headerlink" title="Next Steps"></a>Next Steps</h2><h1 id="Example-Debug-Adapter"><a href="#Example-Debug-Adapter" class="headerlink" title="Example - Debug Adapter"></a>Example - Debug Adapter</h1><p><a href="https://code.visualstudio.com/docs/extensions/example-debuggers#_alternative-approach-to-develop-a-debug-extension" target="_blank" rel="noopener">原文链接</a></p>
+<h2 id="The-Mock-Debug-Extension"><a href="#The-Mock-Debug-Extension" class="headerlink" title="The Mock Debug Extension"></a>The Mock Debug Extension</h2><h2 id="Development-Setup-for-Mock-Debug"><a href="#Development-Setup-for-Mock-Debug" class="headerlink" title="Development Setup for Mock Debug"></a>Development Setup for Mock Debug</h2><h2 id="Anatomy-of-the-package-json-of-a-Debug-Extension"><a href="#Anatomy-of-the-package-json-of-a-Debug-Extension" class="headerlink" title="Anatomy of the package.json of a Debug Extension"></a>Anatomy of the package.json of a Debug Extension</h2><h2 id="Using-a-DebugConfigurationProvider"><a href="#Using-a-DebugConfigurationProvider" class="headerlink" title="Using a DebugConfigurationProvider"></a>Using a DebugConfigurationProvider</h2><h2 id="Publishing-your-Debug-Adapter"><a href="#Publishing-your-Debug-Adapter" class="headerlink" title="Publishing your Debug Adapter"></a>Publishing your Debug Adapter</h2><h2 id="Alternative-approach-to-develop-a-Debug-Extension"><a href="#Alternative-approach-to-develop-a-Debug-Extension" class="headerlink" title="Alternative approach to develop a Debug Extension"></a>Alternative approach to develop a Debug Extension</h2>
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/05/05/VSCode插件入门/" title="VSCode插件开发">http://cooguyan.github.io/2018/05/05/VSCode插件入门/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+            <a href="/tags/VSCode/" rel="tag"># VSCode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/05/Text-Buffer-Reimplementation/" rel="next" title="Text Buffer Reimplementation">
+                <i class="fa fa-chevron-left"></i> Text Buffer Reimplementation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/07/练习项目：区块链在医院的应用/" rel="prev" title="练习项目：区块链在医院的应用">
+                练习项目：区块链在医院的应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概貌"><span class="nav-number">1.</span> <span class="nav-text">概貌</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Extensions"><span class="nav-number">1.1.</span> <span class="nav-text">Extensions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Language-Servers"><span class="nav-number">1.2.</span> <span class="nav-text">Language Servers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Adapter"><span class="nav-number">1.3.</span> <span class="nav-text">Debug Adapter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Language-Extension-Guidelines"><span class="nav-number">1.4.</span> <span class="nav-text">Language Extension Guidelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Themes-Snippets-and-Colorizers"><span class="nav-number">1.5.</span> <span class="nav-text">Themes, Snippets, and Colorizers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Writing-an-Extension"><span class="nav-number">1.6.</span> <span class="nav-text">Writing an Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Testing-Extensions"><span class="nav-number">1.7.</span> <span class="nav-text">Testing Extensions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extension-Ideas"><span class="nav-number">1.8.</span> <span class="nav-text">Extension Ideas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps"><span class="nav-number">1.9.</span> <span class="nav-text">Next Steps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Yo-Code-Extension-Generator"><span class="nav-number">2.</span> <span class="nav-text">Yo Code - Extension Generator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Prerequisites"><span class="nav-number">2.1.</span> <span class="nav-text">Prerequisites</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-the-Generator"><span class="nav-number">2.2.</span> <span class="nav-text">Install the Generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-Yo-Code"><span class="nav-number">2.3.</span> <span class="nav-text">Run Yo Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generator-Options"><span class="nav-number">2.4.</span> <span class="nav-text">Generator Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Your-extensions-folder"><span class="nav-number">2.5.</span> <span class="nav-text">Your extensions folder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps-1"><span class="nav-number">2.6.</span> <span class="nav-text">Next Steps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例-Hello-World"><span class="nav-number">3.</span> <span class="nav-text">示例 - Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#你的第一个插件"><span class="nav-number">3.1.</span> <span class="nav-text">你的第一个插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先决条件（Prerequisites）"><span class="nav-number">3.2.</span> <span class="nav-text">先决条件（Prerequisites）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成一个新的扩展"><span class="nav-number">3.3.</span> <span class="nav-text">生成一个新的扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-your-extension"><span class="nav-number">3.4.</span> <span class="nav-text">Running your extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展的结构"><span class="nav-number">3.5.</span> <span class="nav-text">扩展的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展名清单：package-json"><span class="nav-number">3.5.1.</span> <span class="nav-text">扩展名清单：package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成的代码"><span class="nav-number">3.5.2.</span> <span class="nav-text">生成的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#杂项文件-Miscellaneous-files"><span class="nav-number">3.5.3.</span> <span class="nav-text">杂项文件(Miscellaneous files)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展激活"><span class="nav-number">3.6.</span> <span class="nav-text">扩展激活</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试你的拓展"><span class="nav-number">3.7.</span> <span class="nav-text">调试你的拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的改变"><span class="nav-number">3.8.</span> <span class="nav-text">一个简单的改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在本地安装您的扩展"><span class="nav-number">3.9.</span> <span class="nav-text">在本地安装您的扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布您的扩展"><span class="nav-number">3.10.</span> <span class="nav-text">发布您的扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps-2"><span class="nav-number">3.11.</span> <span class="nav-text">Next Steps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example-Word-Count"><span class="nav-number">4.</span> <span class="nav-text">Example - Word Count</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">4.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-the-Extension"><span class="nav-number">4.2.</span> <span class="nav-text">Run the Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Update-the-Status-Bar"><span class="nav-number">4.3.</span> <span class="nav-text">Update the Status Bar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subscribing-to-Events"><span class="nav-number">4.4.</span> <span class="nav-text">Subscribing to Events</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Customizing-the-Status-Bar"><span class="nav-number">4.5.</span> <span class="nav-text">Customizing the Status Bar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Disposing-Extension-Resources"><span class="nav-number">4.6.</span> <span class="nav-text">Disposing Extension Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Installing-your-Extension-Locally"><span class="nav-number">4.7.</span> <span class="nav-text">Installing your Extension Locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Publishing-your-Extension"><span class="nav-number">4.8.</span> <span class="nav-text">Publishing your Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps-3"><span class="nav-number">4.9.</span> <span class="nav-text">Next Steps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example-Language-Server"><span class="nav-number">5.</span> <span class="nav-text">Example - Language Server</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Implement-your-own-Language-Server"><span class="nav-number">5.1.</span> <span class="nav-text">Implement your own Language Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explaining-the-‘Client’"><span class="nav-number">5.2.</span> <span class="nav-text">Explaining the ‘Client’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explaining-the-‘Server’"><span class="nav-number">5.3.</span> <span class="nav-text">Explaining the ‘Server’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adding-a-Simple-Validation"><span class="nav-number">5.4.</span> <span class="nav-text">Adding a Simple Validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debugging-both-Client-and-Server"><span class="nav-number">5.5.</span> <span class="nav-text">Debugging both Client and Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Configuration-Settings-in-the-Server"><span class="nav-number">5.6.</span> <span class="nav-text">Using Configuration Settings in the Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adding-additional-Language-Features"><span class="nav-number">5.7.</span> <span class="nav-text">Adding additional Language Features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Additional-Language-Server-features"><span class="nav-number">5.8.</span> <span class="nav-text">Additional Language Server features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Incremental-Text-Document-Synchronization"><span class="nav-number">5.9.</span> <span class="nav-text">Incremental Text Document Synchronization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps-4"><span class="nav-number">5.10.</span> <span class="nav-text">Next Steps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example-Debug-Adapter"><span class="nav-number">6.</span> <span class="nav-text">Example - Debug Adapter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Mock-Debug-Extension"><span class="nav-number">6.1.</span> <span class="nav-text">The Mock Debug Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Development-Setup-for-Mock-Debug"><span class="nav-number">6.2.</span> <span class="nav-text">Development Setup for Mock Debug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anatomy-of-the-package-json-of-a-Debug-Extension"><span class="nav-number">6.3.</span> <span class="nav-text">Anatomy of the package.json of a Debug Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-a-DebugConfigurationProvider"><span class="nav-number">6.4.</span> <span class="nav-text">Using a DebugConfigurationProvider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Publishing-your-Debug-Adapter"><span class="nav-number">6.5.</span> <span class="nav-text">Publishing your Debug Adapter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Alternative-approach-to-develop-a-Debug-Extension"><span class="nav-number">6.6.</span> <span class="nav-text">Alternative approach to develop a Debug Extension</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

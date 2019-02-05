@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为一个自娱自乐的项目开发WebAPI的时候，我尝试使用了Token验证机制。对于我这样一个菜鸟来说，Token的验证机制在我理解中十分简单：先使用用户名和密码登录系统，服务器会返回一个字符串，约定好这个字符串就是系统出入的通行令牌客户端之后除了登录操作的所有请求只要带上这个字符串，系统就会放行。好，到现在就明白了，“Token”在当时的我看来只是一个字符串，我只需要保证这个字符串一人一个不重样即">
+<meta name="keywords" content="JWT,密码学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JWT学习笔记">
+<meta property="og:url" content="http://cooguyan.github.io/2018/04/21/JWT学习笔记/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="为一个自娱自乐的项目开发WebAPI的时候，我尝试使用了Token验证机制。对于我这样一个菜鸟来说，Token的验证机制在我理解中十分简单：先使用用户名和密码登录系统，服务器会返回一个字符串，约定好这个字符串就是系统出入的通行令牌客户端之后除了登录操作的所有请求只要带上这个字符串，系统就会放行。好，到现在就明白了，“Token”在当时的我看来只是一个字符串，我只需要保证这个字符串一人一个不重样即">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227185403698.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227194658369.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227185209179.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227200506327.png">
+<meta property="og:updated_time" content="2018-04-21T15:26:24.525Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JWT学习笔记">
+<meta name="twitter:description" content="为一个自娱自乐的项目开发WebAPI的时候，我尝试使用了Token验证机制。对于我这样一个菜鸟来说，Token的验证机制在我理解中十分简单：先使用用户名和密码登录系统，服务器会返回一个字符串，约定好这个字符串就是系统出入的通行令牌客户端之后除了登录操作的所有请求只要带上这个字符串，系统就会放行。好，到现在就明白了，“Token”在当时的我看来只是一个字符串，我只需要保证这个字符串一人一个不重样即">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227185403698.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2018/04/21/JWT学习笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>JWT学习笔记 | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2018/04/21/JWT学习笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JWT学习笔记
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-21 08:27:45 / 修改时间：23:26:24" itemprop="dateCreated datePublished" datetime="2018-04-21T08:27:45+08:00">2018-04-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>为一个自娱自乐的项目开发WebAPI的时候，我尝试使用了Token验证机制。<br>对于我这样一个菜鸟来说，Token的验证机制在我理解中十分简单：<br>先使用用户名和密码登录系统，服务器会返回一个字符串，约定好这个字符串就是系统出入的通行令牌<br>客户端之后除了登录操作的所有请求只要带上这个字符串，系统就会放行。<br>好，到现在就明白了，“Token”在当时的我看来只是一个字符串，我只需要保证这个字符串一人一个不重样即可。<br>于是我就使用了GUID（全局变量标识符）来充当Token。但是使用过程中就有了问题。这个Token是生成了而且不重样，可我怎么确立它和用户之间的对应关系？于是我想到把Token存到用户表中，假设用户带着Token访问更新用户信息的API，服务器拿到Token去查询用户表，进而找到对应的用户名。至此我就知道了这个Token是哪位用户的了。拿着这个用户名，就可以更新该用户的表项了。那么其它的API也是这个这样，首先第一件事要做的就是去查询数据库找到对应的用户名，才能进行其他的操作。<br>按照我的思路的话，这个方式虽然麻烦一点，但是还是能实现功能的。<br>另一个观于Token的常见要求是，它得能设置有效期，总不能一个Token用一辈子吧。于是我又往用户表加了一列过期时间，每次验证Token都要从数据库中拿出到期时间与当前时间做比较来判断是不是过期了。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="JWT的基本概念"><a href="#JWT的基本概念" class="headerlink" title="JWT的基本概念"></a>JWT的基本概念</h1><p><a href="https://jwt.io/" target="_blank" rel="noopener">JWT（Json Web Token）</a>本质上是一种Token的设计规范。用于实现Token机制的Token说到底也就是个字符串，重点是这个字符串该怎么写才会比较合理。我试过用GUID来充当这个Token实现简单的Token身份验证机制，完全没问题。可就是用起来有点别扭。而<strong>JWT</strong>就是一种更加合理的组织Token字符串的方式。<br>它使用JSON格式，总体分为三个大块：Header .Payload. Signature,分别承担各自的责任。  </p>
+<p><strong>Header</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Payload</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">  <span class="attr">"admin"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Signature</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + "." +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>
+<p>整体结构为：<br>header (base64)+payload (base64)+Signature<br>有关那些Claim的说明<a href="https://jwt.io/introduction/" target="_blank" rel="noopener">官网</a>上有详细介绍。</p>
+<p>接下来从Signature出发看看可以挖到什么知识。↓</p>
+<h2 id="关于Signature"><a href="#关于Signature" class="headerlink" title="关于Signature"></a>关于Signature</h2><p>前两部分的处理都十分简单，关于Signature的处理有点让人眼花缭乱，特别是我这种对密码技术一无所知的小白。<br>关于这个最后一部分我有过一点误解：以为使用SHA-256进行处理以后就可以看做是对JWT加密了别人就看不到了。其实并不是这样的。<br>首先要声明，最后一部分“签名”<strong>并不是对Token进行加密处理</strong>。而<strong>HS256</strong>也不是一般意义上的加密函数，它的全称是<br><strong>HMAC using SHA-256</strong>，这牵扯到的就多了。</p>
+<p>要理解它首先要知道一下几个概念：</p>
+<h3 id="1-单向散列函数："><a href="#1-单向散列函数：" class="headerlink" title="1. 单向散列函数："></a>1. 单向散列函数：</h3><p><strong>单向散列函数</strong>也称信息摘要函数（Message Digest Function）,哈希（Hash）函数或者杂凑函数。</p>
+<p>它是其余两个概念的基础。现在不考虑具体实现，把这个概念当成一个<strong>黑箱</strong>。</p>
+<p><strong>输入：</strong> 任意长度消息（可以是1bit 、1K、1M，甚至可以100G）<br><strong>输出：</strong> 一串固定长度的数据（散列值，也称消息摘要，指纹）</p>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227185403698.png" alt="单向散列函数工作原理"></p>
+<p>单项散列函数有如下几种特性：</p>
+<ol>
+<li>根据任意长度消息得出的散列值长度是固定的。</li>
+<li>散列值计算时间短</li>
+<li>不同的消息有不同的散列值（如果两个不同消息的散列值相同，那就称为发生<strong>碰撞</strong>）</li>
+<li>根据散列值无法还原消息（单向性，只能从消息到散列值，反之不成立）</li>
+</ol>
+<p>关于单向散列函数的应用，很常见的一个就是文件的校验<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227194658369.png" alt="这里写图片描述"></p>
+<p>图片中所使用的哈希函数是 SHA-1（也有使用MD5的）。有了它就看可以确定下载的文件是不是被动过手脚。因为软件在发布的时候会同时公布它散列值，正在下载的软件也可以计算散列值，两个散列值相同就说明是同一个软件。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">常见的单项散列函数：</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MD4(Message Digest 4)</td>
+</tr>
+<tr>
+<td style="text-align:center">MD5(Message Digest 5)</td>
+</tr>
+<tr>
+<td style="text-align:center">SHA-1</td>
+</tr>
+<tr>
+<td style="text-align:center">SHA-256 数字代表散列值长度为256bit</td>
+</tr>
+<tr>
+<td style="text-align:center">SHA-384</td>
+</tr>
+<tr>
+<td style="text-align:center">SHA-512</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-MAC-消息认证码"><a href="#2-MAC-消息认证码" class="headerlink" title="2. MAC 消息认证码"></a>2. MAC 消息认证码</h3><p>MAC:Message Authentication Code 即消息认证码 它可以确认消息完整性并进行认证。</p>
+<p><strong>输入：</strong> 消息+发送者以及接收者之间共享的密钥  </p>
+<blockquote>
+<p>注：与单项散列函数不同之处就是它多了一个密钥的参与</p>
+</blockquote>
+<p><strong>输出：</strong> 固定长度的数据，称为MAC值</p>
+<blockquote>
+<p>注：这就跟单向散列函数一样了</p>
+</blockquote>
+<p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227185209179.png" alt="消息验证码工作原理"></p>
+<p>确切来说它指的是一种认证机制。这种机制有多种实现方法，单项散列函数就是其中之一。<br>使用单向散列函数（也称Hash函数）实现的消息认证码就称为 HMAC，其中H就是Hash的意思。<br>一次解决了单项散列函数虽然可以检测到篡改（完整性），但是却没有办法识别伪装的问题。</p>
+<blockquote>
+<p>注：无法识别伪装是因为如果有第三者假装其中一方发消息，另一方根本无从知晓这个消息是不是对方发来的。</p>
+</blockquote>
+<h3 id="3-HMAC-哈希消息认证码"><a href="#3-HMAC-哈希消息认证码" class="headerlink" title="3.HMAC 哈希消息认证码"></a>3.HMAC 哈希消息认证码</h3><p>上面也提到了，HMAC就是使用了单项散列函数来构造消息认证码的一种方法（<a href="https://tools.ietf.org/html/rfc2104" target="_blank" rel="noopener">RFC2104</a>）。根据它所使用的散列函数不同，就出现了如下这么多种 HMAC</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">HMAC 算法</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HS256</td>
+<td style="text-align:center">HMAC using SHA-256</td>
+</tr>
+<tr>
+<td style="text-align:center">HS384</td>
+<td style="text-align:center">HMAC using SHA-384</td>
+</tr>
+<tr>
+<td style="text-align:center">HS512</td>
+<td style="text-align:center">HMAC using SHA-512</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注：使用消息认证码是无法保证消息的机密性的，它只能保证消息被正确的传送了。例如 传送的完整消息格式为 “123456”+“消息验证码”，消息验证码的作用就是在对方收到消息之后可以根据验证码来验证 “123456”是没有被修过的。至于机密性，那需要对“123456”进行加密，而这不关消息验证码什么事。</p>
+</blockquote>
+<p>消息认证码有两个无法解决的问题：</p>
+<ul>
+<li>对第三方证明</li>
+<li>防止否认</li>
+</ul>
+<p><strong>数字签名</strong>可以解决上述问题，但是这与JWT <strong>关系不大</strong>。<br>现在我明白了，被在JWT中被称为 “Signature 签名”的部分，其实是前两部分的消息认证码（MAC），官方称之为数字签名我觉的其实并不怎么准确。在JWT中密钥并不与客户端共享，其为服务器独有。这样一来只有服务器可以发Token，而客户端<strong>因为缺少密钥而无法伪造</strong> Token。服务器会对每个请求里面的Token用密钥来算MAC值来验证这个Token是不是自己发出去的。</p>
+<p>而且为了确保Token不是一直有效，还要加一些时间戳来限制</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Reserverd claims</th>
+<th style="text-align:right">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">exp(Expiration time)</td>
+<td style="text-align:right">是一个时间戳，代表这个JWT的过期时间</td>
+</tr>
+<tr>
+<td style="text-align:right">nbf(Not Before)</td>
+<td style="text-align:right">是一个时间戳，代表这个JWT生效的开始时间，意味着在这个时间之前验证JWT是会失败的</td>
+</tr>
+<tr>
+<td style="text-align:right">iat(Issued at)</td>
+<td style="text-align:right">是一个时间戳，代表这个JWT的签发时间</td>
+</tr>
+<tr>
+<td style="text-align:right">jti(JWT ID)</td>
+<td style="text-align:right">是JWT的唯一标识</td>
+</tr>
+</tbody>
+</table>
+<p>这些时间戳可以让服务器知道这个Token有没有过期。</p>
+<h2 id="关于所谓JWT的安全性"><a href="#关于所谓JWT的安全性" class="headerlink" title="关于所谓JWT的安全性"></a>关于所谓JWT的安全性</h2><p>对于Token的安全性，其实我觉得没什么好说的，Token实质上就是一个由服务器签发的<strong>无法伪造</strong>的令牌。JWT能够保证令牌无法伪造就已经足够安全了。至于什么“黑客拿到了令牌怎么办，要是有中间人劫持，拦截了怎么办”之类的安全问题，并不是JWT的锅，而是<strong>传输协议</strong>的锅。HTTP协议 <strong>明文</strong>传输信息而造成的安全问题，JWT能有什么责任？最简单的方法就是换HTTPS协议喽。</p>
+<h2 id="使用JWT来进行用户身份认证"><a href="#使用JWT来进行用户身份认证" class="headerlink" title="使用JWT来进行用户身份认证"></a>使用JWT来进行用户身份认证</h2><p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/jwt学习笔记/20180227200506327.png" alt="这里写图片描述"></p>
+<h2 id="C-中怎么生成JWT格式的Token"><a href="#C-中怎么生成JWT格式的Token" class="headerlink" title="C#中怎么生成JWT格式的Token"></a>C#中怎么生成JWT格式的Token</h2><p>JWT在各个平台都有已经封装好的库可以使用<br>在.NET平台下有如下几个命名空间可以引用：</p>
+<figure class="highlight c"><figcaption><span>sharp</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Security.Claims;</span><br><span class="line"><span class="keyword">using</span> System.IdentityModel.Tokens.Jwt;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br></pre></td></tr></table></figure>
+<p>微软把这些类全都开源放在在<a href="https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet" target="_blank" rel="noopener">Github</a>上面可以供研究其实现过程</p>
+<h2 id="关于JWT的Claim"><a href="#关于JWT的Claim" class="headerlink" title="关于JWT的Claim"></a>关于JWT的Claim</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">Reserverd claims</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">iss(Issuser)</td>
+<td style="text-align:left">代表这个JWT的签发主体</td>
+</tr>
+<tr>
+<td style="text-align:left">sub(Subject)</td>
+<td style="text-align:left">代表这个JWT的主体，即它的所有人</td>
+</tr>
+<tr>
+<td style="text-align:left">aud(Audience)</td>
+<td style="text-align:left">代表这个JWT的接收对象</td>
+</tr>
+<tr>
+<td style="text-align:left">exp(Expiration time)</td>
+<td style="text-align:left">是一个时间戳，代表这个JWT的过期时间</td>
+</tr>
+<tr>
+<td style="text-align:left">nbf(Not Before)</td>
+<td style="text-align:left">是一个时间戳，代表这个JWT生效的开始时间，意味着在这个时间之前验证JWT是会失败的</td>
+</tr>
+<tr>
+<td style="text-align:left">iat(Issued at)</td>
+<td style="text-align:left">是一个时间戳，代表这个JWT的签发时间</td>
+</tr>
+<tr>
+<td style="text-align:left">jti(JWT ID)</td>
+<td style="text-align:left">是JWT的唯一标识</td>
+</tr>
+</tbody>
+</table>
+<h2 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">alg 参数</th>
+<th style="text-align:center">Digital Signature or MAC 算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HS256</td>
+<td style="text-align:center">HMAC using SHA-256 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">HS384</td>
+<td style="text-align:center">HMAC using SHA-384 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">HS512</td>
+<td style="text-align:center">HMAC using SHA- 5 12 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">RS256</td>
+<td style="text-align:center">RSASSA using SHA-256 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">RS384</td>
+<td style="text-align:center">RSASSA using SHA- 384 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">RS512</td>
+<td style="text-align:center">RSASSA using SHA-512 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">ES256</td>
+<td style="text-align:center">ECDSA using P-256 curve and SHA-256 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">ES384</td>
+<td style="text-align:center">ECDSA using P- 384 curve and SHA-384 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">ES512</td>
+<td style="text-align:center">ECDSA using P-521curve and SHA-512 hash algorithm</td>
+</tr>
+<tr>
+<td style="text-align:center">none</td>
+<td style="text-align:center">No digital signature or MAC value included</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>参考资料<br><a href="https://www.cnblogs.com/hehheai/p/6513871.html" target="_blank" rel="noopener">JWT实现token-based会话管理</a><br><a href="https://baike.baidu.com/item/MAC%E7%AE%97%E6%B3%95/2264362?fr=aladdin" target="_blank" rel="noopener">MAC算法</a><br><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431954588961d6b6f51000ca4279a3415ce14ed9d709000" target="_blank" rel="noopener">廖雪峰Python</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2018/04/21/JWT学习笔记/" title="JWT学习笔记">http://cooguyan.github.io/2018/04/21/JWT学习笔记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JWT/" rel="tag"># JWT</a>
+          
+            <a href="/tags/密码学/" rel="tag"># 密码学</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/使用腾讯云对象存储作为图床/" rel="next" title="使用腾讯云对象存储作为图床">
+                <i class="fa fa-chevron-left"></i> 使用腾讯云对象存储作为图床
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/https学习笔记/" rel="prev" title="https学习笔记">
+                https学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JWT的基本概念"><span class="nav-number">1.</span> <span class="nav-text">JWT的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Signature"><span class="nav-number">1.1.</span> <span class="nav-text">关于Signature</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单向散列函数："><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 单向散列函数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-MAC-消息认证码"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. MAC 消息认证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-HMAC-哈希消息认证码"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.HMAC 哈希消息认证码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于所谓JWT的安全性"><span class="nav-number">1.2.</span> <span class="nav-text">关于所谓JWT的安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用JWT来进行用户身份认证"><span class="nav-number">1.3.</span> <span class="nav-text">使用JWT来进行用户身份认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-中怎么生成JWT格式的Token"><span class="nav-number">1.4.</span> <span class="nav-text">C#中怎么生成JWT格式的Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于JWT的Claim"><span class="nav-number">1.5.</span> <span class="nav-text">关于JWT的Claim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希算法"><span class="nav-number">1.6.</span> <span class="nav-text">哈希算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>

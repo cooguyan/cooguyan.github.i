@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="引言This appendix focuses on the GPU—the ubiquitous graphics processing unit in every PC, laptop, desktop computer, and workstation. In its most basic form, the GPU generates 2D and 3D graphics, images">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1_图形和计算GPU">
+<meta property="og:url" content="http://cooguyan.github.io/2019/01/11/Graphics_and_Computing_GPUs/index.html">
+<meta property="og:site_name" content="结果元素">
+<meta property="og:description" content="引言This appendix focuses on the GPU—the ubiquitous graphics processing unit in every PC, laptop, desktop computer, and workstation. In its most basic form, the GPU generates 2D and 3D graphics, images">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+<meta property="og:updated_time" content="2019-01-30T14:01:46.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1_图形和计算GPU">
+<meta name="twitter:description" content="引言This appendix focuses on the GPU—the ubiquitous graphics processing unit in every PC, laptop, desktop computer, and workstation. In its most basic form, the GPU generates 2D and 3D graphics, images">
+<meta name="twitter:image" content="https://img.shields.io/badge/version-v1.1.1-519dd9.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cooguyan.github.io/2019/01/11/Graphics_and_Computing_GPUs/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>1_图形和计算GPU | 结果元素</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">结果元素</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Resualt Element</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cooguyan.github.io/2019/01/11/Graphics_and_Computing_GPUs/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cooguyan">
+      <meta itemprop="description" content="多读书读好书">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="结果元素">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">1_图形和计算GPU
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-11 19:56:55" itemprop="dateCreated datePublished" datetime="2019-01-11T19:56:55+08:00">2019-01-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-30 22:01:46" itemprop="dateModified" datetime="2019-01-30T22:01:46+08:00">2019-01-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/GPU相关/" itemprop="url" rel="index"><span itemprop="name">GPU相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://img.shields.io/badge/version-v1.1.1-519dd9.svg" alt=""></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>This appendix focuses on the <strong>GPU</strong>—the ubiquitous <strong>graphics processing unit</strong> in every PC, laptop, desktop computer, and workstation. In its most basic form, the GPU generates 2D and 3D graphics, images, and video that enable windowbased operating systems, graphical user interfaces, video games, visual imaging applications, and video. The modern GPU that we describe here is a highly parallel, highly multithreaded multiprocessor optimized for <strong>visual computing</strong>. To provide real-time visual interaction with computed objects via graphics, images, and video, the GPU has a unifed graphics and computing architecture that serves as both a programmable graphics processor and a scalable parallel computing platform. PCs and game consoles combine a GPU with a CPU to form <strong>heterogeneous systems</strong>. </p>
+<p>本附录重点介绍GPU——每台PC，笔记本电脑，台式机和工作站中无处不在的<strong>图形处理单元</strong>。 GPU最基本的功能是生成2D和3D图形，图像和视频，以及支持基于窗口的操作系统，图形用户界面，视频游戏，视觉成像应用程序和视频。 我们在这里描述的现代GPU是一个高度并行，高度多线程的多处理器，针对<strong>视觉计算</strong>进行了优化。 为了通过图形，图像和视频提供与计算对象的实时可视交互，GPU具有统一的图形和计算架构，可用作可编程图形处理器和可扩展的并行计算平台。 PC和游戏主机（game console）将GPU与CPU相结合，形成<strong>异构系统</strong>。</p>
+<blockquote>
+<p><strong>graphics processing unit (gpu)</strong> ： a processor optimized for 2d and 3d graphics, video, visual computing, and display 一种针对2D和3D图形，视频，视觉计算和显示进行了优化的处理器</p>
+</blockquote>
+<blockquote>
+<p><strong>visual computing视觉计算</strong> ：a mix of graphics processing and computing that lets you visually interact with computed objects via graphics, images, and video 一种图形处理和计算的混合，使你可以通过图形、图像和视频与计算对象进行可视化交互。</p>
+</blockquote>
+<blockquote>
+<p><strong>heterogeneous system</strong>: A system combining different processor types. A PC is a heterogeneous CPU–GPU system. 一种组合了不同处理器类型的系统。 PC就是一种异构CPU-GPU系统。</p>
+</blockquote>
+<h2 id="A-Brief-History-of-GPU-Evolution-GPU发展简史"><a href="#A-Brief-History-of-GPU-Evolution-GPU发展简史" class="headerlink" title="A Brief History of GPU Evolution GPU发展简史"></a>A Brief History of GPU Evolution GPU发展简史</h2><p>fifteen years ago, there was no such thing as a gpu. graphics on a pc were performed by a video graphics array (vga) controller. a vga controller was simply a memory controller and display generator connected to some DRAM. in the 1990s, semiconductor technology advanced sufciently that more functions could be added to the vga controller. by 1997, vga controllers were beginning to incorporate some three-dimensional (3d) acceleration functions, including hardware for triangle setup and rasterization (dicing triangles into individual pixels) and texture mapping and shading (applying “decals” or patterns to pixels and blending colors).<br>十五年前，还没有像GPU这样的东西。 PC上的图形由视频图形阵列（video graphics array ,VGA）控制器展现。 VGA控制器只是一个连接到某些DRAM的存储器控制器和显示发生器。 在20世纪90年代，半导体技术充分发展，可以在VGA控制器中添加更多功能。 到1997年，VGA控制器开始采用一些三维（3d）加速功能，包括用于<a href="#">三角形设置（Triangle Setup）</a>和<a href="#">光栅化(Rasterization)</a>的硬件（将三角形切割成单个像素）和<a href="#">纹理映射</a>和着色（将“贴花”或图案应用于像素和混合颜色）。</p>
+<p>In 2000, the single chip graphics processor incorporated almost every detail of the traditional high-end workstation graphics pipeline and, therefore, deserved a new name beyond vga controller. the term gpu was coined to denote that the graphics device had become a processor.<br>2000年，单芯片图形处理器几乎整合了传统高端工作站<a href="#">图形管道</a>的每个细节，因此，它应当有一个除VGA外的全新的名称。 术语GPU被用来表示这个图形设备（graphics device）已成为一种处理器。</p>
+<p>Over time, GPUs became more programmable, as programmable processors replaced fixed function dedicated logic while maintaining the basic 3D graphics pipeline organization. In addition, computations became more precise over time, progressing from indexed arithmetic, to integer and fixed point, to single precision ﬂoating-point, and recently to double precision ﬂoating-point. GPUs have become massively parallel programmable processors with hundreds of cores and thousands of threads.</p>
+<p>随着时间的推移，GPU变得更加可编程，因为可编程处理器取代了固定功能专用逻辑，同时保持了基本的3D图形管道组织。此外，计算随着时间的推移变得更加精确，从<a href="#">索引算术(indexed arithmetic)</a>，整数和固定点，到单精度浮点，最近又到双精度浮点。 GPU已成为具有数百个内核和数千个线程的大规模并行可编程处理器。</p>
+<p>Recently, processor instructions and memory hardware were added to support general purpose programming languages, and a programming environment was created to allow GPUs to be programmed using familiar languages, including C and C++. This innovation makes a GPU a fully general-purpose, programmable, manycore processor, albeit still with some special benefits and limitations.<br>最近，添加了处理器指令和存储器硬件以支持通用编程语言，并且创建了编程环境以允许使用熟悉的语言（包括C和C ++）对GPU进行编程。 这项创新使GPU成为一个完全通用的可编程多核处理器，尽管仍有一些特殊的好处和局限。</p>
+<h2 id="GPU-Graphics-Trends-GPU图形的发展趋势"><a href="#GPU-Graphics-Trends-GPU图形的发展趋势" class="headerlink" title="GPU Graphics Trends GPU图形的发展趋势"></a>GPU Graphics Trends GPU图形的发展趋势</h2><p>GPUs and their associated drivers implement the OpenGL and DirectX models of graphics processing. OpenGL is an open standard for 3D graphics programming available for most computers. DirectX is a series of Microsof multimedia programming interfaces, including Direct3D for 3D graphics. Since these <strong>application programming interfaces (APIs)</strong> have well-defned behavior, it is possible to build effective hardware acceleration of the graphics processing functions defned by the APIs. This is one of the reasons (in addition to increasing device density) why new GPUs are being developed every 12 to 18 months that double the performance of the previous generation on existing applications.<br>GPU及其相关驱动程序实现了图形处理的OpenGL和DirectX模型。 OpenGL是大多数计算机可用的3D图形编程的开放标准。 DirectX是一系列Microsof多媒体编程接口，包括用于3D图形的Direct3D。 由于这些应用程序编程接口（API）具有良好的行为，因此可以构建由API定义的图形处理功能的有效硬件加速。 这是为什么（除了增加设备密度之外）每12到18个月开发新GPU以使现有应用的前一代性能翻倍的原因之一。</p>
+<blockquote>
+<p><strong>application programming interface (API)</strong> : A set of function and data structure definitions providing an<br>interface to a library of functions. 一组函数和数据结构定义，提供了函数库的接口。</p>
+</blockquote>
+<p>Frequent doubling of GPU performance enables new applications that were not previously possible. The intersection of graphics processing and parallel computing invites a new paradigm for graphics, known as visual computing. It replaces large sections of the traditional sequential hardware graphics pipeline model with programmable elements for geometry, vertex, and pixel programs.Visual computing in a modern GPU combines graphics processing and parallel computing in novel ways that permit new graphics algorithms to be implemented, and opens the door to entirely new parallel processing applications on pervasive high-performance GPUs.<br>GPU性能的频繁加倍可实现以前无法实现的新应用程序。 图形处理和并行计算的交集引发了一种新的图形范例，称为视觉计算。 它将传统顺序硬件图形管道模型的大部分替换为几何，顶点和像素程序的可编程元素。现代GPU中的可视计算以新颖的方式将图形处理和并行计算相结合，允许实现新的图形算法，并打开 在普及的高性能GPU上实现全新并行处理应用的大门。</p>
+<h2 id="Heterogeneous-System-异构系统"><a href="#Heterogeneous-System-异构系统" class="headerlink" title="Heterogeneous System 异构系统"></a>Heterogeneous System 异构系统</h2><p>Although the GPU is arguably the most parallel and most powerful processor in a typical PC, it is certainly not the only processor. The CPU, now multicore and soon to be manycore, is a complementary, primarily serial processor companion to the massively parallel manycore GPU. Together, these two types of processors comprise a heterogeneous multiprocessor system.<br>虽然GPU可以说是典型PC中最并行，最强大的处理器，但它肯定不是唯一的处理器。 CPU，现在是多核(multicore)的，很快就会成为众核（manycore），是大规模并行多核GPU互补的，重要的串行处理器伙伴（好拗口）。 这两种类型的处理器一起构成了异构多处理器系统。</p>
+<p>The best performance for many applications comes from using both the CPU and the GPU. Tis appendix will help you understand how and when to best split the work between these two increasingly parallel processors.<br>许多应用程序的最佳性能来自于使用CPU和GPU。 附录将帮助您了解如何以及何时最好地分割这两个日益并行的处理器之间的工作。</p>
+<h2 id="GPU-Evolves-into-Scalable-Parallel-Processor-GPU发展成可扩展的并行处理器"><a href="#GPU-Evolves-into-Scalable-Parallel-Processor-GPU发展成可扩展的并行处理器" class="headerlink" title="GPU Evolves into Scalable Parallel Processor GPU发展成可扩展的并行处理器"></a>GPU Evolves into Scalable Parallel Processor GPU发展成可扩展的并行处理器</h2><p>GPUs have evolved functionally from hardwired, limited capability VGA controllers to programmable parallel processors. This evolution has proceeded by changing the logical (API-based) graphics pipeline to incorporate programmable elements and also by making the underlying hardware pipeline stages less specialized and more programmable. Eventually, it made sense to merge disparate programmable pipeline elements into one unifed array of many programmable processors.<br>GPU已经从硬连线，有限功能的VGA控制器发展到可编程并行处理器。 通过改变逻辑（基于API）的图形流水线以结合可编程元件以及通过使底层硬件流水线阶段不那么专业化和更可编程来进行这种演变。 最终，将不同的可编程流水线元件合并到一个由多个可编程处理器组成的统一阵列中是有意义的。<br>In the GeForce 8-series generation of GPUs, the geometry, vertex, and pixel processing all run on the same type of processor. This unification allows for dramatic scalability. More programmable processor cores increase the total system throughput. Unifying the processors also delivers very eﬀective load balancing, since any processing function can use the whole processor array. At the other end of the spectrum, a processor array can now be built with very few processors, since all of the functions can be run on the same processors.<br>在GeForce 8系列GPU中，几何，顶点和像素处理都在同一类型的处理器上运行。 这种统一允许显着的可扩展性。 更多可编程处理器内核可提高系统总吞吐量。 统一处理器还可以提供非常有效的负载平衡，因为任何处理功能都可以使用整个处理器阵列。 另一方面，处理器阵列现在可以用很少的处理器构建，因为所有功能都可以在相同的处理器上运行。</p>
+<h2 id="Why-CUDA-and-GPU-Computing-为什么选择CUDA和GPU计算？"><a href="#Why-CUDA-and-GPU-Computing-为什么选择CUDA和GPU计算？" class="headerlink" title="Why CUDA and GPU Computing? 为什么选择CUDA和GPU计算？"></a>Why CUDA and GPU Computing? 为什么选择CUDA和GPU计算？</h2><p>This uniform and scalable array of processors invites a new model of programming for the GPU. The large amount of ﬂoating-point processing power in the GPU processor array is very attractive for solving nongraphics problems. Given the large degree of parallelism and the range of scalability of the processor array for graphics applications, the programming model for more general computing must express the massive parallelism directly, but allow for scalable execution.<br>这种统一且可扩展的处理器阵列为GPU提供了一种新的编程模型。 GPU处理器阵列中的大量浮点处理能力对于解决非图形问题非常有吸引力。 鉴于用于图形应用程序的处理器阵列的高度并行性和可扩展性范围，用于更一般计算的编程模型必须直接表达大规模并行性，但允许可伸缩执行。</p>
+<p><strong>GPU computing</strong> is the term coined for using the GPU for computing via a parallel programming language and API, without using the traditional graphics API and graphics pipeline model. This is in contrast to the earlier <strong>General Purpose computation on GPU (GPGPU)</strong> approach, which involves programming the GPU using a graphics API and graphics pipeline to perform nongraphics tasks.<br>GPU计算是通过并行编程语言和API使用GPU进行计算而创造的术语，而不使用传统的图形API和图形管道模型。 这与早期的GPU上通用计算（GPGPU）方法形成对比，后者涉及使用图形API和图形管道对GPU进行编程以执行非图形任务。</p>
+<blockquote>
+<p><strong>GPU computing</strong> : Using a GPU for computing via a parallel programming language and API. 使用GPU通过并行编程语言和API进行计算。<br><strong>GPGPU</strong> : Using a GPU for general-purpose computation via a traditional graphics API and graphics pipeline.通过传统的图形API和图形管道将GPU用于通用计算。</p>
+</blockquote>
+<p><strong>Compute Unifed Device Architecture (CUDA)</strong> is a scalable parallel programming model and sofware platform for the GPU and other parallel processors that allows the programmer to bypass the graphics API and graphics interfaces of the GPU and simply program in C or C++. The CUDA programming model has an SPMD (single-program multiple data) software style, in which a programmer writes a program for one thread that is instanced and executed by many threads in parallel on the multiple processors of the GPU. In fact, CUDA also provides a facility for programming multiple CPU cores as well, so CUDA is an environment for writing parallel programs for the entire heterogeneous computer system.<br>计算统一设备架构（CUDA）是GPU和其他并行处理器的可扩展并行编程模型和软件平台，允许程序员绕过GPU的图形API和图形接口，只需用C或C ++编程。 CUDA编程模型具有SPMD（单程序多数据）的软件风格，其中程序员为一个线程编写程序，该程序由多个线程并行执行并由GPU的多个处理器执行。 实际上，CUDA也提供了编程多个CPU内核的工具，因此CUDA是一个为整个异构计算机系统编写并行程序的环境。</p>
+<blockquote>
+<p><strong>CUDA</strong>: A scalable parallel programming model and language based on C/C++. It is a parallel programming platform for GPUs and multicore CPUs 一种可扩展的并行编程模型和基于C / C ++的语言。 它是GPU和多核CPU的并行编程平台</p>
+</blockquote>
+<h2 id="GPU-Unifes-Graphics-and-Computing-GPU统一了图形和计算"><a href="#GPU-Unifes-Graphics-and-Computing-GPU统一了图形和计算" class="headerlink" title="GPU Unifes Graphics and Computing GPU统一了图形和计算"></a>GPU Unifes Graphics and Computing GPU统一了图形和计算</h2><p>With the addition of CUDA and GPU computing to the capabilities of the GPU, it is now possible to use the GPU as both a graphics processor and a computing processor at the same time, and to combine these uses in visual computing applications. The underlying processor architecture of the GPU is exposed in two ways: first, as implementing the programmable graphics APIs, and second, as a massively parallel processor array programmable in C/C++ with CUDA.<br>通过将CUDA和GPU计算添加到GPU的功能，现在可以同时将GPU用作图形处理器和计算处理器，并将这些用途结合在视觉计算应用中。 GPU的底层处理器架构以两种方式暴露：第一，作为实现可编程图形API，第二，作为使用CUDA在C / C ++中编程的大规模并行处理器阵列。<br>Although the underlying processors of the GPU are unified, it is not necessary that all of the SPMD thread programs are the same. The GPU can run graphics shader programs for the graphics aspect of the GPU, processing geometry, vertices, and pixels, and also run thread programs in CUDA.<br>虽然GPU的底层处理器是统一的，但并不是所有的SPMD线程程序都是相同的。 GPU可以为GPU的图形方面运行图形着色器程序，处理几何，顶点和像素，还可以在CUDA中运行线程程序。<br>The GPU is truly a versatile multiprocessor architecture, supporting a variety of processing tasks. GPUs are excellent at graphics and visual computing as they were specifcally designed for these applications. GPUs are also excellent at many generalpurpose throughput applications that are “first cousins” of graphics, in that they perform a lot of parallel work, as well as having a lot of regular problem structure. In general, they are a good match to data-parallel problems (see Chapter 6), particularly large problems, but less so for less regular, smaller problems.<br>GPU是真正的多功能多处理器架构，支持各种处理任务。 GPU在图形和视觉计算方面非常出色，因为它们是专门为这些应用程序设计的。 GPU在许多通用吞吐量应用程序中也非常出色，这些应用程序是图形的“第一代表现形式”，因为它们执行大量并行工作，并且具有许多常规问题结构。 一般来说，它们与数据并行问题（见第6章）非常匹配，特别是大问题，但对于不那么规律，较小的问题则不那么重要。</p>
+<h2 id="GPU-Visual-Computing-Applications-GPU视觉计算应用程序"><a href="#GPU-Visual-Computing-Applications-GPU视觉计算应用程序" class="headerlink" title="GPU Visual Computing Applications GPU视觉计算应用程序"></a>GPU Visual Computing Applications GPU视觉计算应用程序</h2><p>Visual computing includes the traditional types of graphics applications plus many new applications. The original purview of a GPU was “anything with pixels,” but it now includes many problems without pixels but with regular computation and/or data structure. GPUs are effective at 2D and 3D graphics, since that is the purpose for which they are designed. <strong>Failure to deliver this application performance would be fatal</strong>. 2D and 3D graphics use the GPU in its “graphics mode”, accessing the processing power of the GPU through the graphics APIs, OpenGL™, and DirectX™. Games are built on the 3D graphics processing capability.<br>视觉计算包括传统类型的图形应用程序以及许多新应用程序。 GPU的原始范围是“任何带有像素的东西”，但它现在包括许多没有像素但具有常规计算和/或数据结构的问题。 GPU在2D和3D图形上是有效的，因为这是它们的设计目的。 未能提供此<a href="#">应用性能(application performance)</a>将是致命的。 2D和3D图形在其“图形模式”中使用GPU，通过图形API，OpenGL™和DirectX™来获取GPU的处理能力。 游戏是基于3D图形处理功能的。</p>
+<blockquote>
+<p><strong>Application performance</strong>, 这是什么？感觉像是在指“功能”，比如没有提供这个功能将是致命的</p>
+</blockquote>
+<p>Beyond 2D and 3D graphics, image processing and video are important applications for GPUs. These can be implemented using the graphics APIs or as computational programs, using CUDA to program the GPU in computing mode. Using CUDA, image processing is simply another data-parallel array program. To the extent that the data access is regular and there is good locality, the program will be efficient. In practice, image processing is a very good application for GPUs. Video processing, especially encode and decode (compression and decompression according to some standard algorithms), is quite efficient.<br>除了2D和3D图形，图像处理和视频是GPU的重要应用。 这些可以使用图形API或计算程序来实现，使用CUDA在计算模式下对GPU进行编程。 使用CUDA，图像处理只是另一种数据并行阵列程序。 如果数据访问是规则的并且具有良好的位置，则该程序将是有效的。 实际上，图像处理是GPU的一个非常好的应用程序。 视频处理，尤其是编码和解码（根据一些标准算法进行压缩和解压缩）非常有效。</p>
+<p>The greatest opportunity for visual computing applications on GPUs is to “break the graphics pipeline.” Early GPUs implemented only specific graphics APIs, albeit at very high performance. This was wonderful if the API supported the operations that you wanted to do. If not, the GPU could not accelerate your task, because early GPU functionality was immutable. Now, with the advent of GPU computing and CUDA, these GPUs can be programmed to implement a different virtual pipeline by simply writing a CUDA program to describe the computation and data ﬂow that is desired. So, all applications are now possible, which will stimulate new visual computing approaches.<br>GPU上可视化计算应用程序的最大的机遇是“打破图形管道。” 早期的GPU只实现了特定的图形API，尽管性能非常高。 如果API支持你想要执行的操作，那就太棒了。 如果没有，GPU就无法加速您的任务，因为早期的GPU功能是不可变的。 现在，随着GPU计算和CUDA的出现，这些GPU可以通过编写CUDA程序来编程实现不同的虚拟管道，以描述所需的计算和数据流。 因此，现在所有应用程序都可以实现，这将刺激新的视觉计算方法。</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Cooguyan</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cooguyan.github.io/2019/01/11/Graphics_and_Computing_GPUs/" title="1_图形和计算GPU">http://cooguyan.github.io/2019/01/11/Graphics_and_Computing_GPUs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/05/Tello/" rel="next" title="Tello特洛无人机编程小结">
+                <i class="fa fa-chevron-left"></i> Tello特洛无人机编程小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/23/GPU_System_Architectures/" rel="prev" title="2_GPU_System_Architectures">
+                2_GPU_System_Architectures <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cooguyan</p>
+              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cooguyan" title="GitHub &rarr; https://github.com/cooguyan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/1005056978317811" title="Weibo &rarr; https://weibo.com/u/1005056978317811" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                快看啊有大神
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.elitk.com" title="https://www.elitk.com" rel="noopener" target="_blank">elitk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cloudkylin.me/" title="https://www.cloudkylin.me/" rel="noopener" target="_blank">cloudkylin</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-Brief-History-of-GPU-Evolution-GPU发展简史"><span class="nav-number">2.</span> <span class="nav-text">A Brief History of GPU Evolution GPU发展简史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Graphics-Trends-GPU图形的发展趋势"><span class="nav-number">3.</span> <span class="nav-text">GPU Graphics Trends GPU图形的发展趋势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heterogeneous-System-异构系统"><span class="nav-number">4.</span> <span class="nav-text">Heterogeneous System 异构系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Evolves-into-Scalable-Parallel-Processor-GPU发展成可扩展的并行处理器"><span class="nav-number">5.</span> <span class="nav-text">GPU Evolves into Scalable Parallel Processor GPU发展成可扩展的并行处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-CUDA-and-GPU-Computing-为什么选择CUDA和GPU计算？"><span class="nav-number">6.</span> <span class="nav-text">Why CUDA and GPU Computing? 为什么选择CUDA和GPU计算？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Unifes-Graphics-and-Computing-GPU统一了图形和计算"><span class="nav-number">7.</span> <span class="nav-text">GPU Unifes Graphics and Computing GPU统一了图形和计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Visual-Computing-Applications-GPU视觉计算应用程序"><span class="nav-number">8.</span> <span class="nav-text">GPU Visual Computing Applications GPU视觉计算应用程序</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cooguyan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'e2110f4d806a81efa3a3',
+    clientSecret: '020fba4fd7c21f9ff963bcaa7d3e4eb7128baa47',
+    repo: 'myBlogComments',
+    owner: 'cooguyan',
+    admin: ['cooguyan'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+</body>
+</html>
