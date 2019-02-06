@@ -122,7 +122,7 @@
 <meta property="og:image" content="http://cooguyan.github.io/Programming_GPUs/20190126034832372.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035148883.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Programming_GPUs/20190126035347204.png">
-<meta property="og:updated_time" content="2019-02-04T04:26:16.074Z">
+<meta property="og:updated_time" content="2019-02-06T01:53:55.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3_Programming_GPUs">
 <meta name="twitter:description" content="Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism t">
@@ -264,7 +264,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">29</span></a>
 
   </li>
         
@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">45</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">43</span></a>
 
   </li>
         
@@ -464,7 +464,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-04 12:26:16" itemprop="dateModified" datetime="2019-02-04T12:26:16+08:00">2019-02-04</time>
+                <time title="修改时间：2019-02-06 09:53:55" itemprop="dateModified" datetime="2019-02-06T09:53:55+08:00">2019-02-06</time>
               
             
           </span>
@@ -517,9 +517,9 @@
 
       
         <p><img src="https://img.shields.io/badge/version-v1.1.1-519dd9.svg" alt=""></p>
-<p>Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism than CPUs, scaling to hundreds of processor cores and tens of thousands of concurrent threads. GPUs continue to increase their parallelism, doubling it about every 12 to 18 months, enabled by Moore’s law [1965] of increasing integrated circuit density and by improving architectural efciency. To span the wide price and performance range of different market segments, different GPU products implement widely varying numbers of processors and threads. Yet users expect games, graphics, imaging, and computing applications to work on any GPU, regardless of how many parallel threads it executes or how many parallel processor cores it has, and they expect more expensive GPUs (with more threads and cores) to run applications faster. As a result, GPU programming models and application programs are designed to scale transparently to a wide range of parallelism.<br>编程多处理器GPU与编程其他多处理器（如多核CPU）的质量不同。 GPU比CPU提供两到三个数量级的线程和数据并行性，可扩展到数百个处理器内核和数万个并发线程。随着集成电路密度的提高和提高架构效率的摩尔定律[1965]，GPU每12到18个月就会继续增加并行性，并且会增加一倍。为了跨越不同细分市场的广泛价格和性能范围，不同的GPU产品实现了大量不同数量的处理器和线程。然而，用户期望游戏，图形，成像和计算应用程序可以在任何GPU上运行，无论它执行多少并行线程或它有多少并行处理器核心，他们期望更多昂贵的GPU（具有更多线程和核心）可以更快地运行应用程序。因此，GPU编程模型和应用程序旨在透明地扩展到各种并行性。</p>
+<p>Programming multiprocessor GPUs is qualitatively different than programming other multiprocessors like multicore CPUs. GPUs provide two to three orders of magnitude more thread and data parallelism than CPUs, scaling to hundreds of processor cores and tens of thousands of concurrent threads. GPUs continue to increase their parallelism, doubling it about every 12 to 18 months, enabled by Moore’s law [1965] of increasing integrated circuit density and by improving architectural efciency. To span the wide price and performance range of different market segments, different GPU products implement widely varying numbers of processors and threads. Yet users expect games, graphics, imaging, and computing applications to work on any GPU, regardless of how many parallel threads it executes or how many parallel processor cores it has, and they expect more expensive GPUs (with more threads and cores) to run applications faster. As a result, GPU programming models and application programs are designed to scale transparently to a wide range of parallelism.<br>编程多处理器GPU与编程其他多处理器（如多核CPU）的质量不同。 GPU比CPU提供两到三个数量级的线程和数据并行性，可扩展到数百个处理器内核和数万个并发线程。随着集成电路密度的提高和提高架构效率的摩尔定律[1965]，GPU每12到18个月就会继续增加并行性，并且会增加一倍。为了跨越不同细分市场的广泛价格和性能范围，不同的GPU产品实现了大量不同数量的处理器和线程。然而，用户期望游戏，图形，成像和计算应用程序可以在任何GPU上运行，无论它执行多少并行线程或它有多少并行处理器核心，他们期望更多昂贵的GPU（具有更多线程和核心）可以更快地运行应用程序。因此，GPU编程模型和应用程序旨在透明地扩展到各种并行性。<br><a id="more"></a></p>
 <p>The driving force behind the large number of parallel threads and cores in a GPU is real-time graphics performance—the need to render complex 3D scenes with high resolution at interactive frame rates, at least 60 frames per second. Correspondingly, the scalable programming models of graphics shading languages such as Cg (C for graphics) and HLSL (high-level shading language) are designed to exploit large degrees of parallelism via many independent parallel threads and to scale to any number of processor cores. The CUDA scalable parallel programming model similarly enables general parallel computing applications to leverage large numbers of parallel threads and scale to any number of parallel processor cores, transparently to the application.<br>GPU中大量并行线程和核心背后的驱动力是实时图形性能 - 需要以交互式帧速率（至少每秒60帧）渲染具有高分辨率的复杂3D场景。 相应地，图形着色语言（如Cg（图形用C）和HLSL（高级着色语言））的可伸缩编程模型旨在通过许多独立的并行线程利用大程度的并行性，并扩展到任意数量的处理器内核。 CUDA可扩展并行编程模型同样使通用并行计算应用程序能够利用大量并行线程，并扩展到任意数量的并行处理器内核，对应用程序透明。</p>
-<p>In these scalable programming models, the programmer writes code for a single thread, and the GPU runs myriad thread instances in parallel. Programs thus scale transparently over a wide range of hardware parallelism. Tis simple paradigm arose from graphics APIs and shading languages that describe how to shade one vertex or one pixel. It has remained an effective paradigm as GPUs have rapidly increased their parallelism and performance since the late 1990s.<br>在这些可伸缩的编程模型中，程序员为单个线程编写代码，GPU并行运行无数的线程实例。 因此，程序在广泛的硬件并行性上透明地扩展。 这是一种简单的范例，它来自描述如何遮蔽一个顶点或一个像素的图形API和着色语言。 自从20世纪90年代末以来，GPU一直在迅速提高其并行性和性能，这仍然是一种有效的范例。<br>This section brieﬂy describes programming GPUs for real-time graphics applications using graphics APIs and programming languages. It then describes programming GPUs for visual computing and general parallel computing applications using the C language and the CUDA programming model.<br>本节简要介绍如何使用图形API和编程语言为实时图形应用程序编程GPU。 然后，它描述了使用C语言和CUDA编程模型编程用于可视计算和通用并行计算应用程序的GPU。<br><a id="more"></a></p>
+<p>In these scalable programming models, the programmer writes code for a single thread, and the GPU runs myriad thread instances in parallel. Programs thus scale transparently over a wide range of hardware parallelism. Tis simple paradigm arose from graphics APIs and shading languages that describe how to shade one vertex or one pixel. It has remained an effective paradigm as GPUs have rapidly increased their parallelism and performance since the late 1990s.<br>在这些可伸缩的编程模型中，程序员为单个线程编写代码，GPU并行运行无数的线程实例。 因此，程序在广泛的硬件并行性上透明地扩展。 这是一种简单的范例，它来自描述如何遮蔽一个顶点或一个像素的图形API和着色语言。 自从20世纪90年代末以来，GPU一直在迅速提高其并行性和性能，这仍然是一种有效的范例。<br>This section brieﬂy describes programming GPUs for real-time graphics applications using graphics APIs and programming languages. It then describes programming GPUs for visual computing and general parallel computing applications using the C language and the CUDA programming model.<br>本节简要介绍如何使用图形API和编程语言为实时图形应用程序编程GPU。 然后，它描述了使用C语言和CUDA编程模型编程用于可视计算和通用并行计算应用程序的GPU。</p>
 <h2 id="Programming-Real-Time-Graphics-实时图形编程"><a href="#Programming-Real-Time-Graphics-实时图形编程" class="headerlink" title="Programming Real-Time Graphics 实时图形编程"></a>Programming Real-Time Graphics 实时图形编程</h2><p>APIs have played an important role in the rapid, successful development of GPUs and processors. There are two primary standard graphics APIs: <strong>OpenGL</strong> and <strong>Direct3D</strong>, one of the Microsoft DirectX multimedia programming interfaces. OpenGL, an open standard, was originally proposed and defined by Silicon Graphics Incorporated. Te ongoing development and extension of the OpenGL standard [Segal and Akeley, 2006], [Kessenich, 2006] is managed by Khronos, an industry consortium. Direct3D [Blythe, 2006], a de facto standard, is defined<br>and evolved forward by Microsoft and partners. OpenGL and Direct3D are similarly structured, and continue to evolve rapidly with GPU hardware advances. They defne a logical graphics processing pipeline that is mapped onto the GPU hardware and processors, along with programming models and languages for the programmable pipeline stages.<br>API在GPU和处理器的快速而成功的发展中发挥了重要作用。 现在有两个主要的标准图形API：<strong>OpenGL</strong> 和 <strong>Direct3D</strong>。 Direct3D是微软 <em>DirectX</em> 多媒体编程接口之一。 OpenGL是一种开放标准，最初是由Silicon Graphics Incorporated提出并定义的。 OpenGL标准的持续发展和扩展[Segal和Akeley，2006]，[Kessenich，2006]由行业协会Khronos管理。 Direct3D [Blythe，2006]是事实上的标准，由微软和合作伙伴定义和发展。 OpenGL和Direct3D结构相似，并且随着GPU硬件的发展而不断发展。 它们定义了映射到GPU硬件和处理器的逻辑图形处理流水线，以及可编程流水线级的编程模型和语言。</p>
 <blockquote>
 <p><strong>OpenGL</strong> :An open standard graphics API. Direct3D A graphics API defined by Microsoft and partners. 一个开放标准的图形API。</p>
@@ -616,14 +616,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="\2017\12\14\ESP32-DevKitC-入门指南（译）\" rel="bookmark">ESP32-DevKitC 入门指南（译）</a></div>
+      <div class="popular-posts-title"><a href="\2019\01\30\5_Parallel_Memory_System\" rel="bookmark">5_Parallel_Memory_System</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="\2018\05\05\Text-Buffer-Reimplementation\" rel="bookmark">Text Buffer Reimplementation</a></div>
+      <div class="popular-posts-title"><a href="\2019\01\27\Multithreaded_Multiprocessor_Architecture\" rel="bookmark">4_Multithreaded_Multiprocessor_Architecture</a></div>
       
     </li>
   
@@ -637,14 +637,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="\2018\05\05\Bing-powered-settings-search-in-VS-Code\" rel="bookmark">Bing-powered settings search in VS Code</a></div>
+      <div class="popular-posts-title"><a href="\2019\01\11\Graphics_and_Computing_GPUs\" rel="bookmark">1_图形和计算GPU</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="\2019\01\11\Graphics_and_Computing_GPUs\" rel="bookmark">1_图形和计算GPU</a></div>
+      <div class="popular-posts-title"><a href="\2018\05\05\VSCode插件入门\" rel="bookmark">VSCode插件开发</a></div>
       
     </li>
   
@@ -835,7 +835,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -949,11 +949,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
