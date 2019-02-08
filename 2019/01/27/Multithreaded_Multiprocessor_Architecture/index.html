@@ -107,22 +107,23 @@
 
 
 
-  <meta name="description" content="机器翻译，未校对 To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is hig">
+  <meta name="description" content="To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is highly mult">
 <meta name="keywords" content="翻译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="4_Multithreaded_Multiprocessor_Architecture">
 <meta property="og:url" content="http://cooguyan.github.io/2019/01/27/Multithreaded_Multiprocessor_Architecture/index.html">
 <meta property="og:site_name" content="并行革命">
-<meta property="og:description" content="机器翻译，未校对 To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is hig">
+<meta property="og:description" content="To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is highly mult">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.shields.io/badge/version-v1.1.0-519dd9.svg">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127104839586.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127095423525.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127102843734.png">
-<meta property="og:updated_time" content="2019-02-06T01:53:28.526Z">
+<meta property="og:updated_time" content="2019-02-08T13:31:52.601Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4_Multithreaded_Multiprocessor_Architecture">
-<meta name="twitter:description" content="机器翻译，未校对 To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is hig">
-<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/Multithreaded_Multiprocessor_Architecture/20190127104839586.png">
+<meta name="twitter:description" content="To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is highly mult">
+<meta name="twitter:image" content="https://img.shields.io/badge/version-v1.1.0-519dd9.svg">
 
 
 
@@ -466,7 +467,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-06 09:53:28" itemprop="dateModified" datetime="2019-02-06T09:53:28+08:00">2019-02-06</time>
+                <time title="修改时间：2019-02-08 21:31:52" itemprop="dateModified" datetime="2019-02-08T21:31:52+08:00">2019-02-08</time>
               
             
           </span>
@@ -525,7 +526,7 @@
       
 
       
-        <p>机器翻译，未校对</p>
+        <p><img src="https://img.shields.io/badge/version-v1.1.0-519dd9.svg" alt=""></p>
 <p>To address different market segments, GPUs implement scalable numbers of multiprocessors—in fact, GPUs are multiprocessors composed of multiprocessors. Furthermore, each multiprocessor is highly multithreaded to execute many fnegrained vertex and pixel shader threads efciently. A quality basic GPU has two to four multiprocessors, while a gaming enthusiast’s GPU or computing platform has dozens of them. This section looks at the architecture of one such multithreaded multiprocessor, a simplifed version of the NVIDIA Tesla streaming multiprocessor (SM) described in Section C.7.<br>为了解决不同的细分市场，GPU实现了可扩展数量的多处理器 - 实际上，GPU是由多处理器组成的多处理器。此外，每个多处理器都是高度多线程的，以便有效地执行许多fnegrained顶点和像素着色器线程。高质量的基本GPU有两到四个多处理器，而游戏爱好者的GPU或计算平台有几十个。本节介绍一个这样的多线程多处理器的体系结构，这是第C.7节中描述的NVIDIA Tesla流多处理器（SM）的简化版本。<br><a id="more"></a></p>
 <p>Why use a multiprocessor, rather than several independent processors? The parallelism within each multiprocessor provides localized high performance and supports extensive multithreading for the fine-grained parallel programming models described in Section C.3. Te individual threads of a thread block execute together within a multiprocessor to share data. The multithreaded multiprocessor design we describe here has eight scalar processor cores in a tightly coupled architecture, and executes up to 512 threads (the SM described in Section C.7 executes up to 768 threads). For area and power efciency, the multiprocessor shares large complex units among the eight processor cores, including the instruction cache, the multithreaded instruction unit, and the shared memory RAM.<br>为什么要使用多处理器，而不是几个独立的处理器？每个多处理器内的并行性提供了本地化的高性能，并支持C.3节中描述的细粒度并行编程模型的广泛多线程。线程块的各个线程在多处理器内一起执行以共享数据。我们在这里描述的多线程多处理器设计在紧密耦合的架构中有八个标量处理器内核，并执行多达512个线程（C.7节中描述的SM执行多达768个线程）。对于面积和功率效率，多处理器在八个处理器内核之间共享大型复杂单元，包括指令高速缓存，多线程指令单元和共享内存RAM。</p>
 <h2 id="Massive-Multithreading"><a href="#Massive-Multithreading" class="headerlink" title="Massive Multithreading"></a>Massive Multithreading</h2><p>GPU processors are highly multithreaded to achieve several goals:<br>GPU处理器是高度多线程的，以实现几个目标：</p>

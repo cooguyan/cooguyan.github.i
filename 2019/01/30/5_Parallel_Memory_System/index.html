@@ -107,18 +107,20 @@
 
 
 
-  <meta name="description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel w">
+  <meta name="description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel">
 <meta name="keywords" content="翻译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5_Parallel_Memory_System">
 <meta property="og:url" content="http://cooguyan.github.io/2019/01/30/5_Parallel_Memory_System/index.html">
 <meta property="og:site_name" content="并行革命">
-<meta property="og:description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel w">
+<meta property="og:description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-06T01:51:31.466Z">
+<meta property="og:image" content="https://img.shields.io/badge/version-v1.1.0-519dd9.svg">
+<meta property="og:updated_time" content="2019-02-08T13:31:34.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5_Parallel_Memory_System">
-<meta name="twitter:description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel w">
+<meta name="twitter:description" content="Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel">
+<meta name="twitter:image" content="https://img.shields.io/badge/version-v1.1.0-519dd9.svg">
 
 
 
@@ -462,7 +464,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-06 09:51:31" itemprop="dateModified" datetime="2019-02-06T09:51:31+08:00">2019-02-06</time>
+                <time title="修改时间：2019-02-08 21:31:34" itemprop="dateModified" datetime="2019-02-08T21:31:34+08:00">2019-02-08</time>
               
             
           </span>
@@ -521,8 +523,9 @@
       
 
       
-        <p>Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel write and blend (read-modifywrite) operations, depth buffer reads and writes, and texture map reads, as well as command and object vertex and attribute data reads, comprise the majority of memory traffic.<br>在GPU本身之外，存储器子系统是图形系统性能的最重要的决定因素。 图形工作负载需要非常高的内存传输速率。 像素写入和混合（读取 - 修改写入）操作，深度缓冲区读取和写入以及纹理映射读取以及命令和对象顶点和属性数据读取构成了大部分内存流量。</p>
-<p>Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous.<br>现代GPU高度并行，如图C.2.5所示。 例如，GeForce 8800每时钟可处理32个像素，频率为600 MHz。 每个像素通常需要颜色读取和写入以及4字节像素的深度读取和写入。 通常，读取平均每个四个字节的两个或三个纹素，以生成像素的颜色。 因此，对于典型情况，需要28个字节乘以32个像素=每个时钟896个字节。 显然，存储系统的带宽需求是巨大的。<br><a id="more"></a><br>To supply these requirements, GPU memory systems have the following characteristics:<br>为满足这些要求，GPU内存系统具有以下特征：</p>
+        <p><img src="https://img.shields.io/badge/version-v1.1.0-519dd9.svg" alt=""></p>
+<p>Outside of the GPU itself, the memory subsystem is the most important determiner of the performance of a graphics system. Graphics workloads demand very high transfer rates to and from memory. Pixel write and blend (read-modifywrite) operations, depth buffer reads and writes, and texture map reads, as well as command and object vertex and attribute data reads, comprise the majority of memory traffic.<br>在GPU本身之外，存储器子系统是图形系统性能的最重要的决定因素。 图形工作负载需要非常高的内存传输速率。 像素写入和混合（读取 - 修改写入）操作，深度缓冲区读取和写入以及纹理映射读取以及命令和对象顶点和属性数据读取构成了大部分内存流量。<br><a id="more"></a><br>Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous.<br>现代GPU高度并行，如图C.2.5所示。 例如，GeForce 8800每时钟可处理32个像素，频率为600 MHz。 每个像素通常需要颜色读取和写入以及4字节像素的深度读取和写入。 通常，读取平均每个四个字节的两个或三个纹素，以生成像素的颜色。 因此，对于典型情况，需要28个字节乘以32个像素=每个时钟896个字节。 显然，存储系统的带宽需求是巨大的。</p>
+<p>To supply these requirements, GPU memory systems have the following characteristics:<br>为满足这些要求，GPU内存系统具有以下特征：</p>
 <ul>
 <li><p>They are wide, meaning there are a large number of pins to convey data between the GPU and its memory devices, and the memory array itself comprises many DRAM chips to provide the full total data bus width. 它们很宽，意味着有大量的引脚在GPU和它的存储器设备之间传送数据，并且存储器阵列本身包括许多DRAM芯片以提供完整的总数据总线宽度。</p>
 </li>
