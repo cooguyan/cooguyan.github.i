@@ -133,19 +133,19 @@
 
 
 
-  <meta name="description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+  <meta name="description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。">
 <meta name="keywords" content="翻译,VSCode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Text Buffer Reimplementation">
 <meta property="og:url" content="http://cooguyan.github.io/2018/05/05/Text-Buffer-Reimplementation/index.html">
 <meta property="og:site_name" content="并行革命">
-<meta property="og:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+<meta property="og:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://code.visualstudio.com/assets/blogs/2018/03/23/traditional-piece-table.gif">
-<meta property="og:updated_time" content="2018-05-05T08:53:31.893Z">
+<meta property="og:updated_time" content="2019-02-14T14:07:37.028Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Text Buffer Reimplementation">
-<meta name="twitter:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。 关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但">
+<meta name="twitter:description" content="Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。">
 <meta name="twitter:image" content="https://code.visualstudio.com/assets/blogs/2018/03/23/traditional-piece-table.gif">
 
 
@@ -363,26 +363,20 @@
   
     <div class="site-search">
       
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
-    </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
-    </div>
-
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
     <span class="popup-btn-close">
       <i class="fa fa-times-circle"></i>
     </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
   </div>
-
+  <div id="local-search-result"></div>
+</div>
 
 
 
@@ -473,12 +467,24 @@
                 
               
 
-              <time title="创建时间：2018-05-05 16:39:59 / 修改时间：16:53:31" itemprop="dateCreated datePublished" datetime="2018-05-05T16:39:59+08:00">2018-05-05</time>
+              <time title="创建时间：2018-05-05 16:39:59" itemprop="dateCreated datePublished" datetime="2018-05-05T16:39:59+08:00">2018-05-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-14 22:07:37" itemprop="dateModified" datetime="2019-02-14T22:07:37+08:00">2019-02-14</time>
               
             
           </span>
@@ -547,9 +553,8 @@
       
 
       
-        <p>Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。</p>
-<p>关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但是我们没有看到我们期望的性能增强。在自定义本地表示和V8的字符串之间转换字符串代价很高，在我们的情况下，会降低在C ++中实现文本缓冲操作所带来的性能。我们将在这篇文章结尾详细讨论这一点。</p>
-<p>不是原生的，我们必须找到改进JavaScript / TypeScript代码的方法。像Vyacheslav Egorov这样的激动人心的博客文章展示了将JavaScript引擎推向极限并尽可能多地表现出性能的方法。即使没有低级别的引擎技巧，通过使用更合适的数据结构和更快的算法，仍然可以将速度提高一个或多个数量级。<br><a id="more"></a></p>
+        <p>Visual Studio Code 1.21版本包含一个全新的文本缓冲区实现，它在速度和内存使用方面性能更高。在这篇博文中，我想讲述一下我们如何选择和设计导致这些改进的数据结构和算法的故事。<br><a id="more"></a><br>关于JavaScript程序的性能讨论通常涉及关于在本机代码中应该实现多少的讨论。对于VS代码文本缓冲区，这些讨论是在一年多前开始的。在深入探索过程中，我们发现文本缓冲区的C ++实现可以节省大量的内存，但是我们没有看到我们期望的性能增强。在自定义本地表示和V8的字符串之间转换字符串代价很高，在我们的情况下，会降低在C ++中实现文本缓冲操作所带来的性能。我们将在这篇文章结尾详细讨论这一点。</p>
+<p>不是原生的，我们必须找到改进JavaScript / TypeScript代码的方法。像Vyacheslav Egorov这样的激动人心的博客文章展示了将JavaScript引擎推向极限并尽可能多地表现出性能的方法。即使没有低级别的引擎技巧，通过使用更合适的数据结构和更快的算法，仍然可以将速度提高一个或多个数量级。<br><!--more--></p>
 <h2 id="Previous-text-buffer-data-structure"><a href="#Previous-text-buffer-data-structure" class="headerlink" title="Previous text buffer data structure"></a>Previous text buffer data structure</h2><p>编辑的心理模型(mental model)是基于行的。开发人员逐行读写源代码，编译器提供基于行/列的诊断，堆栈跟踪包含行号，标记化引擎逐行运行等。虽然简单，但支持VS代码的文本缓冲区实现并没有太大改变，因为第一天我们开始了摩纳哥项目。我们使用了一系列线条，并且它工作得很好，因为典型的文本文档相对较小。当用户输入时，我们找到要在数组中修改的行并将其替换。插入新行时，我们将新的行对象拼接到行数组中，JavaScript引擎将为我们完成繁重的工作。</p>
 <p>但是，我们不断收到有关打开某些文件会导致VS代码中出现内存不足的报告。例如，一个用户无法打开一个35 MB的文件。根本原因是该文件的行数太多，为1,370万。我们将为每行和每个使用大约40-60个字节的对象创建一个ModelLine对象，因此行数组使用大约600MB内存来存储文档。这大约是最初文件大小的20倍！</p>
 <p>线阵列表示的另一个问题是打开文件的速度。为了构建线条数组，我们必须通过换行符分割内容，以便每行获得一个字符串对象。拆分本身会伤害你在基准测试中会看到的性能。</p>
@@ -1243,20 +1248,327 @@
 
 
   
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=7.0.0"></script>
 
 
 

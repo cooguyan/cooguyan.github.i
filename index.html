@@ -360,26 +360,20 @@
   
     <div class="site-search">
       
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
-    </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
-    </div>
-
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
     <span class="popup-btn-close">
       <i class="fa fa-times-circle"></i>
     </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
   </div>
-
+  <div id="local-search-result"></div>
+</div>
 
 
 
@@ -739,7 +733,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-10 23:04:21" itemprop="dateModified" datetime="2019-02-10T23:04:21+08:00">2019-02-10</time>
+                <time title="修改时间：2019-02-14 21:50:32" itemprop="dateModified" datetime="2019-02-14T21:50:32+08:00">2019-02-14</time>
               
             
           </span>
@@ -1959,7 +1953,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-05 18:14:55" itemprop="dateModified" datetime="2019-01-05T18:14:55+08:00">2019-01-05</time>
+                <time title="修改时间：2019-02-14 21:50:45" itemprop="dateModified" datetime="2019-02-14T21:50:45+08:00">2019-02-14</time>
               
             
           </span>
@@ -2041,7 +2035,7 @@
           
           
             <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox" href="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg" rel="gallery_cjs4n6ynx004emkvaa6n4rwjj" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
+              <a class="post-gallery-img fancybox" href="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg" rel="gallery_cjs4pj0ke002fsgvavqn934q5" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/beaupic/pixiv/illust_34735001_20181119_164728.jpg" itemprop="contentUrl">
               </a>
             
@@ -2167,12 +2161,24 @@
                 
               
 
-              <time title="创建时间：2018-12-30 10:17:34 / 修改时间：12:11:55" itemprop="dateCreated datePublished" datetime="2018-12-30T10:17:34+08:00">2018-12-30</time>
+              <time title="创建时间：2018-12-30 10:17:34" itemprop="dateCreated datePublished" datetime="2018-12-30T10:17:34+08:00">2018-12-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-14 22:08:22" itemprop="dateModified" datetime="2019-02-14T22:08:22+08:00">2019-02-14</time>
               
             
           </span>
@@ -2253,37 +2259,19 @@
 
       
         
+          <p>以下是《计算机组成与设计》第四版原文,我摘录了其中了关于RAID的部分<br>
+          <!--noindex-->
           
-            <p>以下是《计算机组成与设计》第四版原文</p>
-<h2 id="无冗余-RAID-0"><a href="#无冗余-RAID-0" class="headerlink" title="无冗余 (RAID 0)"></a>无冗余 (RAID 0)</h2><p>   仅仅把数据分做到多个磁盘，称为条带化，自动把访问强制分布到几个磁盘上。在一组磁盘上进行条带化使得这一组磁盘对于软件来说是一个大磁盘，从面简化了存储管理。而且对多个同时的访问来说有利于改进性能，因为多个磁盘可以同时操作。例如，视频编辑系统经常对它们的数据进行条带化，不需要像数据库那样关心可靠性问题。</p>
-<p>   RAID 0的称谓有些不妥，因为它根本没有冗余。然而，RAID的级别通常由操作员在创建系统时设置，而RAIDO经常被列为其中一个选项。因此，RAID 0的说法就被广泛使用了。</p>
-<h2 id="镜像-RAID-1"><a href="#镜像-RAID-1" class="headerlink" title="镜像(RAID 1)"></a>镜像(RAID 1)</h2><p>   这种传统的容忍磁盘失效的方法，被称为镜像”或者影像(shadowing), 使用比RAID O 多一倍的磁盘数。数据写人某个盘时，同样的数据会写人其冗余盘，因此始终存在信息的两份副本。如果一个磁盘出现故障，系统就转向其“镜像”读取内容以获得所需信息。镜像是最昂贵的RAID方案，因为它需要最多的磁盘。</p>
-<h2 id="错误检测和纠错码-RAID-2"><a href="#错误检测和纠错码-RAID-2" class="headerlink" title="错误检测和纠错码 (RAID 2)"></a>错误检测和纠错码 (RAID 2)</h2><p>   RAID 2借用了主存常用的错误校验和恢复技术(参见光盘中的附录C)。RAID 2已经不再使用了，因此我们这里不做介绍。</p>
-<h2 id="位交叉奇偶校验-RAID-3"><a href="#位交叉奇偶校验-RAID-3" class="headerlink" title="位交叉奇偶校验 (RAID 3)"></a>位交叉奇偶校验 (RAID 3)</h2><p>   增加可用性的开销可以减至I/n,这里n为保护组“内磁盘的数目。我们不再为每个磁盘做一个原始数据的完全备份，面只需要加入足够的冗余信息以便在出错的时候恢复丢失的信息。读写操作在组内所有磁盘上进行，一个额外的磁盘存有校验信息以防错误的发生。RAID 3在使用大数据集的应用( 如多媒体和科学计算)中报流行。</p>
-<p>   奇偶校验(parity) 就是这样的一个策略。不熟悉奇偶校验的读者可以把冗余磁盘想象成保存有其他磁盘所有数据的和。当.个磁盘出错时，用奇偶校验盘减去正常破盘的数据的和;余数就是丢失的信息。奇偶校验就是模2下的求和。</p>
-<p>   与RAID 1不同，RAID3 必须读很多磁盘才能确定丟失的数据。该技术背后的假设就是用更长的时间来恢复错误而用更少的冗余存储得到个好的平衡。</p>
-<h2 id="块交叉奇偶校验-RAID-4"><a href="#块交叉奇偶校验-RAID-4" class="headerlink" title="块交叉奇偶校验 (RAID 4)"></a>块交叉奇偶校验 (RAID 4)</h2><p>   RAID 4使用同RAID3数目比率- -样大的数据磁盘和校验盘,但是访问数据的方式不同。奇偶校验码以块为单位存储，和-组数据块相关。</p>
-<p>   在RAID 3中，每次访向都用到所有磁盘。然面，某些应用偏重于较小的数据访问，允许并行地发生多个独立访问。这就是发明RAID4 - RAID 6的目的。由于读操作需要校验每个扇区的错误检测信息来判断数据正确与否，只要少量的访问数据仍为同一个扇区，各磁盘上这些“小)数据量的读操作”就可以独立地进行。在RAID环境中，小数据访向在保护组中的一个磁盘发生，而大数据量访问需要用到保护组中的所有磁盘。</p>
-<p>   写操作是另外个问题。看上去似乎每-次小数据量的写操作都需要访问其他磁盘信息，使用这些信息计算新的奇偶校验值，如图所示。一次“小数据量的写操作”需要读取旧数据和旧奇偶校验，添加新信息，接着把新的奇偶校验写入校验盘，把新的数据写入数据盘。<br>    <center><br>   <img src="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RAID%E7%9A%84%E7%90%86%E8%A7%A3/20181230103402961.png" alt=""></center></p>
-<p>   <em>小数据量写更新在RAID 3 和 RAID 4 上的比较</em><br>  </p>
-<p>对小数据量写操作的优化减少了磁盘访问的数量，也减少了占用磁盘空间的数量。本图假设有4块数据和1块校验码。图左侧的RAID 3校验计算在加人块D0’之前要读数据块D1、D2和D3才能计算新校验码P’。(需要注意的是，新数据D0’直接来自CPU,所以不需要读磁盘来获取。)图右侧的RAID 4优化方法是读取旧值DO并与新值DO’比较看是否改变。然后读取旧校验码P,修改对应的位,形成新校验码P’。使用或逻辑操作即可实现。图中把三次读磁盘(D1、 D2、D3)和两次写磁盘(D0’, P’) 替换为两次读磁盘(DO, P)和两次写磁盘(D0’, P’),前者访问了所有磁盘，而后者仅访问其中的两个磁盘。随着校验组大小的增加将使得优化的效果更加明显。RAID 5亦使用同样的方式。</p>
-<p>   减小开销的关键在于校验码不过是信息的-一个总和;通过观察写人新信息后哪些位发生了变化，我们只需改变校验盘上的对应位的信息即可。图6-13的右图说明了该方法。我们必须从要写的磁盘读取旧数据,用旧数据和新数据比较,看哪些位发生了变化。读旧奇偶校验和,改变对应的位，然后写人新数据以及新的校验和。这样，一次小数据量的写操作包含对两个磁盘的4次访问，而不是访问所有的磁盘。这种组织结构就是RAID 4</p>
-<h2 id="分布式块交叉奇偶校验（RAID-5）"><a href="#分布式块交叉奇偶校验（RAID-5）" class="headerlink" title="分布式块交叉奇偶校验（RAID 5）"></a>分布式块交叉奇偶校验（RAID 5）</h2><p>RAID 4 有效的支持了大数据量读、大数据量写和小数据量读、小数据量写的混合操作。它的缺点是每次写操作都要更新校验盘、从而校验盘成为连续写的瓶颈。<br>为了解决校验-写瓶颈，校验信息可由分布到所有盘上，是的写操作不存在单一的瓶颈。这种分布式的奇偶校验组织方式就是RAID 5。<br>下图展示了数据在RAID 4 和 RAID 5 上是如何分布的。右图展示的是RAID 5 组织方式。其中数据块每行的校验信息不再限定在单个磁盘。只要校验块不在相同的磁盘上，这种组织方式就使得多 </p>
-<p>   <img src="http://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RAID%E7%9A%84%E7%90%86%E8%A7%A3/20181230103429087.png" alt=""></p>
-<p>   个写操作可以同时发生。例如，右侧第1写操作是向第8块写数据，需委同时访向P2中的奇偶值，从而需要访问第I个和第3个磁盘。右侧第2个写操作对第5块进行写，意味着要更新其校验块P, ,从而需要访问第2个和第4个磁盘,所以它可以和写第8个数据并发进行。对于左侧的组织结构来说，同样的写操作则需要修改第5个磁盘上的PI和P2,这就构成了瓶颈。</p>
-<h2 id="P-Q冗余-RAID-6"><a href="#P-Q冗余-RAID-6" class="headerlink" title="P+Q冗余(RAID 6)"></a>P+Q冗余(RAID 6)</h2><p>   基于奇偶校验的机制可使系统免受单个可自动识别的错误的破坏。当单个错误纠正机制不足以保护系统时，可利用奇偶校验对数据和另-个校验盘的信息进行二次计算。二次校验块可使系统从二次错误中恢复过来。因此，它的存储开销是RAID 5 的两倍。图6-13中的小数据方法还能成立，只是现在更新P和Q信息需要访向6个盘而不是访问4个盘。</p>
-<h2 id="RAID-小结"><a href="#RAID-小结" class="headerlink" title="RAID 小结"></a>RAID 小结</h2><p>   RAID 1 和RAID 5 广泛用于服务器；一项估计是服务器中 80% 的磁盘都使用了某种RAID.</p>
-<p>   RAID 系统的弱点是修复。首先，为了避免在修复时数据不可用，阵列必须设计为不必美闭系统就能替换出错盘。RAID 拥有足够的冗余性以保证不间断的操作，但是热交换磁盘对阵列和磁盘接口的物理及电路设计提出了要求。其次，修复中可能出现另外的错误，这样修复时间会影响丢失数据的概率:修复时间越长，另一错误引起丢失数据的概率越大。某些系统并不用等待操作员来装上好的磁盘，它们包含应急备用”，这样一旦检测出错误，数据就可以立即重建。操作员就可轻松地更换出错磁盘。最后，操作人员最终决定撒掉哪个磁盘。如图6-3所示，注意，操作员是人，因此他们有时候会撒掉好的磁盘导致不可恢复的屯盘错误。</p>
-<p>   除了设计可以修复的RAID,还存在一些如何随着磁盘技术变化的问题。尽管磁盘厂商标称他们的产品具有很高的MTTF,但是这些数据是在假设的情况下得到的。如果某个特定磁盘阵列迎遇了由于空调系统故障、糟糕的磁盘架设计、构建或者安装引起震动面引起温度周期变化，出错率将大大增加，增加3-6倍(见6.12节)。RAD可靠性的计算假设多个磁盘失效之间是独立的，但实际上这些失效可能是相关的，因为环境引起的损伤可能会发生在阵列中的所有磁盘上。另一个问题是磁盘的带宽相对磁盘的容量变化得越来越慢，在个RAID系统中修复一个磁盘的时间变得越来越长，这一点反过来增加第二次故障出现的概率。例如，在假设没有干扰时，一个1000 GB SATA磁盘可能需要花费3个小时来顺序读。假设这个损坏的RAID 很可能被维续用来提供数据，重建过程就会被延长很多。除了增加时间外，另-个问题是在重建过程中一次读很多数据将意味者增加不可恢复的读媒体故障发生的概率，而不可恢复的故障将导致数据丢失。其他关于同时发生多个故障的看法是增加阵列中的磁盘数目以及使用SATA磁盘，这样比传统的商用磁盘慢-些，但具有更高的容量。</p>
-<p>   因此，这些趋势导致对防止系统免受多重故障的研究兴趣大大增加。所以RAID6成为一种可选项，在实际中被使用。</p>
-<pre><code>条带化(striping)：将逻辑上连续的数据块分布到不同的磁盘t,得到比单个微盘更高的性能。
-镜像(mirroring)：将相同的数据写到客个数盘上，目的是增加数据的可用性。
-保护组(protection group):共享一个公共校验磁的数据磁盘组或者数据块。
-</code></pre>
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/30/RAID的理解/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
       
@@ -2401,7 +2389,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-30 21:00:59" itemprop="dateModified" datetime="2018-12-30T21:00:59+08:00">2018-12-30</time>
+                <time title="修改时间：2019-02-14 21:51:21" itemprop="dateModified" datetime="2019-02-14T21:51:21+08:00">2019-02-14</time>
               
             
           </span>
@@ -2482,13 +2470,19 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>TamperMonkey is a Google Chrome (and Opera and Chromium) plugin similar to GreaseMonkey for Firefox. It allows you to inject additional JavaScript into web pages you load in your browser, adding features, removing features, or in our case doing hacky, automated things</p>
 </blockquote>
 <hr>
-
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/26/Tem/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2609,7 +2603,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-30 21:00:50" itemprop="dateModified" datetime="2018-12-30T21:00:50+08:00">2018-12-30</time>
+                <time title="修改时间：2019-02-14 22:15:25" itemprop="dateModified" datetime="2019-02-14T22:15:25+08:00">2019-02-14</time>
               
             
           </span>
@@ -3191,20 +3185,327 @@
 
 
   
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=7.0.0"></script>
 
 
 
