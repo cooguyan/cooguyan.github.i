@@ -135,18 +135,20 @@
 
 
 
-  <meta name="description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好呀">
+  <meta name="description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好。下面主要说一下pycharm怎么连接pipenv创建的虚拟环境。">
 <meta name="keywords" content="树莓派">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pycharm2018_2远程开发树莓派小记">
 <meta property="og:url" content="http://cooguyan.github.io/2019/03/19/Pycharm2018_2远程开发树莓派小记/index.html">
 <meta property="og:site_name" content="并行革命">
-<meta property="og:description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好呀">
+<meta property="og:description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好。下面主要说一下pycharm怎么连接pipenv创建的虚拟环境。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-19T14:06:04.709Z">
+<meta property="og:image" content="http://cooguyan.github.io/Pycharm2018_2远程开发树莓派小记/20190319114317227.png">
+<meta property="og:updated_time" content="2019-03-19T15:48:41.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pycharm2018_2远程开发树莓派小记">
-<meta name="twitter:description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好呀">
+<meta name="twitter:description" content="考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好。下面主要说一下pycharm怎么连接pipenv创建的虚拟环境。">
+<meta name="twitter:image" content="http://cooguyan.github.io/Pycharm2018_2远程开发树莓派小记/20190319114317227.png">
 
 
 
@@ -467,7 +469,7 @@
                 
               
 
-              <time title="创建时间：2019-03-19 10:57:01 / 修改时间：22:06:04" itemprop="dateCreated datePublished" datetime="2019-03-19T10:57:01+08:00">2019-03-19</time>
+              <time title="创建时间：2019-03-19 10:57:01 / 修改时间：23:48:41" itemprop="dateCreated datePublished" datetime="2019-03-19T10:57:01+08:00">2019-03-19</time>
             
 
             
@@ -525,7 +527,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">44</span>
+                <span title="本文字数">439</span>
               
 
               
@@ -559,7 +561,11 @@
       
 
       
-        <p>考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好呀<br><a id="more"></a></p>
+        <p>考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好。下面主要说一下pycharm怎么连接pipenv创建的虚拟环境。<br><a id="more"></a></p>
+<p>关于pycharm怎么远程开发，我查了很多资料</p>
+<p>对我最有用的是这位作者的文章:<br><a href="https://www.cnblogs.com/wtfm/p/10079572.html" target="_blank" rel="noopener">python学习笔记-Pycharm远程连接服务器的Python虚拟环境(Virtualenv)</a><br>之前看的很多文章没有提怎么连接python虚拟环境，这篇文章让我抓住了重点：要找到虚拟环境下的python路径，理解了这个之后我在这一步就与教程不同了：<br><img src="/Pycharm2018_2远程开发树莓派小记/20190319114317227.png" alt=""></p>
+<p><a href="https://vimiix.com/post/2018/03/11/manage-your-virtualenv-with-pipenv/" target="_blank" rel="noopener">通过这篇文章</a>我知道pipenv所创建的虚拟环境在哪里了。<br>我所使用的interpreter 路径如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/pi/.local/share/virtualenvs/smhonraspi-8yb1O5dD/bin/python3</span><br></pre></td></tr></table></figure></p>
+<p>使用虚拟环境可以让我更好的管理安装的包，并且修改包内文件不再需要root权限。我往里面复制文件的时候可以直接用可视化的工具往里面拖，而不必使用sudo cp 命令</p>
 
       
     </div>
@@ -1029,7 +1035,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">211k</span>
+    <span title="站点总字数">212k</span>
   
 
   

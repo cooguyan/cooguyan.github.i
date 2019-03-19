@@ -14,7 +14,7 @@
   <entry>
     <title><![CDATA[Pycharm2018_2远程开发树莓派小记]]></title>
     <url>%2F2019%2F03%2F19%2FPycharm2018_2%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E6%A0%91%E8%8E%93%E6%B4%BE%E5%B0%8F%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好呀]]></content>
+    <content type="text"><![CDATA[考虑到远程调试的需要，我还是放弃vscode去使用Pycharm了。工具还是专业的好。下面主要说一下pycharm怎么连接pipenv创建的虚拟环境。 关于pycharm怎么远程开发，我查了很多资料 对我最有用的是这位作者的文章:python学习笔记-Pycharm远程连接服务器的Python虚拟环境(Virtualenv)之前看的很多文章没有提怎么连接python虚拟环境，这篇文章让我抓住了重点：要找到虚拟环境下的python路径，理解了这个之后我在这一步就与教程不同了： 通过这篇文章我知道pipenv所创建的虚拟环境在哪里了。我所使用的interpreter 路径如下：1/home/pi/.local/share/virtualenvs/smhonraspi-8yb1O5dD/bin/python3 使用虚拟环境可以让我更好的管理安装的包，并且修改包内文件不再需要root权限。我往里面复制文件的时候可以直接用可视化的工具往里面拖，而不必使用sudo cp 命令]]></content>
       <categories>
         <category>树莓派</category>
       </categories>
