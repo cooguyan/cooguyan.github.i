@@ -85,19 +85,19 @@
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
 
 
 
@@ -110,8 +110,10 @@
   var CONFIG = {
     root: '/',
     scheme: 'Gemini',
-    version: '7.0.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: true,
     fastclick: false,
     lazyload: true,
@@ -146,7 +148,7 @@
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/PocketSphinx-on-Raspberry-pi-3/20190316090439276.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/PocketSphinx-on-Raspberry-pi-3/20190316105508935.png">
 <meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/PocketSphinx-on-Raspberry-pi-3/20190316115753355.png">
-<meta property="og:updated_time" content="2019-03-17T03:08:53.425Z">
+<meta property="og:updated_time" content="2019-03-18T13:10:10.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PocketSphinx on Raspberry pi 3">
 <meta name="twitter:description" content="这篇博客是关于如何在树莓派上用 ReSpeaker 4-mic 阵列模块 +PocketSphinx+Python 实现语音识别。由于PocketSphinx和Python都是第一次接触，有很多不熟悉的概念和用法，文档也看得云里雾里，不过最后好歹是把sample跑起来了~撒花🎊">
@@ -326,7 +328,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">44</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">48</span></a>
 
   </li>
         
@@ -488,7 +490,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-17 11:08:53" itemprop="dateModified" datetime="2019-03-17T11:08:53+08:00">2019-03-17</time>
+                <time title="修改时间：2019-03-18 21:10:10" itemprop="dateModified" datetime="2019-03-18T21:10:10+08:00">2019-03-18</time>
               
             
           </span>
@@ -541,7 +543,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">5k</span>
+                <span title="本文字数">5.1k</span>
               
 
               
@@ -597,7 +599,7 @@
 <p>再来一波如下的操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~ $ cd /home/pi</span><br><span class="line">pi@raspberrypi:~ $ git clone https://github.com/respeaker/4mics_hat.git</span><br><span class="line">pi@raspberrypi:~ $ cd /home/pi/4mics_hat</span><br><span class="line">pi@raspberrypi:~/4mics_hat $ sudo apt install python-virtualenv          # install python virtualenv tool</span><br><span class="line">pi@raspberrypi:~/4mics_hat $ virtualenv --system-site-packages ~/env     # create a virtual python environment</span><br><span class="line">pi@raspberrypi:~/4mics_hat $ source ~/env/bin/activate                   # activate the virtual environment</span><br><span class="line">(env) pi@raspberrypi:~/4mics_hat $ pip install spidev gpiozero           # install spidev and gpiozero</span><br></pre></td></tr></table></figure></p>
 <p>我其实不太理解为什么要弄虚拟环境？我试了一下那个sample是可以直接运行的。</p>
 <p><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/PocketSphinx-on-Raspberry-pi-3/20190316105508935.png" alt=""></p>
-<h2 id="源码学习"><a href="#源码学习" class="headerlink" title="源码学习"></a>源码学习</h2><p>准备好之后就可以试试跑PocketSphinx的sample程序LiveSpeech了，它会不断识别语音内容，并输出到终端上。不过注意，它默认是英文语音，想测试得说英语。<br>源码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> pocketsphinx <span class="keyword">import</span> LiveSpeech, get_model_path</span><br><span class="line"></span><br><span class="line">model_path = get_model_path()</span><br><span class="line"></span><br><span class="line">speech = LiveSpeech( </span><br><span class="line">verbose=<span class="keyword">False</span>, <span class="comment"># </span></span><br><span class="line">sampling_rate=<span class="number">16000</span>,</span><br><span class="line">buffer_size=<span class="number">2048</span>,</span><br><span class="line">no_search=<span class="keyword">False</span>,</span><br><span class="line">full_utt=<span class="keyword">False</span>,</span><br><span class="line">hmm=os.path.join(model_path, <span class="string">'en-us'</span>), <span class="comment"># （Hidden Markov Model） 隐马尔可夫模型 ，声学模型</span></span><br><span class="line">lm=os.path.join(model_path, <span class="string">'en-us.lm.bin'</span>), <span class="comment">#  （Language Model） 语言模型</span></span><br><span class="line">dic=os.path.join(model_path, <span class="string">'cmudict-en-us.dict'</span>) <span class="comment"># 拼音字典</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">for</span> phrase <span class="keyword">in</span> speech:</span><br><span class="line">print(<span class="string">"phrase:"</span>, phrase)</span><br><span class="line">print(phrase.segments(detailed=<span class="keyword">True</span>))</span><br></pre></td></tr></table></figure></p>
+<h2 id="连续识别（continuous-recognition）"><a href="#连续识别（continuous-recognition）" class="headerlink" title="连续识别（continuous recognition）"></a>连续识别（continuous recognition）</h2><p>准备好之后就可以试试跑PocketSphinx的sample程序LiveSpeech了，它会连续识别语音内容，并输出到终端上。不过注意，它默认是英文语音，想测试得说英语。<br>源码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> pocketsphinx <span class="keyword">import</span> LiveSpeech, get_model_path</span><br><span class="line"></span><br><span class="line">model_path = get_model_path()</span><br><span class="line"></span><br><span class="line">speech = LiveSpeech( </span><br><span class="line">verbose=<span class="keyword">False</span>, <span class="comment"># </span></span><br><span class="line">sampling_rate=<span class="number">16000</span>,</span><br><span class="line">buffer_size=<span class="number">2048</span>,</span><br><span class="line">no_search=<span class="keyword">False</span>,</span><br><span class="line">full_utt=<span class="keyword">False</span>,</span><br><span class="line">hmm=os.path.join(model_path, <span class="string">'en-us'</span>), <span class="comment"># （Hidden Markov Model） 隐马尔可夫模型 ，声学模型</span></span><br><span class="line">lm=os.path.join(model_path, <span class="string">'en-us.lm.bin'</span>), <span class="comment">#  （Language Model） 语言模型</span></span><br><span class="line">dic=os.path.join(model_path, <span class="string">'cmudict-en-us.dict'</span>) <span class="comment"># 拼音字典</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">for</span> phrase <span class="keyword">in</span> speech:</span><br><span class="line">print(<span class="string">"phrase:"</span>, phrase)</span><br><span class="line">print(phrase.segments(detailed=<span class="keyword">True</span>))</span><br></pre></td></tr></table></figure></p>
 <p>当然这个程序还是没有跑起来，运行的时候报错了。<br><div class="note danger">
             <p><strong>Opening audio device(null) for capture: Connection refused</strong></p>
           </div></p>
@@ -618,7 +620,7 @@
 </li>
 </ol>
 <p>更换之后确实可以识别中文了，然，识别率依然低得惊人</p>
-<h3 id="提升识别准确率"><a href="#提升识别准确率" class="headerlink" title="提升识别准确率"></a>提升识别准确率</h3><p>待续</p>
+<h3 id="关键字查找（keyword-search）"><a href="#关键字查找（keyword-search）" class="headerlink" title="关键字查找（keyword search）"></a>关键字查找（keyword search）</h3><p>我在项目里使用pocketSphinx目的仅仅是让它识别指定的关键词，所以我需要着重考虑这一方面。</p>
 
       
     </div>
@@ -640,27 +642,31 @@
     
     
       <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+        <div id="reward-container">
   <div>鼓励一下:D</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
   </button>
-  <div id="QR" style="display: none;">
+  <div id="qr" style="display: none;">
 
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.jpg" alt="Cooguyan 微信支付">
         <p>微信支付</p>
       </div>
     
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cooguyan 支付宝">
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Cooguyan 支付宝">
         <p>支付宝</p>
       </div>
-    
-
     
 
   </div>
@@ -672,6 +678,7 @@
     
       <div>
         
+
 
 
 
@@ -772,9 +779,6 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
-      <div id="sidebar-dimmer"></div>
-    
     <div class="sidebar-inner">
 
       
@@ -797,7 +801,7 @@
               <img class="site-author-image" itemprop="image" src="/images/avatar.apng" alt="Cooguyan">
             
               <p class="site-author-name" itemprop="name">Cooguyan</p>
-              <p class="site-description motion-element" itemprop="description">多读书读好书</p>
+              <div class="site-description motion-element" itemprop="description">多读书读好书</div>
           </div>
 
           
@@ -807,7 +811,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -817,7 +821,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
                     
                     
                       
@@ -862,7 +870,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
                     
                     
                       
@@ -936,6 +948,8 @@
           
 
           
+
+          
             <div class="links-of-author motion-element">
               
                 <span class="links-of-author-item">
@@ -965,6 +979,7 @@
 
           
              <div class="cc-license motion-element" itemprop="license">
+              
               
                 
               
@@ -1018,7 +1033,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于CMUSphinx"><span class="nav-number">1.</span> <span class="nav-text">关于CMUSphinx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Sphinx模块"><span class="nav-number">2.</span> <span class="nav-text">安装Sphinx模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReSpeaker-4-Mics-阵列"><span class="nav-number">3.</span> <span class="nav-text">ReSpeaker 4-Mics 阵列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码学习"><span class="nav-number">4.</span> <span class="nav-text">源码学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更换中文语言包"><span class="nav-number">4.1.</span> <span class="nav-text">更换中文语言包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提升识别准确率"><span class="nav-number">4.2.</span> <span class="nav-text">提升识别准确率</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于CMUSphinx"><span class="nav-number">1.</span> <span class="nav-text">关于CMUSphinx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Sphinx模块"><span class="nav-number">2.</span> <span class="nav-text">安装Sphinx模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReSpeaker-4-Mics-阵列"><span class="nav-number">3.</span> <span class="nav-text">ReSpeaker 4-Mics 阵列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续识别（continuous-recognition）"><span class="nav-number">4.</span> <span class="nav-text">连续识别（continuous recognition）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更换中文语言包"><span class="nav-number">4.1.</span> <span class="nav-text">更换中文语言包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字查找（keyword-search）"><span class="nav-number">4.2.</span> <span class="nav-text">关键字查找（keyword search）</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1030,6 +1045,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -1052,7 +1068,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">207k</span>
+    <span title="站点总字数">209k</span>
   
 
   
@@ -1063,7 +1079,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">3:09</span>
+    <span title="站点阅读时长">3:10</span>
   
 </div>
 
@@ -1076,7 +1092,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
 
 
 
@@ -1197,35 +1213,40 @@
   
 
 
-  <script src="/js/src/utils.js?v=7.0.0"></script>
+  <script src="/js/src/utils.js?v=7.0.1"></script>
 
-  <script src="/js/src/motion.js?v=7.0.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/affix.js?v=7.0.0"></script>
-
-  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
-
+  <script src="/js/src/motion.js?v=7.0.1"></script>
 
 
 
   
-  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
-<script src="/js/src/post-details.js?v=7.0.0"></script>
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
 
 
 
   
 
 
-  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
 
 
+  
+
+  
+
+  
 
   
 
@@ -1251,6 +1272,9 @@
     owner: 'cooguyan',
     admin: ['cooguyan'],
     id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
     distractionFreeMode: 'true'
   });
   gitalk.render('gitalk-container');
@@ -1599,6 +1623,8 @@
   
 
   
+
+  
   <script>
     wpac_init = window.wpac_init || [];
     wpac_init.push({
@@ -1624,84 +1650,42 @@
   
 
   
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
 
   
 
   
-  <style>
-    .copy-btn {
-      display: inline-block;
-      padding: 6px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 20px;
-      color: #333;
-      white-space: nowrap;
-      vertical-align: middle;
-      cursor: pointer;
-      background-color: #eee;
-      background-image: linear-gradient(#fcfcfc, #eee);
-      border: 1px solid #d5d5d5;
-      border-radius: 3px;
-      user-select: none;
-      outline: 0;
-    }
-
-    .highlight-wrap .copy-btn {
-      transition: opacity .3s ease-in-out;
-      opacity: 0;
-      padding: 2px 6px;
-      position: absolute;
-      right: 4px;
-      top: 8px;
-    }
-
-    .highlight-wrap:hover .copy-btn,
-    .highlight-wrap .copy-btn:focus {
-      opacity: 1
-    }
-
-    .highlight-wrap {
-      position: relative;
-    }
-  </style>
-  <script>
-    $('.highlight').each(function(i, e) {
-      var $wrap = $('<div>').addClass('highlight-wrap');
-      $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
-        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
-          return $(e).text();
-        }).toArray().join('\n');
-        var ta = document.createElement('textarea');
-        var range = document.createRange(); //For Chrome
-        var sel = window.getSelection(); //For Chrome
-        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
-        ta.style.top = yPosition + 'px'; //Prevent page scroll
-        ta.style.position = 'absolute';
-        ta.style.opacity = '0';
-        ta.value = code;
-        ta.textContent = code; //For FireFox
-        ta.contentEditable = true;
-        ta.readOnly = false;
-        document.body.appendChild(ta);
-        range.selectNode(ta);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        ta.setSelectionRange(0, code.length);
-        var result = document.execCommand('copy');
-        
-        ta.blur(); //For iOS
-        $(this).blur();
-      })).on('mouseleave', function(e) {
-        var $b = $(this).find('.copy-btn');
-        setTimeout(function() {
-          $b.text('复制');
-        }, 300);
-      }).append(e);
-    })
-  </script>
-
 
 </body>
 </html>
