@@ -113,7 +113,7 @@
     version: '7.0.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
-    back2top_sidebar: false,
+    back2top_sidebar: true,
     fancybox: true,
     fastclick: false,
     lazyload: true,
@@ -135,17 +135,24 @@
 
 
 
-  <meta name="description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。不得不说真的很精简，预装了python却没装pip">
+  <meta name="description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。下面记录一下从安装到使用的过程和体验。">
+<meta name="keywords" content="树莓派">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RaspbianLite版使用小记">
 <meta property="og:url" content="http://cooguyan.github.io/2019/03/19/RaspbianLite版使用小记/index.html">
 <meta property="og:site_name" content="并行革命">
-<meta property="og:description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。不得不说真的很精简，预装了python却没装pip">
+<meta property="og:description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。下面记录一下从安装到使用的过程和体验。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-19T04:07:49.357Z">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319063852141.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319092709666.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319070107875.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319080302201.png">
+<meta property="og:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319081413451.png">
+<meta property="og:updated_time" content="2019-03-19T14:04:36.756Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RaspbianLite版使用小记">
-<meta name="twitter:description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。不得不说真的很精简，预装了python却没装pip">
+<meta name="twitter:description" content="今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。下面记录一下从安装到使用的过程和体验。">
+<meta name="twitter:image" content="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319063852141.png">
 
 
 
@@ -283,7 +290,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">30</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
 
   </li>
         
@@ -321,7 +328,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">48</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">47</span></a>
 
   </li>
         
@@ -466,7 +473,7 @@
                 
               
 
-              <time title="创建时间：2019-03-19 10:51:32 / 修改时间：12:07:49" itemprop="dateCreated datePublished" datetime="2019-03-19T10:51:32+08:00">2019-03-19</time>
+              <time title="创建时间：2019-03-19 10:51:32 / 修改时间：22:04:36" itemprop="dateCreated datePublished" datetime="2019-03-19T10:51:32+08:00">2019-03-19</time>
             
 
             
@@ -524,7 +531,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1k</span>
+                <span title="本文字数">3.5k</span>
               
 
               
@@ -538,7 +545,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -558,28 +565,106 @@
       
 
       
-        <p>今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。不得不说真的很精简，预装了python却没装pip<br><a id="more"></a><br>为了开发项目我需要安装的软件有：<br>安装列表：<br>pip<br>pipenv<br>sudo pip3 install pipenv<br>respeaker驱动<br>vim<br>安装git<br>sudo apt-get install -y git</p>
-<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>第一件事就是给树莓派换源，为后续安装软件和python包做准备</p>
-<p>要注意系统版本，最新版应该用 stcrach的源</p>
-<h3 id="树莓派换源"><a href="#树莓派换源" class="headerlink" title="树莓派换源"></a>树莓派换源</h3><h3 id="pip换源"><a href="#pip换源" class="headerlink" title="pip换源"></a>pip换源</h3><h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">sudo apt install -y vim-nox</span><br><span class="line">sudo apt-get install -y git</span><br></pre></td></tr></table></figure>
-<p>python包安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install pipenv </span><br><span class="line">s</span><br></pre></td></tr></table></figure></p>
-<h2 id="respeaker驱动安装"><a href="#respeaker驱动安装" class="headerlink" title="respeaker驱动安装"></a>respeaker驱动安装</h2><p>主要是 声卡</p>
-<p>执行这条命令的时候报错了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo pip3 install spidev gpiozero</span><br></pre></td></tr></table></figure></p>
-<p>解决方案是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-dev</span><br></pre></td></tr></table></figure></p>
-<p>直接运行led灯示例会报错<br>Traceback (most recent call last):<br>  File “/home/pi/smhonraspi/4mics_hat/pixels.py”, line 11, in <module><br>    from alexa_led_pattern import AlexaLedPattern<br>  File “/home/pi/smhonraspi/4mics_hat/alexa_led_pattern.py”, line 18, in <module><br>    import numpy<br>ImportError: No module named ‘numpy’</module></module></p>
-<p>居然没有numpy</p>
-<h2 id="pipenv的lock过程太慢"><a href="#pipenv的lock过程太慢" class="headerlink" title="pipenv的lock过程太慢"></a>pipenv的lock过程太慢</h2><p>都说pipenv各种牛逼，所以就尝试用了它。但是有个超级无奈的问题，它在lock的时候太慢太慢了。官方说是优化问题，正在解决，到2019年了还没解决。现在采用网友的方案：</p>
-<p>先装上，后lock<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipenv install --skip-lock packetname</span><br><span class="line">pipenv lock</span><br></pre></td></tr></table></figure></p>
+        <p>今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。下面记录一下从安装到使用的过程和体验。<br><a id="more"></a></p>
+<h2 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h2><p><a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="noopener">下载链接</a><br>下载的时候注意不要选错，如图：<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319063852141.png" alt=""><br>具体安装过程略</p>
+<h2 id="开机后的准备"><a href="#开机后的准备" class="headerlink" title="开机后的准备"></a>开机后的准备</h2><p>Lite版的raspbian是没有桌面的，所有的配置都只能通过命令行了，正好再练习一下。为了给后续安装软件和python包做准备，需要先完成下面的步骤</p>
+<h3 id="更换默认密码连接WiFi和激活SSH"><a href="#更换默认密码连接WiFi和激活SSH" class="headerlink" title="更换默认密码连接WiFi和激活SSH"></a>更换默认密码连接WiFi和激活SSH</h3><p>刚装好的树莓派默认是关闭SSH的，必须连上显示器和键盘去改配置。同时可以顺便把其他要用的选项打开比如SPI，GPIO···<br>命令：raspi-config<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319092709666.png" alt=""></p>
+<h3 id="给APT换源"><a href="#给APT换源" class="headerlink" title="给APT换源"></a>给APT换源</h3><div class="note danger">
+            <p>要注意系统版本，最新版应该用<span class="label danger"><strong>stretch</strong></span>的源。网上好多教程都过时了，还有用wheezy和jessie版本的呢</p>
+          </div>
+<p><a href="https://www.raspbian.org/RaspbianMirrors" target="_blank" rel="noopener">官方支持的源列表</a><br>我用的是清华的源</p>
+<p>因为<a href="https://mirrors.tuna.tsinghua.edu.cn/" target="_blank" rel="noopener">清华的网站</a>做的好看很靠谱的样子<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319070107875.png" alt=""></p>
+<p>因为raspbian没有预装vim，vi又不好用，所以我用nano打开配置文件，现在修改第一个配置文件 sources.list：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure></p>
+<p>然后把下面两行放进去，文件中原来的内容要么加#注释，要么删掉。 保存命令为 ctrl+O ，再按一次enter即可。完成后按 ctrl+X退出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi</span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi</span><br></pre></td></tr></table></figure></p>
+<div class="note info">
+            <p><strong>小细节：</strong>我这里的源用的是https协议。一些<a href="https://blog.csdn.net/la9998372/article/details/77886806" target="_blank" rel="noopener">老版本的教程</a>都是http协议，然后会告诉你如果需要https协议则需要事先安装 <span class="label danger">apt-transport-https</span>包。事实是树莓派已经内置了这个包，不需要自己装了</p>
+          </div>
+<p>第二个配置文件 raspi.list<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apt/sources.list.d/raspi.list</span><br></pre></td></tr></table></figure></p>
+<p>用如下内容替换原来的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main ui</span><br><span class="line">deb-src https://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main ui</span><br></pre></td></tr></table></figure></p>
+<h3 id="给pip换源"><a href="#给pip换源" class="headerlink" title="给pip换源"></a>给pip换源</h3><p>pip是一个python包管理工具， 它不换源也是比较慢。这个换源的时候有些需要注意的地方。首先根据<a href="https://www.jianshu.com/p/260a0ad4dd7a" target="_blank" rel="noopener">这样的教程</a>来更换源的时候，<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319080302201.png" alt=""><br>只要在global下的源链接使用https协议，那么就不用写trusted-host=xxx,反之如果没有用http又没有设置 trusted-host的话，在用pip的时候会报错：<br><div class="note danger">
+            <p>The repository located at mirrors.aliyun.com is not a trusted or secure host and is being ignored. If this repository is available via HTTPS we recommend you use HTTPS instead, otherwise you may silence this warning and allow it anyway with ‘–trusted-host mirrors.aliyun.com’.</p>
+          </div><br>其次，这样的换源方法只能针对一个用户，如果是在pi用户的目录下安装的，那么用sudo的时候就没效果。我目前并不知怎么作用于全局，因此两个用户都改了就行。<br>那么引出了第三个问题，树莓派默认锁定root，没有root什么进不了root文件夹。我尝试加了sudo 结果报命令没找到：<br><img src="https://cooguyan-1252810309.cos.ap-chengdu.myqcloud.com/RaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/20190319081413451.png" alt=""><br>那么只能开启root用户;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root</span><br><span class="line">sudo passwd --unlock root</span><br></pre></td></tr></table></figure></p>
+<p>分别在pi 和 root 目录下 进行如下操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir .pip</span><br><span class="line">cd .pip</span><br><span class="line">touch pip.conf</span><br><span class="line">nano pip.conf</span><br></pre></td></tr></table></figure></p>
+<p>将下面的内容写入并保存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple/</span><br></pre></td></tr></table></figure>
+<p>常用源列表：</p>
+<ul>
+<li>阿里云 <a href="http://mirrors.aliyun.com/pypi/simple/" target="_blank" rel="noopener">http://mirrors.aliyun.com/pypi/simple/</a></li>
+<li>中国科技大学 <a href="https://pypi.mirrors.ustc.edu.cn/simple/" target="_blank" rel="noopener">https://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+<li>豆瓣(douban) <a href="http://pypi.douban.com/simple/" target="_blank" rel="noopener">http://pypi.douban.com/simple/</a></li>
+<li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/" target="_blank" rel="noopener">https://pypi.tuna.tsinghua.edu.cn/simple/</a></li>
+<li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/" target="_blank" rel="noopener">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+</ul>
+<h3 id="安装-vim"><a href="#安装-vim" class="headerlink" title="安装 vim"></a>安装 vim</h3><p>源也都换过了，现在安装一个vim体验一下网速：<br>首先把源更新一下，顺便升级一下系统软件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure></p>
+<p>换完apt源一定要进行上面的操作，不然下载软件会有问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get vim</span><br></pre></td></tr></table></figure></p>
+<p>新机器的前期准备基本到这里就结束了，下面安装个人软件的时间了</p>
+<h2 id="软件安装个人笔记："><a href="#软件安装个人笔记：" class="headerlink" title="软件安装个人笔记："></a>软件安装个人笔记：</h2><p>为了开发智能音箱项目我需要安装的软件有：<br>安装列表：</p>
+<ul>
+<li>安装git :<span class="label danger">sudo apt-get install -y git</span></li>
+<li><a href="https://pip.pypa.io/en/stable/installing/" target="_blank" rel="noopener">安装pip</a>:官方教程</li>
+<li><a href="https://crazygit.wiseturtles.com/2018/01/08/pipenv-tour/" target="_blank" rel="noopener">pipenv</a> ：<span class="label danger">sudo pip3 install pipenv</span></li>
+<li>python3-dev:<span class="label danger">sudo apt-get install python3-dev</span> 因为安装spidev的时候报缺包了</li>
+<li><a href="http://wiki.seeedstudio.com/ReSpeaker_4_Mic_Array_for_Raspberry_Pi/" target="_blank" rel="noopener">respeaker驱动</a>：官方教程</li>
+<li>安装NumPy：pip install numpy, 我把它放在虚拟环境里了</li>
+<li>安装swig: <span class="label danger">sudo apt-get install -y swig</span>不然安装 pocketsphinx的时候会报错</li>
+<li>安装libpulse：sudo apt-get install libpulse-dev  原因同上</li>
+<li>安装libasound2-dev: sudo apt-get install libasound2-dev 同上</li>
+<li><a href="https://www.writebug.site/2019/03/13/PocketSphinx-on-Raspberry-pi-3/" target="_blank" rel="noopener">安装pocketsphinx</a></li>
+</ul>
+<div class="note info">
+            <p>install 后面加一个 -y 参数可以给选项自动选YES</p>
+          </div>
+<h2 id="另：pipenv的lock过程太慢"><a href="#另：pipenv的lock过程太慢" class="headerlink" title="另：pipenv的lock过程太慢"></a>另：pipenv的lock过程太慢</h2><p>都说pipenv各种牛逼，所以就尝试用了它。但是有个超级无奈的问题，它在lock的时候太慢太慢了。官方说是优化问题，正在解决，到2019年了还没解决。现在采用网友的方案：<br>先装上，后lock<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipenv install --skip-lock packetname</span><br><span class="line">pipenv lock</span><br></pre></td></tr></table></figure></p>
 <h2 id="安装pocketsphinx出错汇总"><a href="#安装pocketsphinx出错汇总" class="headerlink" title="安装pocketsphinx出错汇总"></a>安装pocketsphinx出错汇总</h2><ol>
 <li>缺少swig</li>
 <li>缺少libasound2-dev</li>
+<li>缺少numpy包</li>
+<li>运行led灯示例会报错<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/pi/smhonraspi/4mics_hat/pixels.py"</span>, line <span class="number">11</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    <span class="keyword">from</span> alexa_led_pattern <span class="keyword">import</span> AlexaLedPattern</span><br><span class="line">  File <span class="string">"/home/pi/smhonraspi/4mics_hat/alexa_led_pattern.py"</span>, line <span class="number">18</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    <span class="keyword">import</span> numpy</span><br><span class="line">ImportError: No module named <span class="string">'numpy'</span></span><br></pre></td></tr></table></figure>
+</li>
 </ol>
-<h2 id="安装内容汇总"><a href="#安装内容汇总" class="headerlink" title="安装内容汇总"></a>安装内容汇总</h2>
+<p>Lite版居然也没有numpy，真是精简啊，桌面版基本已经预装了</p>
+<p>执行这条命令的时候报错了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install spidev gpiozero</span><br></pre></td></tr></table></figure></p>
+<p>解决方案是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-dev</span><br></pre></td></tr></table></figure></p>
+<p>以上。</p>
+
       
     </div>
 
     
       
+
+  <div class="popular-posts-header">相关文章✈</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="\2019\03\19\制作raspbian最小镜像\" rel="bookmark">制作raspbian最小镜像</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="\2019\03\19\Pycharm2018_2远程开发树莓派小记\" rel="bookmark">Pycharm2018_2远程开发树莓派小记</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="\2019\03\13\PocketSphinx-on-Raspberry-pi-3\" rel="bookmark">PocketSphinx on Raspberry pi 3</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="\2017\06\29\windows10IoT+树莓派官方摄像头（Pi-Camara）-==-暂时无解\" rel="bookmark">windows10IoT+树莓派官方摄像头（Pi Camara） == 暂时无解</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -656,6 +741,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/树莓派/" rel="tag"># 树莓派</a>
+          
+        </div>
+      
 
       
       
@@ -677,8 +768,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/19/test/" rel="next" title="test">
-                <i class="fa fa-chevron-left"></i> test
+              <a href="/2019/03/17/使用shadowsocks让树莓派翻墙/" rel="next" title="使用shadowsocks让树莓派翻墙">
+                <i class="fa fa-chevron-left"></i> 使用shadowsocks让树莓派翻墙
               </a>
             
           </div>
@@ -764,7 +855,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -890,7 +981,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">30</span>
+                      
+                    
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -986,7 +1079,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#换源"><span class="nav-number">1.</span> <span class="nav-text">换源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树莓派换源"><span class="nav-number">1.1.</span> <span class="nav-text">树莓派换源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pip换源"><span class="nav-number">1.2.</span> <span class="nav-text">pip换源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件安装"><span class="nav-number">2.</span> <span class="nav-text">软件安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#respeaker驱动安装"><span class="nav-number">3.</span> <span class="nav-text">respeaker驱动安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipenv的lock过程太慢"><span class="nav-number">4.</span> <span class="nav-text">pipenv的lock过程太慢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装pocketsphinx出错汇总"><span class="nav-number">5.</span> <span class="nav-text">安装pocketsphinx出错汇总</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装内容汇总"><span class="nav-number">6.</span> <span class="nav-text">安装内容汇总</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统安装"><span class="nav-number">1.</span> <span class="nav-text">系统安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机后的准备"><span class="nav-number">2.</span> <span class="nav-text">开机后的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更换默认密码连接WiFi和激活SSH"><span class="nav-number">2.1.</span> <span class="nav-text">更换默认密码连接WiFi和激活SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给APT换源"><span class="nav-number">2.2.</span> <span class="nav-text">给APT换源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给pip换源"><span class="nav-number">2.3.</span> <span class="nav-text">给pip换源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-vim"><span class="nav-number">2.4.</span> <span class="nav-text">安装 vim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件安装个人笔记："><span class="nav-number">3.</span> <span class="nav-text">软件安装个人笔记：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另：pipenv的lock过程太慢"><span class="nav-number">4.</span> <span class="nav-text">另：pipenv的lock过程太慢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装pocketsphinx出错汇总"><span class="nav-number">5.</span> <span class="nav-text">安装pocketsphinx出错汇总</span></a></li></ol></div>
             
 
           </div>
@@ -994,6 +1087,13 @@
       <!--/noindex-->
       
 
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
       
 
     </div>
@@ -1007,7 +1107,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">  <a href="http://www.miitbeian.gov.cn" rel="noopener" target="_blank">豫ICP备16034049号 </a>&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-fas fa-heart"></i>
   </span>
@@ -1021,7 +1121,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">209k</span>
+    <span title="站点总字数">211k</span>
   
 
   
@@ -1032,7 +1132,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">3:10</span>
+    <span title="站点阅读时长">3:12</span>
   
 </div>
 
@@ -1089,13 +1189,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
     
 
     
@@ -1623,6 +1716,9 @@
       ta.setSelectionRange(0, code.length);
       ta.readOnly = false;
       var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
       
       ta.blur(); // For iOS
       $(this).blur();

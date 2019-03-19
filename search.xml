@@ -7,6 +7,9 @@
       <categories>
         <category>树莓派</category>
       </categories>
+      <tags>
+        <tag>树莓派</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Pycharm2018_2远程开发树莓派小记]]></title>
@@ -15,19 +18,20 @@
       <categories>
         <category>树莓派</category>
       </categories>
+      <tags>
+        <tag>树莓派</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[RaspbianLite版使用小记]]></title>
     <url>%2F2019%2F03%2F19%2FRaspbianLite%E7%89%88%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。不得不说真的很精简，预装了python却没装pip为了开发项目我需要安装的软件有：安装列表：pippipenvsudo pip3 install pipenvrespeaker驱动vim安装gitsudo apt-get install -y git 换源第一件事就是给树莓派换源，为后续安装软件和python包做准备 要注意系统版本，最新版应该用 stcrach的源 树莓派换源pip换源软件安装1234sudo apt-get updatesudo apt-get upgradesudo apt install -y vim-noxsudo apt-get install -y git python包安装12sudo pip3 install pipenv s respeaker驱动安装主要是 声卡 执行这条命令的时候报错了12sudo pip3 install spidev gpiozero 解决方案是1sudo apt-get install python3-dev 直接运行led灯示例会报错Traceback (most recent call last): File “/home/pi/smhonraspi/4mics_hat/pixels.py”, line 11, in from alexa_led_pattern import AlexaLedPattern File “/home/pi/smhonraspi/4mics_hat/alexa_led_pattern.py”, line 18, in import numpyImportError: No module named ‘numpy’ 居然没有numpy pipenv的lock过程太慢都说pipenv各种牛逼，所以就尝试用了它。但是有个超级无奈的问题，它在lock的时候太慢太慢了。官方说是优化问题，正在解决，到2019年了还没解决。现在采用网友的方案： 先装上，后lock12pipenv install --skip-lock packetnamepipenv lock 安装pocketsphinx出错汇总 缺少swig 缺少libasound2-dev 安装内容汇总]]></content>
+    <content type="text"><![CDATA[今天给树莓派安装了raspbian lite版系统。原本的with desktop 版本乱七八糟的软件很多，体积也很大。下面记录一下从安装到使用的过程和体验。 系统安装下载链接下载的时候注意不要选错，如图：具体安装过程略 开机后的准备Lite版的raspbian是没有桌面的，所有的配置都只能通过命令行了，正好再练习一下。为了给后续安装软件和python包做准备，需要先完成下面的步骤 更换默认密码连接WiFi和激活SSH刚装好的树莓派默认是关闭SSH的，必须连上显示器和键盘去改配置。同时可以顺便把其他要用的选项打开比如SPI，GPIO···命令：raspi-config 给APT换源 要注意系统版本，最新版应该用stretch的源。网上好多教程都过时了，还有用wheezy和jessie版本的呢 官方支持的源列表我用的是清华的源 因为清华的网站做的好看很靠谱的样子 因为raspbian没有预装vim，vi又不好用，所以我用nano打开配置文件，现在修改第一个配置文件 sources.list：1sudo nano /etc/apt/sources.list 然后把下面两行放进去，文件中原来的内容要么加#注释，要么删掉。 保存命令为 ctrl+O ，再按一次enter即可。完成后按 ctrl+X退出12deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpideb-src https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi 小细节：我这里的源用的是https协议。一些老版本的教程都是http协议，然后会告诉你如果需要https协议则需要事先安装 apt-transport-https包。事实是树莓派已经内置了这个包，不需要自己装了 第二个配置文件 raspi.list1sudo nano /etc/apt/sources.list.d/raspi.list 用如下内容替换原来的内容：12deb https://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main uideb-src https://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main ui 给pip换源pip是一个python包管理工具， 它不换源也是比较慢。这个换源的时候有些需要注意的地方。首先根据这样的教程来更换源的时候，只要在global下的源链接使用https协议，那么就不用写trusted-host=xxx,反之如果没有用http又没有设置 trusted-host的话，在用pip的时候会报错： The repository located at mirrors.aliyun.com is not a trusted or secure host and is being ignored. If this repository is available via HTTPS we recommend you use HTTPS instead, otherwise you may silence this warning and allow it anyway with ‘–trusted-host mirrors.aliyun.com’. 其次，这样的换源方法只能针对一个用户，如果是在pi用户的目录下安装的，那么用sudo的时候就没效果。我目前并不知怎么作用于全局，因此两个用户都改了就行。那么引出了第三个问题，树莓派默认锁定root，没有root什么进不了root文件夹。我尝试加了sudo 结果报命令没找到：那么只能开启root用户;12sudo passwd rootsudo passwd --unlock root 分别在pi 和 root 目录下 进行如下操作：1234mkdir .pipcd .piptouch pip.confnano pip.conf 将下面的内容写入并保存： 12[global]index-url = https://pypi.tuna.tsinghua.edu.cn/simple/ 常用源列表： 阿里云 http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 豆瓣(douban) http://pypi.douban.com/simple/ 清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/ 中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/ 安装 vim源也都换过了，现在安装一个vim体验一下网速：首先把源更新一下，顺便升级一下系统软件：12sudo apt-get updatesudo apt-get upgrade 换完apt源一定要进行上面的操作，不然下载软件会有问题。1sudo apt-get vim 新机器的前期准备基本到这里就结束了，下面安装个人软件的时间了 软件安装个人笔记：为了开发智能音箱项目我需要安装的软件有：安装列表： 安装git :sudo apt-get install -y git 安装pip:官方教程 pipenv ：sudo pip3 install pipenv python3-dev:sudo apt-get install python3-dev 因为安装spidev的时候报缺包了 respeaker驱动：官方教程 安装NumPy：pip install numpy, 我把它放在虚拟环境里了 安装swig: sudo apt-get install -y swig不然安装 pocketsphinx的时候会报错 安装libpulse：sudo apt-get install libpulse-dev 原因同上 安装libasound2-dev: sudo apt-get install libasound2-dev 同上 安装pocketsphinx install 后面加一个 -y 参数可以给选项自动选YES 另：pipenv的lock过程太慢都说pipenv各种牛逼，所以就尝试用了它。但是有个超级无奈的问题，它在lock的时候太慢太慢了。官方说是优化问题，正在解决，到2019年了还没解决。现在采用网友的方案：先装上，后lock12pipenv install --skip-lock packetnamepipenv lock 安装pocketsphinx出错汇总 缺少swig 缺少libasound2-dev 缺少numpy包 运行led灯示例会报错123456Traceback (most recent call last): File "/home/pi/smhonraspi/4mics_hat/pixels.py", line 11, in &lt;module&gt; from alexa_led_pattern import AlexaLedPattern File "/home/pi/smhonraspi/4mics_hat/alexa_led_pattern.py", line 18, in &lt;module&gt; import numpyImportError: No module named 'numpy' Lite版居然也没有numpy，真是精简啊，桌面版基本已经预装了 执行这条命令的时候报错了1sudo pip3 install spidev gpiozero 解决方案是：1sudo apt-get install python3-dev 以上。]]></content>
       <categories>
         <category>树莓派</category>
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2F2019%2F03%2F19%2Ftest%2F</url>
-    <content type="text"></content>
+      <tags>
+        <tag>树莓派</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[使用shadowsocks让树莓派翻墙]]></title>
@@ -44,6 +48,10 @@
       <categories>
         <category>树莓派</category>
       </categories>
+      <tags>
+        <tag>树莓派</tag>
+        <tag>语音识别</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[HelloWorld程序编译过程小记]]></title>
@@ -485,8 +493,8 @@
       </categories>
       <tags>
         <tag>原创</tag>
-        <tag>windows10Iot</tag>
         <tag>树莓派</tag>
+        <tag>windows10Iot</tag>
       </tags>
   </entry>
 </search>
